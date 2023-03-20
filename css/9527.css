@@ -1,0 +1,36 @@
+   
+/* css Zen Garden submission 10086 - 'Richache', by Richard Chen, */
+/* css released under Creative Commons License - http://creativecommons.org/licenses/by-nc-sa/1.0/  */
+/* All associated graphics copyright 2023, Richard Chen */
+
+
+/* IMPORTANT */
+/* This design is just a template. You may not reproduce it elsewhere without the
+   designer's written permission. However, feel free to study the CSS and use
+   techniques you learn from it elsewhere. */	
+
+
+/* base CSS */
+		
+		body{
+			padding:20px 30px 20px 30px;
+			margin:50px 120px 50px 120px;
+			background-color:#f0f0f0;
+			color:#654315;
+			line-height:120%;
+			}
+		p{	text-indent:40px;
+			text-align:justify;
+			line-height:150%;
+			color:#000;
+		}
+		p#em{	text-indent:40px;
+			text-align:justify;
+			line-height:150%;
+			color:#000;
+		}
+
+		h1,h2,h3,h4,h5,h6{
+			color:#000;
+			text-shadow:1px 1px #999;
+		}
