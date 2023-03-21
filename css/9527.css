@@ -1,5 +1,5 @@
    
-/* css Zen Garden submission 10086 - 'Richache', by Richard Chen, */
+/* css Zen Garden submission 9527 - 'Richache', by Richard Chen, */
 /* css released under Creative Commons License - http://creativecommons.org/licenses/by-nc-sa/1.0/  */
 /* All associated graphics copyright 2023, Richard Chen */
 
@@ -14,23 +14,37 @@
 		
 		body{
 			padding:20px 30px 20px 30px;
-			margin:50px 120px 50px 120px;
-			background-color:#f0f0f0;
+			width:1200px;
+			margin:0 auto;
+			background-color:#CCD9E2;	
 			color:#654315;
-			line-height:120%;
+			line-height:150%;
+			position:;
+			top:5%;
+			left:5%;
+			font-size: 22px;
 			}
 		p{	text-indent:40px;
 			text-align:justify;
 			line-height:150%;
 			color:#000;
+
 		}
 		p#em{	text-indent:40px;
 			text-align:justify;
 			line-height:150%;
 			color:#000;
+			font-size: 30px;
 		}
 
-		h1,h2,h3,h4,h5,h6{
-			color:#000;
+		h1{
+			color:#262220;
+			text-shadow:1px 1px #219122;
+			display: inline-flex;
+		}
+
+		h2,h3,h4,h5,h6{
+			color:#000111;
 			text-shadow:1px 1px #999;
+
 		}

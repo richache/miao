@@ -24,16 +24,20 @@
   <br>
   <img src="https://drscdn.500px.org/photo/229389427/m%3D1170/v2?user_id=7012987&webp=true&sig=196fa0c161aa562478d08571764872f7d69a346c3c0b2e12aa00e2c6414eb28b" width=200 alt="一张图片">
   <hr>
-  <hr>  
+  <hr> 
+
   <marquee>piao</marquee>
   <p id="em"><em>这几种强调</em><strong>有什么</strong>&nbsp;<b>区别？</b><u>这个？</u><i>这个？</i></p>
   <p>&lt;!-- 这段注释需要出现在页面里面 --&gt;</p>
   <pre>
-    funtion a(){
-      return 8
-    }
+    <code> 
+      funtion a(){
+        return 8
+      }
+    </code> 
   </pre>
   <hr>
+
   <ul>
     <li>小学
       <ol>
@@ -49,20 +53,149 @@
   </ul>
   <hr>
   <dl>
-    <dt>班级
-      <dd>三年二班</dd>
-    </dt>
-    <dt>老师
-      <dd>张老师</dd>
-      <dd>李老师</dd>
-      <dd>王老师</dd>
-    </dt>
-    <dt>学生
-      <dd>小明</dd>
-      <dd>豆豆</dd>
-    </dt>
+    <dt>班级</dt>
+    <dd>三年二班</dd>
+    
+    <dt>老师</dt>
+    <dd>张老师</dd>
+    <dd>李老师</dd>
+    <dd>王老师</dd>
+    
+    <dt>学生</dt>
+    <dd>小明</dd>
+    <dd>豆豆</dd>
+    
   </dl>
   
+  <h2>Google 搜索</h2>
+  <form action="https://www.google.com.hk/search" target="_blank">
+    <input type="text" name="q" hidden>
+    <input type="text" name="ie" value="UTF-8" hidden>
+    <input type="text" name="sourceid" value="UTF" hidden>
+    <input type="search" name="Google 搜索">
+    <input type="submit" value="在新窗口打开搜索结果">
+  </form>
+
+  <hr>
+
+  <form action="">
+    个人信息调查表</p>
+    <label name="gender">
+      性别：<input type="radio" name="gender" value="male"  >男
+    </label>
+    <label name="gender">
+      <input type="radio" name="gender" value="female">女
+    </label>
+    <br>
+   
+    年龄：<select name="age">
+       <option value="请选择" selected hidden>请选择</option>
+       <optgroup label="少年">
+         <option value="1">1到6岁</option>
+         <option value="2">6到12岁</option>
+       </optgroup>
+       <optgroup label="青年">
+         <option value="1">13到18岁</option>
+         <option value="2">18到28岁</option>
+       </optgroup>
+       <optgroup label="中年">
+         <option value="1">28到35岁</option>
+         <option value="2">35到50岁</option>
+       </optgroup>
+      </select>
+    <br>
+    生日：<input type="date">
+    <br>
+    生辰：<input type="time">
+    <br>
+    照片：<label name="photo">
+      <input type="file" name="photo" hidden accept="image/*" >点我上传照片，我比文件上传按钮好看
+    </label>
+    <br>
+    自我介绍：<label name="report">
+      <textarea name="report" cols="30" rows="10">&lt;/textarea></textarea>
+    </label>
+    <br>
+    
+    <fieldset disabled>
+      <legend>这里全部禁用了</legend>
+      <input type="text" name="fieldsettext" id="1"> 
+      <input type="text" name="fieldsettext" id="2"> 
+      <input type="text" name="fieldsettext" id="3"> 
+      <input type="text" name="fieldsettext" id="4">
+    </fieldset>
+    <br>
+    <input type="submit" value="提交">
+    <input type="reset" value="重置">
+  </form>
+
+  <hr>
+
+  <table border="2">
+    <col>
+    <col bgcolor="red">
+    <caption>报价单</caption>
+    <thead>
+      <th>编号</th>
+      <th>品名</th>
+      <th>进价</th>
+      <th>出价</th>
+    </thead>
+    <tbody>
+      <tr>
+        <th>a</th>
+        <td>a</td>
+        <td rowspan="2">a</td>
+        <td>a</td>
+      </tr>
+
+      <tr>
+        <th>aaa</th>
+        <td>a</td>
+        <td>a</td>
+
+      </tr>
+
+      <tr>
+        <th>a</th>
+        <td>a</td>
+        <td>a</td>
+        <td>a</td>
+      </tr>
+
+      <tr>
+        <th>a</th>
+        <td>a</td>
+        <td>a</td>
+        <td>a</td>
+      </tr>
+
+    </tbody>
+    <tfoot></tfoot>
+  </table>
+  <hr>
+
+  <img src="https://drscdn.500px.org/photo/174778125/m%3D1170_k%3D1/2841ccf2a3720e8e794a6a6930f6ff2c" usemap=#m1 width=300  >
+  <map name="m1">
+    <area shape="rect" coords="43,95,224,205" href="https://www.jd.com/" alt="JD" target="_blank">
+    <area shape="circle" coords="166,300,100" href="https://www.taobao.com/" alt="TB" target="_blank">
+  </map>
+  <hr>
+
+  <a href="https://www.mi.com/" target="iframepage">小米</a><br>
+  <iframe 
+    name="iframepage"
+    src="https://www.nodejs.org/" 
+    frameborder="1"
+    title="xiaomi.com"
+    width="300" >
+    <p>您的浏览器不支持框架，无法显示</p>
+  </iframe><br>
+
+  <span>aaa&nbsp;&nbsp;&nbsp;&nbsp;bbb</span> 
+  <pre>aaa      bbb</pre>
+
+  >>>>>>>>>>>>>>>>>>>>>>&lt;<<<<<<<<<<<<<<<<<<<<<<&gt; &lt;span&gt; &lt;span&gt;
   <div id= "bottom"></div>
 </body>
   
