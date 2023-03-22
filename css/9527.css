@@ -11,30 +11,21 @@
 
 
 /* base CSS */
-		
+		html{	height:100%;
+			}
 		body{
 			padding:20px 30px 20px 30px;
-			width:1200px;
+			height:100%;
 			margin:0 auto;
 			background-color:#CCD9E2;	
 			color:#654315;
 			line-height:150%;
-			position:;
-			top:5%;
-			left:5%;
 			font-size: 22px;
 			}
 		p{	text-indent:40px;
 			text-align:justify;
 			line-height:150%;
 			color:#000;
-
-		}
-		p#em{	text-indent:40px;
-			text-align:justify;
-			line-height:150%;
-			color:#000;
-			font-size: 30px;
 		}
 
 		h1{

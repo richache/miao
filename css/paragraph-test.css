@@ -1,0 +1,30 @@
+/*test css*/
+	
+	p#em{
+		text-indent:40px;
+		text-align:justify;
+		line-height:150%;
+		color:#000;
+		font-size: 30px;
+		}
+	p#red{
+		border-radius: 12px;
+		box-shadow: 0 0 0 1rem purple;
+		outline-offset: 0.5rem;
+		outline: 0.1rem dashed khaki;
+		border:0.8rem outset green;
+		background-color:orange;
+		color:red;
+		}
+	p#blue{
+		border:4mm ridge red;
+		background-color:yellow;
+		color:blue;
+		}
+	p#green{
+		border:thick double blue;
+		background-color:pink;
+		color:green;
+		}
+	
+	
