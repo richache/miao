@@ -8,76 +8,108 @@
 
     <style>
       /* 只能在这个style标签里写css，不能改变html结构 */
-
-      body>:first-child{
+      /* 为了更好理解优先级，此次push将会以"高耦合样式"覆盖上一次submmit */
+      /* body的第一个子元素p */
+      body>p:first-child{
     	color: red;
     	}
-    
-    	[tabindex="1"]:hover{
+      /* 使用p唯一的tabindex属性，前面补上对应元素p，增强耦合 */
+    	p[tabindex="1"]:hover{
     	color:red;	
-    	}
+    	}/* 悬浮 */
     
-    	[tabindex="1"]:focus{
+    	p[tabindex="1"]:focus{
     	color:blue;	
-    	}
+    	}/* 聚焦 */
     
-    	[tabindex="1"]:active{
+    	p[tabindex="1"]:active{
     	color:green;	
-    	}
+    	}/* 激活 */
     
-    	.c > span{
+      /* 使用唯一的.c类, 前面补上对应的元素p，并限定为第一个子元素span */
+    	p.c>span:first-child{
     	color:red;
     	}
     
-    	.c>span>:nth-child(1){
+      /* 覆盖上一条的样式继承，此处也可用first-child,last-child */
+    	p.c>span>:nth-child(1){
     	color:green;
     	}
     
-    	.c>span>:nth-child(2){
+    	p.c>span>:nth-child(2){
     	color:blue;
     	}
-    
-    	:visited{
+      
+      /* 动态伪类选择器，前面补上元素a,button,area或link等以增强耦合 */
+      a:visited{
     	color: orange;
-    	}
+    	}/* 已访问 */
     
-    	:link{
+    	a:link{
     	color:pink;		
-    	}
+    	}/* 未访问 */
     
-    	[href*="a@b"]{
+    	a[href^="mailto:"i]{
     	color: blue;
-    	}
+    	}/* 邮箱 */
     
-    	[href*="tel"]{
+    	a[href*="tel"]{
     	color: yellow;
-    	}
+    	}/* 电话 */
     
-    	[href$=".pdf" i]{
+    	a[href$=".pdf" i]{
     	font-size: 30px;
-    	}
+    	}/* 下载 */
     
-    	div.a>ul>:nth-child(4),div.a>ul>:nth-child(5),div.a>ul>:nth-child(6),div.a>ul>:nth-child(7){
-    	color: red;
-    	}
-    
-    	div.b>ul>:nth-child(-n+25){
+      /* 选中子元素4567，也可使用:nth-child(n+4):nth-child(-n+7) */
+      /* 仅限目前页面结构div.a>ul>li可解耦为.a li*/
+    	div.a>ul>li:nth-child(4),div.a>ul>:nth-child(5),div.a>ul>:nth-child(6),div.a>ul>:nth-child(7){
     	color: red ;
     	}
     
-    	div.b>ul>:nth-child(n+65){
-    	color: green ;
-    	}
-    
-    	div.b>ul>:nth-child(-n+50):nth-child(n+35){
-    	color: blue ;
-    	}
-    
-    	div.prime>ul{
-    	color: purple;
+      /* 选中前25个子元素 */
+      /* 仅限目前页面结构div.b>ul>li可解耦为.b li*/
+    	div.b>ul>li:nth-child(-n+25){
+    	color: red ;
     	}
 
-    	div.prime>ul>:not(:first-child,:nth-child(2n+4),:nth-child(3n+6),:nth-child(5n+10),   :nth-child(7n+14)){
+      /* 选中65后的子元素 */
+    	div.b>ul>li:nth-child(n+65){
+    	color: green ;
+    	}
+
+      /* 选中35到50的子元素 */
+    	div.b>ul>li:nth-child(-n+50):nth-child(n+35){
+    	color: blue ;
+    	}
+
+      /* 设置.prime的color以便后代li继承 */
+      div.prime>ul{
+      color: purple;
+      }
+
+
+
+      /* 合数算法参考https://zhuanlan.zhihu.com/p/24718254 */
+
+      /* :not(:first-child):not(:nth-child(2n+4)):not(:nth-child(3n+6)):not(:nth-child(5n+10)):not(:nth-child(7n+14)){
+      color: orange;
+      }
+      优先级（0,5,0）
+      1个选择器里面包有5个伪类:not，每个:not包含1个伪类
+      */
+
+      /* :not(:first-child,:nth-child(2n+4),:nth-child(3n+6),:nth-child(5n+10),:nth-child(7n+14)){
+    	color: orange;
+      优先级（0,1,0）
+      1个选择器里面包有1个伪类:not，每个:not包含5个选择器的群组（并集）
+      
+      /* :not( <complex-selector-list> ) (关于:not的怪异、技巧、意外结果可参考https://developer.mozilla.org/zh-CN/docs/Web/CSS/:not#%E6%8F%8F%E8%BF%B0) */
+     
+      /* 仅限目前页面结构div.prime>ul>li可解耦为.prime li*/
+
+      /* 群组选择器选中合数，反选即为素数 */
+    	div.prime>ul>li:not(:first-child,:nth-child(2n+4),:nth-child(3n+9),:nth-child(5n+25),:nth-child(7n+49)){
     	color: orange;
     	}
 
