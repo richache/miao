@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    body {
+      /* border: 3px dashed green;  */
+      /*用于观察边距重叠*/
+    }
+
+    /* 顶部块div */
+    div.header {
+      background-color: red;
+      min-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: -8px;
+    }
+
+    /* 顶部块的子元素p */
+    .header p {
+      width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* 非顶部块div，父集 */
+    .father_div {
+      max-width: 600px;
+      border: 2px solid black;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    /* 父集div的所有子块p */
+    .father_div p {
+      height: 60px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: auto;
+    }
+
+    /* 父集div中间的子块div */
+    #middle {
+      border: 30px solid rgb(238, 130, 238);
+    }
+
+    /* 悬停效果 */
+    #middle:hover {
+      margin-left: -10px;
+      margin-right: -10px;
+    }
+
+    /* 底部三角形 */
+    #triangle {
+      border: 50px solid;
+      border-color: white white rgb(255, 165, 0) white;
+      height: 0px;
+      width: 0px;
+      margin: auto;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae voluptatem, quaerat delectus
+      placeat dolor non vel eligendi nisi ea explicabo molestiae deserunt earum iusto qui amet beatae molestias maiores
+      corrupti?</p>
+  </div>
+  <div class="father_div">
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing
+      elit. In voluptate blanditiis, exercitationem ea totam,
+      voluptatibus id enim culpa similique voluptatum dicta. Quos officia illo modi, aut nulla numquam repellat
+      perferendis.</p>
+    <div id="middle">
+    </div>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus aliquam tenetur a! Cumque, possimus quae?
+      Sed odio modi molestias, magnam impedit recusandae. Numquam officia nemo animi, culpa molestiae maxime dicta,
+      beatae fugit ad tenetur ipsa alias illo omnis aliquam delectus.
+    </p>
+  </div>
+  <div id="triangle">
+  </div>
+</body>
+
+</html>
