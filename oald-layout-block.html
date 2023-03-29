@@ -8,7 +8,7 @@
   <title>Document</title>
   <style>
     html {
-      height: 100%;
+      height: 100vh;
       min-width: 1000px;
     }
 
@@ -16,7 +16,7 @@
       /* border: 1px dashed red; */
       /*用于观察边距重叠*/
       margin: 0;
-      height: 100%;
+      height: 100vh;
       /* overflow: hidden; */
       /* 用于观察BFC触发情况 */
     }
@@ -31,7 +31,6 @@
       text-align: center;
       border-right: 1px black solid;
       background-color: rgb(255, 192, 203);
-
       width: 200px;
       height: 100vh;
       overflow: hidden;
@@ -43,8 +42,9 @@
       text-align: left;
       list-style: none;
       margin: 10px 0px 0px auto;
-      height: 100vh;
+      height: calc(100vh - 100px);
       overflow: auto;
+      box-sizing: border-box;
     }
 
     /* 左侧栏输入框 */
@@ -66,11 +66,11 @@
     }
 
     /* 中间单词释义栏 */
-    .main {
+    .Word {
       background-color: rgb(255, 248, 220);
       border-right: 1px black solid;
       margin: -100vh 400px 0 200px;
-
+      width: auto;
       height: 100vh;
       min-width: 300px;
       box-sizing: border-box;
@@ -78,16 +78,17 @@
     }
 
     /* 释义栏标题 */
-    #main-h2 {
+    #Word-h2 {
       border-bottom: 1px solid black;
+      margin-bottom: 0px;
       padding-bottom: 20px;
     }
 
     /* 释义栏主体 */
-    #fantasy {
+    #W_main {
       padding: 20px;
       margin-left: 0;
-      height: 100vh;
+      height: calc(100vh - 70px);
       overflow: auto;
       box-sizing: border-box;
     }
@@ -105,6 +106,15 @@
       overflow: hidden;
     }
 
+    #V_main {
+      padding: 20px;
+      margin-left: 0;
+      height: calc(100vh - 70px);
+      overflow: auto;
+      box-sizing: border-box;
+    }
+
+
     /* 右侧历史记录栏 */
     .History {
       text-align: center;
@@ -117,14 +127,22 @@
       overflow: hidden;
     }
 
+    #H_main {
+      padding: 20px;
+      margin-left: 0;
+      height: calc(100vh - 70px);
+      overflow: auto;
+      box-sizing: border-box;
+    }
+
   </style>
 
 </head>
 
 <body>
   <div class="aside">
+    <h2>OALD Se7en</h2>
     <form action="" name="aside">
-      <h2>OALD Se7en</h2>
       <input type="text" id="word">
       <input type="submit" value=" " id="submit">
       <ul>
@@ -148,42 +166,144 @@
         <li><a href="">word18</a></li>
         <li><a href="">word19</a></li>
         <li><a href="">word20</a></li>
+        <li><a href="">word21</a></li>
+        <li><a href="">word22</a></li>
+        <li><a href="">word23</a></li>
+        <li><a href="">word24</a></li>
+        <li><a href="">word25</a></li>
+        <li><a href="">word26</a></li>
+        <li><a href="">word27</a></li>
+        <li><a href="">word28</a></li>
+        <li><a href="">word29</a></li>
+        <li><a href="">word30</a></li>
+        <li><a href="">word31</a></li>
+        <li><a href="">word32</a></li>
+        <li><a href="">word33</a></li>
+        <li><a href="">word34</a></li>
+        <li><a href="">word35</a></li>
+        <li><a href="">word36</a></li>
+        <li><a href="">word37</a></li>
+        <li><a href="">word38</a></li>
+        <li><a href="">word39</a></li>
+        <li><a href="">word40</a></li>
+        <li><a href="">word41</a></li>
+        <li><a href="">word42</a></li>
+        <li><a href="">word43</a></li>
+        <li><a href="">word44</a></li>
+        <li><a href="">word45</a></li>
+        <li><a href="">word46</a></li>
+        <li><a href="">word47</a></li>
+        <li><a href="">word48</a></li>
+        <li><a href="">word49</a></li>
+        <li><a href="">word50</a></li>
       </ul>
     </form>
   </div>
-  <div class="main">
-    <h2 id="main-h2">fantasy</h2>
-    <div id="fantasy">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores expedita nulla, alias atque quasi, esse voluptas
-      illo sed et quam doloribus, minus quia commodi ex earum magnam? Magnam, eveniet repellat?
-      Commodi quod nihil hic. Vero architecto quae libero delectus veniam, recusandae accusamus ratione possimus
-      assumenda
-      iure dolore maiores odit autem cumque similique ullam, numquam suscipit. Praesentium placeat asperiores expedita
-      sint?
-      Perspiciatis, repudiandae autem saepe perferendis enim quam consequuntur hic? Molestias mollitia expedita
-      architecto
-      quo veritatis ratione dolorem rem asperiores reiciendis beatae amet impedit exercitationem, tempore laborum
-      consequuntur sit animi officia!
-      Laudantium alias quam atque odit harum, provident voluptatem doloremque sint vel nulla quod tenetur, sapiente
-      asperiores obcaecati nesciunt vitae maxime explicabo voluptatum molestiae repellat illum recusandae magni
-      dignissimos aperiam. Laboriosam.
-      Nihil reprehenderit recusandae suscipit, quo veritatis expedita animi. Natus debitis rerum cum, expedita enim
-      facilis explicabo ab aperiam blanditiis illo delectus harum nihil fuga voluptatum ad quasi mollitia at eligendi?
+  <div class="Word">
+    <h2 id="Word-h2">fantasy</h2>
+    <div id="W_main">
+      <p>1.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores expedita nulla, alias atque quasi, esse
+        voluptas
+        illo sed et quam doloribus, minus quia commodi ex earum magnam? Magnam, eveniet repellat?
+        Commodi quod nihil hic. Vero architecto quae libero delectus veniam, recusandae accusamus ratione possimus
+        assumenda
+        iure dolore maiores odit autem cumque similique ullam, numquam suscipit. Praesentium placeat asperiores expedita
+        sint?</p>
+      <p>2.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, fugit sequi repudiandae possimus
+        consequuntur maxime?</p>
+      <p>3.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt molestiae inventore odit nulla excepturi
+        necessitatibus reiciendis dolore, in repudiandae. Maiores, magnam sequi.</p>
+      <p>4.Lorem ipsum dolor sit.</p>
+      <p>5.Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam doloribus minus cum quam sint amet error
+        quasi. Officia optio, sunt consectetur voluptate labore debitis amet corporis, voluptatum molestias dolore
+        beatae id facilis quia provident necessitatibus et obcaecati, maxime dolorum quibusdam?</p>
+      <p>6.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae tempora accusantium itaque laboriosam natus
+        necessitatibus consequuntur. Asperiores tempore repudiandae ea odit soluta facere ullam! Nemo obcaecati illo
+        accusantium, assumenda tempore iure rem commodi!</p>
+      <p>7.Lorem ipsum dolor sit amet.</p>
     </div>
   </div>
 
   <div class="Vocabulary">
     <h2>Vocabulary</h2>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita nemo iste libero aliquam blanditiis suscipit
-    similique voluptas odio consequuntur porro.
+    <div id="V_main">
+      <p>1.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+      </p>
+      <p>2.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+      </p>
+      <p>3.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+      </p>
+      <p>4.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+      </p>
+      <p>5.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+      </p>
+      <p>6.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+      </p>
+      <p>7.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+      </p>
+      <p>8.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+      </p>
+      <p>9.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+      </p>
+      <p>10.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+      </p>
+      <p>11.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+      </p>
+      <p>12.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+      </p>
+      <p>13.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+      </p>
+      <p>14.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+      </p>
+      <p>15.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+      </p>
+    </div>
   </div>
   <div class="History">
     <h2>History</h2>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus quos illo odit laborum dignissimos laboriosam
-    saepe, in soluta consequuntur vel!
+    <div id="H_main">
+      <p>1. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>2. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>3. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>4. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>5. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>6. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>7. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>8. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>9. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>10. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>11. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>12. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>13. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>14. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>15. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>16. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>17. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>18. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>19. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+      <p>20. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+      </p>
+    </div>
   </div>
-
-
 </body>
 
 </html>
