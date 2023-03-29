@@ -5,10 +5,13 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <meta http-equiv="refresh" content="60;URL=https://github.com/richache">
+  <meta name="description" content="牛津高阶词典仿写">
+  <meta name="author" content="Richache,richardchen2016@163.com">
+  <title>Olad-layout-block</title>
   <style>
     html {
-      height: 100vh;
+      height: 100%;
       min-width: 1000px;
     }
 
@@ -16,7 +19,7 @@
       /* border: 1px dashed red; */
       /*用于观察边距重叠*/
       margin: 0;
-      height: 100vh;
+      height: 100%;
       /* overflow: hidden; */
       /* 用于观察BFC触发情况 */
     }
@@ -41,22 +44,16 @@
     ul {
       text-align: left;
       list-style: none;
-      margin: 10px 0px 0px auto;
+      margin-top: 10px;
       height: calc(100vh - 100px);
       overflow: auto;
       box-sizing: border-box;
     }
 
-    /* 左侧栏输入框 */
+    /* 左侧搜索栏输入框 */
     #word {
       margin-right: 5px;
       width: 120px;
-      border-radius: 5px;
-    }
-
-    /* 左侧栏提交按钮 */
-    #submit {
-      width: 30px;
       border-radius: 5px;
     }
 
@@ -106,6 +103,7 @@
       overflow: hidden;
     }
 
+    /* 词汇栏主体 */
     #V_main {
       padding: 20px;
       margin-left: 0;
@@ -127,6 +125,7 @@
       overflow: hidden;
     }
 
+    /* 历史记录栏主体 */
     #H_main {
       padding: 20px;
       margin-left: 0;
@@ -142,9 +141,12 @@
 <body>
   <div class="aside">
     <h2>OALD Se7en</h2>
-    <form action="" name="aside">
+    <div>
       <input type="text" id="word">
-      <input type="submit" value=" " id="submit">
+      <button>search</button>
+    </div>
+    <form action="" name="aside">
+
       <ul>
         <li><a href="">word1</a></li>
         <li><a href="">word2</a></li>
