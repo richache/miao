@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html {
+      height: 100%;
+      min-width: 1000px;
+    }
+
+    body {
+      /* border: 1px dashed red; */
+      /*用于观察边距重叠*/
+      margin: 0;
+      height: 100%;
+      /* overflow: hidden; */
+      /* 用于观察BFC触发情况 */
+    }
+
+    /* 所有栏目的header */
+    h2 {
+      padding-left: 20px;
+    }
+
+    /* 左侧边栏 */
+    .aside {
+      text-align: center;
+      border-right: 1px black solid;
+      background-color: rgb(255, 192, 203);
+
+      width: 200px;
+      height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    /* 左侧栏单词列表 */
+    ul {
+      text-align: left;
+      list-style: none;
+      margin: 10px 0px 0px auto;
+      height: 100vh;
+      overflow: auto;
+    }
+
+    /* 左侧栏输入框 */
+    #word {
+      margin-right: 5px;
+      width: 120px;
+      border-radius: 5px;
+    }
+
+    /* 左侧栏提交按钮 */
+    #submit {
+      width: 30px;
+      border-radius: 5px;
+    }
+
+    /* 左侧栏单词链接 */
+    a {
+      text-decoration: none;
+    }
+
+    /* 中间单词释义栏 */
+    .main {
+      background-color: rgb(255, 248, 220);
+      border-right: 1px black solid;
+      margin: -100vh 400px 0 200px;
+
+      height: 100vh;
+      min-width: 300px;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    /* 释义栏标题 */
+    #main-h2 {
+      border-bottom: 1px solid black;
+      padding-bottom: 20px;
+    }
+
+    /* 释义栏主体 */
+    #fantasy {
+      padding: 20px;
+      margin-left: 0;
+      height: 100vh;
+      overflow: auto;
+      box-sizing: border-box;
+    }
+
+    /* 右侧词汇栏 */
+    .Vocabulary {
+      text-align: center;
+      border-right: 1px black solid;
+      background-color: rgb(255, 192, 203);
+      margin: -100vh 200px 0px auto;
+
+      width: 200px;
+      height: 100vh;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    /* 右侧历史记录栏 */
+    .History {
+      text-align: center;
+      background-color: rgb(255, 192, 203);
+      margin: -100vh 0px 0px auto;
+
+      width: 200px;
+      height: 100vh;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+  </style>
+
+</head>
+
+<body>
+  <div class="aside">
+    <form action="" name="aside">
+      <h2>OALD Se7en</h2>
+      <input type="text" id="word">
+      <input type="submit" value=" " id="submit">
+      <ul>
+        <li><a href="">word1</a></li>
+        <li><a href="">word2</a></li>
+        <li><a href="">word3</a></li>
+        <li><a href="">word4</a></li>
+        <li><a href="">word5</a></li>
+        <li><a href="">word6</a></li>
+        <li><a href="">word7</a></li>
+        <li><a href="">word8</a></li>
+        <li><a href="">word9</a></li>
+        <li><a href="">word10</a></li>
+        <li><a href="">word11</a></li>
+        <li><a href="">word12</a></li>
+        <li><a href="">word13</a></li>
+        <li><a href="">word14</a></li>
+        <li><a href="">word15</a></li>
+        <li><a href="">word16</a></li>
+        <li><a href="">word17</a></li>
+        <li><a href="">word18</a></li>
+        <li><a href="">word19</a></li>
+        <li><a href="">word20</a></li>
+      </ul>
+    </form>
+  </div>
+  <div class="main">
+    <h2 id="main-h2">fantasy</h2>
+    <div id="fantasy">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores expedita nulla, alias atque quasi, esse voluptas
+      illo sed et quam doloribus, minus quia commodi ex earum magnam? Magnam, eveniet repellat?
+      Commodi quod nihil hic. Vero architecto quae libero delectus veniam, recusandae accusamus ratione possimus
+      assumenda
+      iure dolore maiores odit autem cumque similique ullam, numquam suscipit. Praesentium placeat asperiores expedita
+      sint?
+      Perspiciatis, repudiandae autem saepe perferendis enim quam consequuntur hic? Molestias mollitia expedita
+      architecto
+      quo veritatis ratione dolorem rem asperiores reiciendis beatae amet impedit exercitationem, tempore laborum
+      consequuntur sit animi officia!
+      Laudantium alias quam atque odit harum, provident voluptatem doloremque sint vel nulla quod tenetur, sapiente
+      asperiores obcaecati nesciunt vitae maxime explicabo voluptatum molestiae repellat illum recusandae magni
+      dignissimos aperiam. Laboriosam.
+      Nihil reprehenderit recusandae suscipit, quo veritatis expedita animi. Natus debitis rerum cum, expedita enim
+      facilis explicabo ab aperiam blanditiis illo delectus harum nihil fuga voluptatum ad quasi mollitia at eligendi?
+    </div>
+  </div>
+
+  <div class="Vocabulary">
+    <h2>Vocabulary</h2>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita nemo iste libero aliquam blanditiis suscipit
+    similique voluptas odio consequuntur porro.
+  </div>
+  <div class="History">
+    <h2>History</h2>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus quos illo odit laborum dignissimos laboriosam
+    saepe, in soluta consequuntur vel!
+  </div>
+
+
+</body>
+
+</html>
