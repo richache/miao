@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
+  <meta name="description" content="QQ网页邮箱布局仿写,inline版">
+  <meta name="author" content="Richache,richardchen2016@163.com">
+  <title>qq-mail-inline</title>
+  <style>
+    html {
+      height: 100%;
+    }
+
+    body {
+      /* border: 2px dashed red; */
+      /* 用于观察边距重叠 */
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    div.all {
+      font-size: 0;
+      /* overflow: hidden; */
+    }
+
+    /* 顶部栏，一个block */
+    .top {
+      display: block;
+      background-color: rgb(95, 158, 160);
+      line-height: 100px;
+      font-size: 16px;
+    }
+
+    /* 左侧栏，外层inline */
+    .Line-2 {
+      display: flow-root;
+      height: calc(100vh - 100px);
+      overflow: hidden;
+    }
+
+    /* 左侧栏，内层第一个inline-block */
+    .left {
+      display: inline-block;
+      background-color: rgb(160, 82, 45);
+      width: 200px;
+      height: 100%;
+      margin: 0;
+      overflow: auto;
+      font-size: 16px;
+      vertical-align: top;
+    }
+
+    /* 左侧栏，内层第二个inline-block */
+    .main {
+      display: inline-block;
+      background-color: rgb(0, 128, 128);
+      padding: 0px 10px 0px 10px;
+      height: 100%;
+      width: calc(100% - 220px);
+      /* 由于设置了padding，所以宽度需额外减去10px的padding-left和10px的padding-right */
+      overflow: auto;
+      font-size: 16px;
+      vertical-align: top;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="all">
+    <span class="top">QQ邮箱</span>
+    <span class="Line-2">
+      <span class="left">
+        <ul>
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+          <li>4</li>
+          <li>5</li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </span>
+      <span class="main">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, voluptatum.
+        Ipsum quia saepe totam, temporibus adipisci porro fugit magnam odio!
+        Officiis iure amet corrupti facere eius, eaque dolores cum ratione!
+        Id amet praesentium doloribus at fugit nostrum temporibus reprehenderit! Odio!
+        In velit iusto id dolorem voluptatem aspernatur cumque repudiandae non.
+        Corrupti autem sint saepe maiores officiis sequi ea veniam illo.
+        Provident minus nemo explicabo doloremque officia dignissimos eligendi ullam assumenda!
+        Odio ab quaerat, provident quas excepturi rem id ipsum laboriosam?
+        Inventore quidem, labore incidunt itaque quis rem minus optio eius.
+        Quas alias dicta animi. Reprehenderit consequuntur id sequi nulla atque.
+      </span>
+    </span>
+
+  </div>
+</body>
+
+</html>
