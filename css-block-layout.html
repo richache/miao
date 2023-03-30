@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="refresh" content="60;URL=https://github.com/richache">
+  <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
   <meta name="description" content="块级元素展示栏练习">
   <meta name="author" content="Richache,richardchen2016@163.com">
   <title>css-block-layout</title>
@@ -34,7 +34,7 @@
       margin: 10px auto 10px auto;
     }
 
-    /* 展示列表 */
+    /* block展示列表 */
     div.showbar_father {
       width: 600px;
       margin: 10px auto 0 auto;
@@ -77,6 +77,29 @@
     .p_link p {
       border-bottom: 1px dotted black;
       margin: 0 auto -1px auto;
+    }
+
+    /* inline-block实现showbar */
+    .inline_showbar {
+      font-size: 0;
+      width: 600px;
+      margin: auto;
+    }
+
+    .inline_showbar span {
+      font-size: 16px;
+      display: inline-block;
+      background-color: rgb(255, 192, 203);
+      border: 3px solid black;
+      width: 180px;
+      height: 40px;
+      box-sizing: border-box;
+      margin: 15px 30px auto auto;
+      text-align: center;
+    }
+
+    .inline_showbar span:nth-child(3n+3) {
+      margin-right: 0px;
     }
 
     /* 底部栏 */
@@ -127,6 +150,20 @@
     <p>link</p>
   </div>
 
+  <div class="inline_showbar">
+    <span>宽180高40</span>
+    <span>水平间隙30px</span>
+    <span>垂直间隙15px</span>
+    <span>边框宽度3px</span>
+    <span>产品</span>
+    <span>产品</span>
+    <span>产品</span>
+    <span>产品</span>
+    <span>产品</span>
+    <span>产品</span>
+    <span>产品</span>
+    <span>产品</span>
+  </div>
 
   <div class="bottom">
     <p>&#169版权所有 <br />
