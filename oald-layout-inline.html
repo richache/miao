@@ -6,33 +6,28 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
-  <meta name="description" content="牛津高阶词典布局仿写">
+  <meta name="description" content="牛津高阶词典布局仿写(inline)">
   <meta name="author" content="Richache,richardchen2016@163.com">
   <title>Olad-layout-inline</title>
   <style>
     html {
-
       height: 100%;
       min-width: 1000px;
-
     }
 
     body {
       /* border: 1px dashed red; */
       /*用于观察边距重叠*/
-      margin: 0;
+      margin: 0px;
       height: 100%;
       /* display: flow-root; */
       /* 用于观察BFC触发情况 */
     }
 
     .all {
-
-      display: flow-root;
       font-size: 0;
-      width: 100%;
       height: 100%;
-      /* overflow: hidden; */
+      display: flow-root;
     }
 
     /* 所有栏目的header */
@@ -54,16 +49,20 @@
       overflow: hidden;
     }
 
+    form {
+      overflow: auto;
+      height: calc(100% - 70px);
+    }
+
     /* 左侧栏单词列表 */
     ul {
-      display: block;
       font-size: initial;
       text-align: left;
       list-style: none;
-      height: calc(100vh - 70px);
+
       box-sizing: border-box;
       margin: 0;
-      overflow: auto;
+
     }
 
     /* 左侧搜索栏输入框 */
@@ -87,9 +86,10 @@
       width: calc(100% - 600px);
       vertical-align: top;
       box-sizing: border-box;
+      overflow: hidden;
     }
 
-    /* 释义栏标题 */
+    /* 中间释义栏标题 */
     #Word-h2 {
       font-size: initial;
       border-bottom: 1px solid black;
@@ -97,12 +97,13 @@
       padding-bottom: 20px;
     }
 
-    /* 释义栏主体 */
+    /* 中间释义栏主体 */
     #W_main {
+      display: inline-block;
       font-size: initial;
       padding: 20px;
-      height: calc(100% - 50px);
-      overflow: auto;
+      height: calc(100% - 52px);
+      overflow-y: auto;
       box-sizing: border-box;
     }
 
@@ -120,13 +121,13 @@
       vertical-align: top;
     }
 
-    /* 词汇栏主体 */
+    /* 右侧词汇栏主体 */
     #V_main {
       display: block;
       font-size: initial;
       padding: 20px;
-      height: calc(100% - 50px);
-      overflow: auto;
+      height: calc(100% - 47px);
+      overflow-y: auto;
       box-sizing: border-box;
     }
 
@@ -144,12 +145,12 @@
       vertical-align: top;
     }
 
-    /* 历史记录栏主体 */
+    /* 右侧历史记录栏主体 */
     #H_main {
       font-size: initial;
       padding: 20px;
-      height: calc(100% - 50px);
-      overflow: auto;
+      height: calc(100% - 47px);
+      overflow-y: auto;
       box-sizing: border-box;
     }
 
@@ -158,7 +159,7 @@
 </head>
 
 <body>
-  <span class="all">
+  <div class="all">
     <span class="aside">
       <h2>OALD Se7en</h2>
       <div>
@@ -346,7 +347,7 @@
         </p>
       </div>
     </span>
-  </span>
+  </div>
 
 </body>
 
