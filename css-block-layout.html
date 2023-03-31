@@ -80,10 +80,17 @@
     }
 
     /* inline-block实现showbar */
-    .inline_showbar {
-      font-size: 0;
+    .inline {
       width: 600px;
       margin: auto;
+      overflow: hidden;
+    }
+
+    .inline_showbar {
+      font-size: 0;
+      margin: -8px -15px -8px -15px;
+      padding: 0;
+
     }
 
     .inline_showbar span {
@@ -93,13 +100,9 @@
       border: 3px solid black;
       width: 180px;
       height: 40px;
-      box-sizing: border-box;
-      margin: 15px 30px auto auto;
+      margin: 8px 15px;
       text-align: center;
-    }
-
-    .inline_showbar span:nth-child(3n+3) {
-      margin-right: 0px;
+      box-sizing: border-box;
     }
 
     /* 底部栏 */
@@ -150,19 +153,21 @@
     <p>link</p>
   </div>
 
-  <div class="inline_showbar">
-    <span>宽180高40</span>
-    <span>水平间隙30px</span>
-    <span>垂直间隙15px</span>
-    <span>边框宽度3px</span>
-    <span>产品</span>
-    <span>产品</span>
-    <span>产品</span>
-    <span>产品</span>
-    <span>产品</span>
-    <span>产品</span>
-    <span>产品</span>
-    <span>产品</span>
+  <div class="inline">
+    <div class="inline_showbar">
+      <span>宽180高40(含边框)</span>
+      <span>水平间隙30px</span>
+      <span>垂直间隙15px</span>
+      <span>边框宽度3px</span>
+      <span>产品</span>
+      <span>产品</span>
+      <span>产品</span>
+      <span>产品</span>
+      <span>产品</span>
+      <span>产品</span>
+      <span>产品</span>
+      <span>产品</span>
+    </div>
   </div>
 
   <div class="bottom">
