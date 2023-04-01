@@ -10,14 +10,21 @@
   <meta name="author" content="Richache,richardchen2016@163.com">
   <title>Olad-layout-position</title>
   <style>
-    /* html {
+    html {
       height: 100%;
-      min-width: 1000px;
-    } */
+    }
 
+    /* html，body都需要设置高度100%，body用position:relative作为子元素的定位祖先，并且设置最小宽度min-width  */
     body {
       margin: 0;
+      min-width: 1000px;
       height: 100%;
+      position: relative;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      box-sizing: border-box;
     }
 
     /* 所有栏目的header */
@@ -30,11 +37,13 @@
       text-align: center;
       border-right: 1px black solid;
       background-color: rgb(255, 192, 203);
-      position: fixed;
+
+      position: absolute;
       left: 0;
       top: 0;
       bottom: 0;
       width: 200px;
+
       overflow: hidden;
       box-sizing: border-box;
     }
@@ -45,6 +54,7 @@
       width: 200px;
       top: 100px;
       bottom: 0;
+
       overflow: auto;
       box-sizing: border-box;
     }
@@ -70,13 +80,14 @@
     .Word {
       background-color: rgb(255, 248, 220);
       border-right: 1px black solid;
-      position: fixed;
+      box-sizing: border-box;
+      overflow: hidden;
+
+      position: absolute;
       top: 0;
       bottom: 0;
       left: 200px;
       right: 400px;
-      box-sizing: border-box;
-      overflow: hidden;
     }
 
     /* 释义栏标题 */
@@ -88,7 +99,12 @@
 
     /* 释义栏主体 */
     #W_main {
-      height: calc(100% - 70px);
+      position: absolute;
+      top: 100px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
       padding: 20px;
       overflow: auto;
       box-sizing: border-box;
@@ -99,14 +115,15 @@
       text-align: center;
       border-right: 1px black solid;
       background-color: rgb(255, 192, 203);
-      position: fixed;
+      box-sizing: border-box;
+      overflow: hidden;
+
+      position: absolute;
       margin: auto;
       top: 0;
       bottom: 0;
       right: 200px;
       width: 200px;
-      box-sizing: border-box;
-      overflow: hidden;
     }
 
     /* 词汇栏主体 */
@@ -122,14 +139,14 @@
     .History {
       text-align: center;
       background-color: rgb(255, 192, 203);
-      position: fixed;
+      box-sizing: border-box;
+      overflow: hidden;
+
+      position: absolute;
       top: 0;
       bottom: 0;
       right: 0;
       width: 200px;
-
-      box-sizing: border-box;
-      overflow: hidden;
     }
 
     /* 历史记录栏主体 */
