@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
+  <meta name="description" content="position实现牛津高阶词典布局仿写">
+  <meta name="author" content="Richache,richardchen2016@163.com">
+  <title>ios-checkbox</title>
+  <style>
+    .checkbox {
+      -moz-appearance: none;
+      -webkit-appearance: none;
+
+      display: inline-block;
+      position: relative;
+      background-color: white;
+      top: 0;
+      width: 265px;
+      height: 149px;
+      border: 2px solid gray;
+      border-radius: 60px;
+    }
+
+    .checkbox::before {
+      content: " ";
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin: 7px auto 7px 7px;
+
+      width: 135px;
+      height: 135px;
+      border: 1px solid gray;
+      box-shadow: 2px 2px 5em silver;
+      border-radius: 135px;
+    }
+
+    .checkbox:checked::before {
+      content: " ";
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 7px 7px 7px auto;
+      width: 135px;
+      height: 135px;
+      border: 1px solid black;
+      border-radius: 135px;
+    }
+
+
+    .checkbox:checked::after {
+      content: " ";
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 7px 7px 7px auto;
+      width: 135px;
+      height: 135px;
+    }
+
+    .checkbox:checked {
+      background-color: rgb(48, 243, 73);
+
+      transition: border ease 0.4s, box-shadow ease 0.4s, background-color ease 1s;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div>
+    <input type="checkbox" class="checkbox">
+    <!-- <div class="button1"></div>
+    <div class="button2"></div> -->
+  </div>
+
+
+</body>
+
+</html>
