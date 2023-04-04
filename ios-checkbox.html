@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
-  <meta name="description" content="position实现牛津高阶词典布局仿写">
+  <meta name="description" content="transition实现iOS的checkbox效果">
   <meta name="author" content="Richache,richardchen2016@163.com">
   <title>ios-checkbox</title>
   <style>
+    /* 选中结构中input后的兄弟label，设置样式（input在结构中隐藏，所以给它关联的label设置样式）*/
     input+label {
       display: inline-block;
       position: relative;
@@ -22,33 +23,37 @@
       transition: 0.8s;
     }
 
+    /* 中间的圆不参与交互，可用::before生成一个 */
+    /* 元素不能定宽（定宽则无法通过margin的数值渐变延时做出运动中的椭圆效果）。也可使用relative定位，改变left数值，设置延时。*/
     input+label::before {
       content: " ";
       display: block;
-      position: relative;
+      /* position: relative;
+      left：7px*/
       box-sizing: border-box;
-      top: 7px;
-      left: 7px;
-      width: 135px;
+      margin: 7px;
+      margin-right: 117px;
+      /* width: 135px; */
       height: 135px;
-      border: 0.5px solid gray;
       background-color: white;
-      box-shadow: 0px 2px 2em silver;
+      box-shadow: 0px 5px 15px gray;
       border-radius: 135px;
-      transition: 0.8s;
+      transition: all 1s 0s ease, margin-left 0.5s 0s ease-in-out, margin-right 0.5s 0.2s ease-in-out;
     }
 
-    input:checked+label::before {
-      /* margin-left: 117px; */
-      left: 117px;
-      border: 0px;
-      box-shadow: 0px 2px 2em silver;
-      transition: 0.4s;
-    }
-
+    /* checked后的label背景框阴影及背景色 */
     input:checked+label {
       border-color: rgb(48, 243, 73);
       box-shadow: inset 10px 0px 0px 150px rgb(48, 243, 73);
+    }
+
+    /* 也可用定位，设置最终left值，设置延时 */
+    input:checked+label::before {
+      /* left:117px; */
+      margin-left: 117px;
+      margin-right: 7px;
+      box-shadow: 0px 5px 15px black;
+      transition: all 1s 0s ease, margin-left 0.5s 0.2s ease-in-out, margin-right 0.5s 0s ease-in-out;
     }
 
   </style>
@@ -56,6 +61,7 @@
 
 <body>
   <div>
+    <!-- input设置id与label的for属性关联，然后hidden，即可隐藏默认样式 -->
     <input type="checkbox" id="checkbox1" hidden>
     <label for="checkbox1">
 
