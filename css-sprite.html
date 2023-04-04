@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
+  <meta name="description" content="雪碧图切片实现标签引用">
+  <meta name="author" content="Richache,richardchen2016@163.com">
+  <title>css-sprite</title>
+  <style>
+    /* 来个背景框 */
+    div:first-child {
+      position: relative;
+      background-color: rgba(195, 200, 212, 0.9);
+      border: 2px solid rgba(51, 69, 72, 0.6);
+      border-radius: 50px;
+      padding: 50px;
+      width: 445px;
+      height: 404px;
+      background-image: url(https://images.pexels.com/photos/16047977/pexels-photo-16047977.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    /* 统一引入雪碧图 */
+    .icon {
+      background-image: url(web-sprite.png);
+      display: block;
+      margin-left: 100px;
+    }
+
+    /* 切图 */
+    .sp1 {
+      background-position: 298px 0;
+      width: 96px;
+      height: 36px;
+    }
+
+    .sp2 {
+      background-position: 451px 300px;
+      width: 95px;
+      height: 38px;
+    }
+
+    .sp3 {
+      background-position: 352px 298px;
+      width: 37px;
+      height: 37px;
+    }
+
+    .sp4 {
+      background-position: 259px 38px;
+      width: 32px;
+      height: 32px;
+    }
+
+    .sp5 {
+      background-position: 151px 39px;
+      width: 33px;
+      height: 33px;
+    }
+
+    /* 搞个文字介绍 */
+    span:before {
+      content: attr(name);
+      color: blue;
+      margin-left: -100px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div>
+    <span class="icon sp1" name="bilibili &#9758;"></span>
+    <span class="icon sp2" name="央视网 &#9758;"></span>
+    <span class="icon sp3" name="爱奇艺 &#9758;"></span>
+    <span class="icon sp4" name="咪咕视频 &#9758;"></span>
+    <span class="icon sp5" name="腾讯视频 &#9758;"></span>
+
+  </div>
+
+
+</body>
+
+</html>
