@@ -22,12 +22,12 @@
       height: 149px;
       border: 2px solid gray;
       border-radius: 60px;
+      z-index: 0;
     }
 
     .checkbox::before {
       content: " ";
       position: absolute;
-      top: 0;
       left: 0;
       margin: 7px auto 7px 7px;
 
@@ -36,35 +36,45 @@
       border: 1px solid gray;
       box-shadow: 2px 2px 5em silver;
       border-radius: 135px;
+      z-index: 2;
     }
 
     .checkbox:checked::before {
       content: " ";
-      position: absolute;
-      top: 0;
-      right: 0;
-      margin: 7px 7px 7px auto;
-      width: 135px;
-      height: 135px;
-      border: 1px solid black;
+      position: relative;
+      margin: 7px auto 7px auto;
+      width: 100px;
+      height: 100px;
+      background-color: white;
+      border: 1px solid white;
       border-radius: 135px;
+      z-index: 5;
     }
 
 
     .checkbox:checked::after {
       content: " ";
       position: absolute;
-      top: 0;
       right: 0;
       margin: 7px 7px 7px auto;
       width: 135px;
       height: 135px;
+      background-color: white;
+      border: 1px solid white;
+      border-radius: 135px;
+      box-shadow: 2px 2px 5em silver;
+      z-index: 10;
     }
 
     .checkbox:checked {
       background-color: rgb(48, 243, 73);
 
-      transition: border ease 0.4s, box-shadow ease 0.4s, background-color ease 1s;
+      transition: border ease 0.4s,
+        box-shadow ease 0.4s,
+        background-color ease 1s,
+        z-index ease 1s,
+        width ease 1s,
+        height ease 1s;
     }
 
   </style>
@@ -73,8 +83,6 @@
 <body>
   <div>
     <input type="checkbox" class="checkbox">
-    <!-- <div class="button1"></div>
-    <div class="button2"></div> -->
   </div>
 
 
