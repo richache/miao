@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
+  <meta name="description" content="twitter点赞特效">
+  <meta name="author" content="Richache,richardchen2016@163.com">
+  <title>twitter-heart</title>
+  <style>
+    /* 设定显示范围，使其与图片尺寸相同（或使图片尺寸与其相同），由于采用margin-left向左移动的方案，超出显示范围部分用overflow:hidden隐藏 */
+    .heart {
+      width: 100px;
+      height: 100px;
+      border: 2px black solid;
+      margin: 50px auto;
+      overflow: hidden;
+    }
+
+    /* 设置图片默认样式，也可为默认值 */
+    .heart img {
+      /* transition: none; */
+    }
+
+    /* 设置动作步进动画 */
+    .heart:hover img {
+      margin-left: -2800px;
+      transition: steps(28) 1s;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="heart">
+    <img src="heart.png" alt="">
+  </div>
+
+
+</body>
+
+</html>
