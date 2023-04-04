@@ -10,71 +10,45 @@
   <meta name="author" content="Richache,richardchen2016@163.com">
   <title>ios-checkbox</title>
   <style>
-    .checkbox {
-      -moz-appearance: none;
-      -webkit-appearance: none;
-
+    input+label {
       display: inline-block;
       position: relative;
       background-color: white;
-      top: 0;
       width: 265px;
-      height: 149px;
-      border: 2px solid gray;
-      border-radius: 60px;
-      z-index: 0;
+      height: 155px;
+      border: 3px solid gray;
+      border-radius: 99px;
+      box-sizing: border-box;
+      transition: 0.8s;
     }
 
-    .checkbox::before {
+    input+label::before {
       content: " ";
-      position: absolute;
-      left: 0;
-      margin: 7px auto 7px 7px;
-
-      width: 135px;
-      height: 135px;
-      border: 1px solid gray;
-      box-shadow: 2px 2px 5em silver;
-      border-radius: 135px;
-      z-index: 2;
-    }
-
-    .checkbox:checked::before {
-      content: " ";
+      display: block;
       position: relative;
-      margin: 7px auto 7px auto;
-      width: 100px;
-      height: 100px;
-      background-color: white;
-      border: 1px solid white;
-      border-radius: 135px;
-      z-index: 5;
-    }
-
-
-    .checkbox:checked::after {
-      content: " ";
-      position: absolute;
-      right: 0;
-      margin: 7px 7px 7px auto;
+      box-sizing: border-box;
+      top: 7px;
+      left: 7px;
       width: 135px;
       height: 135px;
+      border: 0.5px solid gray;
       background-color: white;
-      border: 1px solid white;
+      box-shadow: 0px 2px 2em silver;
       border-radius: 135px;
-      box-shadow: 2px 2px 5em silver;
-      z-index: 10;
+      transition: 0.8s;
     }
 
-    .checkbox:checked {
-      background-color: rgb(48, 243, 73);
+    input:checked+label::before {
+      /* margin-left: 117px; */
+      left: 117px;
+      border: 0px;
+      box-shadow: 0px 2px 2em silver;
+      transition: 0.4s;
+    }
 
-      transition: border ease 0.4s,
-        box-shadow ease 0.4s,
-        background-color ease 1s,
-        z-index ease 1s,
-        width ease 1s,
-        height ease 1s;
+    input:checked+label {
+      border-color: rgb(48, 243, 73);
+      box-shadow: inset 10px 0px 0px 150px rgb(48, 243, 73);
     }
 
   </style>
@@ -82,7 +56,10 @@
 
 <body>
   <div>
-    <input type="checkbox" class="checkbox">
+    <input type="checkbox" id="checkbox1" hidden>
+    <label for="checkbox1">
+
+    </label>
   </div>
 
 
