@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
+  <meta name="description" content="float布局实现QQ网页邮箱布局仿写">
+  <meta name="author" content="Richache,richardchen2016@163.com">
+  <title>qq-mail-float</title>
+  <style>
+    html {
+      height: 100%;
+    }
+
+    /* 外层给一个最小宽度 */
+    body {
+      margin: 0;
+      height: 100%;
+      min-width: 1000px;
+      box-sizing: border-box;
+    }
+
+    /* 顶部栏定高，宽100%,常规流位置就是顶部，宽度100%，后面的浮动元素没有位置，自动在第二行开始*/
+    .top {
+      background-color: rgb(95, 158, 160);
+      width: 100%;
+      height: 100px;
+      box-sizing: border-box;
+    }
+
+    /* 左侧栏float:left ，定宽，高100%*/
+    .left {
+      background-color: rgb(248, 211, 145);
+      float: left;
+      height: 100%;
+      width: 200px;
+      padding: 10px;
+      overflow: auto;
+      box-sizing: border-box;
+    }
+
+    /* 左侧栏列表 */
+    :is(ul, a) {
+      list-style-type: none;
+      text-decoration: none;
+      text-align: center;
+      padding-inline-start: 0px;
+      font-size: large;
+    }
+
+    /* 左侧链接悬停效果 */
+    li a:hover {
+      display: block;
+      margin-left: 20px;
+      width: 80%;
+      font-size: x-large;
+      font-weight: bold;
+      color: gray;
+      text-decoration: underline;
+      background-color: aqua;
+      border: 1px rgb(83, 20, 16) double;
+      box-shadow: inset 1px 1px 3px black;
+      border-radius: 6px;
+      text-shadow: black 0px 0px 2px, red 1px 1px 2px, silver -1px 1px 2px, pink -1px -1px 2px, silver 1px -1px 2px, lightblue 0px 0px 2px;
+
+    }
+
+    /* left规定的情况下，内容直接按照常规流的块元素显示即可，高100%（此处无需cacl计算），宽auto（非100%） */
+    .main {
+      background-color: rgb(195, 200, 212);
+      height: 100%;
+      padding: 10px;
+      overflow: auto;
+      box-sizing: border-box;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="top">QQ邮箱</div>
+  <div class="left">
+    <ul>
+      <li><a href="">收件箱</a></li>
+      <li><a href="">发件箱</a></li>
+      <li><a href="">草稿箱</a></li>
+      <li><a href="">垃圾箱</a></li>
+      <li><a href="">记事本</a></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+  <div class="main">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum possimus asperiores, tempore, cum aut sapiente
+      beatae corporis fugiat exercitationem aspernatur doloremque. Distinctio cupiditate ea nobis necessitatibus! Vitae
+      veritatis ipsum nihil libero aut. Suscipit, quod itaque architecto iste eum unde aut facere libero explicabo sed
+      eaque minus excepturi doloribus quis voluptates? Excepturi asperiores magni ut voluptatum! Neque amet accusamus
+      voluptatem dicta, obcaecati fuga at nulla inventore excepturi corrupti similique maiores ea velit totam itaque
+      minus libero, ducimus a deleniti cum esse dignissimos laboriosam nisi placeat. Similique excepturi ullam vel eum!
+      Distinctio eveniet, nobis beatae dolorem illo maiores tenetur corporis iusto rerum.
+      Hic sunt at architecto, incidunt molestiae voluptatibus a! Optio repellat a consequatur labore itaque aut eos id
+      necessitatibus, beatae placeat cupiditate eveniet quasi, illum nostrum. Illum accusantium, sint nisi, cupiditate
+      ex, similique quibusdam facere dolorem ipsa minus non. Explicabo esse sapiente cumque, incidunt deserunt aperiam
+      veniam alias quisquam et soluta sint reprehenderit quo recusandae. Accusantium a ducimus voluptate ea laboriosam
+      quod placeat deserunt labore minima sed molestiae blanditiis repellendus quam aliquid tenetur nostrum maiores eius
+      modi, illo harum possimus nemo! Quae error id necessitatibus animi, reiciendis, dolorum perspiciatis odio qui
+      neque cumque provident praesentium, inventore culpa enim eaque beatae ad.
+      Asperiores, reprehenderit laudantium! Dolorem ad nulla molestiae totam ab inventore vel tempore et a eveniet quos
+      officia reiciendis, autem labore. Odio placeat ipsa molestias assumenda consequuntur incidunt saepe ullam illo
+      fuga. Saepe ullam sunt minima possimus dolore quibusdam nisi sit ea dolores blanditiis excepturi harum officia hic
+      molestias vitae debitis, in quaerat voluptates obcaecati natus? Quos vitae, molestiae perspiciatis officia omnis
+      repellendus. Magni nisi totam aperiam! Asperiores dolorum illum quasi voluptatibus similique maxime nobis
+      accusamus, omnis adipisci illo alias? Ab a excepturi incidunt! Nostrum exercitationem saepe consequuntur, maxime
+      ullam, magnam architecto a doloribus distinctio ut expedita repellendus ipsa quae doloremque!
+      Eveniet tempora vero officia magni dolor aspernatur praesentium sapiente cupiditate iure suscipit deleniti id
+      optio saepe minus, esse blanditiis ad? Ducimus nihil aut dolores consequuntur vero labore eum excepturi, saepe
+      soluta dolor voluptatum corporis fugit? Earum, blanditiis rem. Blanditiis enim rem nobis perferendis iste facere
+      ipsum voluptates dignissimos qui cum earum eum aspernatur, esse non inventore quia sit consequuntur! Iste qui nemo
+      inventore nihil? Ratione atque cupiditate temporibus provident iure! Odio eos, in modi nesciunt asperiores
+      exercitationem accusamus laborum ex eum illo ducimus delectus ullam cumque porro perferendis? Earum vel autem
+      accusamus a incidunt quo voluptatum, nam veniam quidem praesentium.
+      Quos culpa quo rem debitis consequuntur sunt labore sed sequi ipsum voluptas soluta ipsam, iusto earum molestiae
+      animi doloremque cupiditate cumque voluptates ipsa hic laboriosam ab! Architecto, distinctio. Ipsam molestiae iste
+      unde. Aliquid sunt sint magni saepe nulla enim magnam odio corporis quibusdam quae natus quas, consectetur
+      pariatur, nam repudiandae modi voluptate possimus necessitatibus perferendis beatae eum! Perferendis ea blanditiis
+      soluta quisquam fugit tenetur impedit, possimus cupiditate doloremque suscipit assumenda dolore repudiandae
+      obcaecati ipsam ipsum. Dignissimos et sit tenetur unde eos consectetur dolorem. Earum dolorem a asperiores at, eos
+      sunt. Eius quas fugiat modi fugit unde deserunt excepturi, accusamus quidem!</p>
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus accusantium nihil et, soluta ullam placeat
+      dignissimos? Veniam iste tenetur mollitia?</p>
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus accusantium nihil et, soluta ullam placeat
+      dignissimos? Veniam iste tenetur mollitia?</p>
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus accusantium nihil et, soluta ullam placeat
+      dignissimos? Veniam iste tenetur mollitia?</p>
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus accusantium nihil et, soluta ullam placeat
+      dignissimos? Veniam iste tenetur mollitia?</p>
+
+  </div>
+</body>
+
+</html>
