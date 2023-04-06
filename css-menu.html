@@ -17,35 +17,46 @@
 
     /* 清除所有边距、用户代理默认字体、列表样式 */
     body {
-      height: 100%;
-      width: 100%;
-      min-width: 1000px;
-      padding-inline-start: 0;
-      text-decoration: none;
-      overflow: auto;
-      background-color: white;
-    }
-
-    .top {
       position: relative;
       left: 0;
       top: 0;
+      min-width: 2000px;
+      padding-inline-start: 0;
+      list-style-type: none;
+      text-decoration-style: none;
+      overflow: auto;
+      background-color: lightgray;
+    }
+
+    /* 顶部栏（导航栏） */
+    .dropdown {
+      position: relative;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: 100px;
-      text-align: center;
+      min-width: 1400px;
+      height: 200px;
+      /* text-align: center; */
       color: #fff;
       line-height: 100px;
-      font-size: large;
+      /* font-size: large; */
       background-color: rgba(51, 37, 40, 0.8);
     }
 
-    /* 导航栏 */
-    :is(.dropdown, .dropdown2, .dropdown3) {
-      position: absolute;
-      display: block;
-      left: 5px;
+    /* 导航栏菜单默认样式 */
+    .dropdown>li {
+      position: relative;
+      left: 100px;
       top: 0;
-      width: 200px;
+      margin-right: 50px;
+      white-space: nowrap;
+      text-align: center;
+      display: inline-block;
+      margin-left: 0px;
+      padding-inline-start: 0;
+      list-style-type: none;
+      width: 300px;
+      height: 100px;
       padding: 10px 10px 0 10px;
       border: 1px silver solid;
       border-width: 0 5px 0 0;
@@ -53,37 +64,30 @@
       box-shadow: 0 4px 4px 0 silver;
     }
 
-    .dropdown2 {
-      left: 250px;
+    /* 其他导航栏位置 */
+    #menu2 {
+      position: relative;
+      top: 100px;
+      right: 0;
+      color: black;
     }
 
-    .dropdown3 {
-      left: 500px;
-    }
-
-
-    /* 导航栏悬浮效果 */
-    :is(.dropdown, .dropdown2, .dropdown3):hover {
+    /* 导航栏菜单悬浮效果 */
+    .dropdown>li:hover {
       background-color: rgba(100, 115, 148, 0.8);
       text-shadow: 0 2px 2px lightcoral;
+      font-size: large;
     }
 
-    /* 导航栏内容，字体悬浮效果 */
-    :is(.dropdown, .dropdown2, .dropdown3):hover>p {
-      display: block;
-      padding-top: 2px;
-    }
-
-    /* 一级菜单默认效果 */
-    :is(.dropdown, .dropdown2, .dropdown3) li {
+    /* 所有下级菜单默认效果 */
+    .dropdown li li {
       position: relative;
-      display: none;
-      background-color: rgba(241, 236, 231, 0.8);
+      white-space: nowrap;
       padding: 10px;
-      margin-left: 10px;
-      margin-top: 2px;
-      width: 97%;
       height: 100px;
+      width: 300px;
+
+      background-color: rgba(241, 236, 231, 0.8);
       font-size: x-large;
       border: 5px lightpink solid;
       border-style: none solid solid none;
@@ -93,47 +97,57 @@
       border-bottom-right-radius: 50px;
     }
 
-    /* 一级菜单可见 */
-    :is(.dropdown, .dropdown2, .dropdown3):hover>li {
-      display: block;
-      color: rgba(158, 73, 109, 0.8);
-      z-index: 1;
+    .dropdown ul {
+      position: absolute;
+      width: 300px;
+      top: 100%;
+      left: 0;
     }
 
-    /* 一级菜单悬浮效果 */
-    :is(.dropdown, .dropdown2, .dropdown3)>li:hover {
-      padding-bottom: 5px;
-      padding-left: 5px;
-      margin-top: 5px;
+    /* 将所有下拉菜单设置隐藏（不隐藏ul是要显示其:before指示符>） */
+    .dropdown ul li {
+      position: absolute;
+      display: none;
+      left: 0px;
+      top: 0px;
+      padding-left: 100px;
+    }
+
+    /* ul自身没有内容，只用作调整位置，这里只选中第二个及之后的ul */
+    .dropdown ul ul {
+      top: 0;
+      left: 100%;
+      width: 100%;
+    }
+
+    /* 当一层li被悬浮时，它后面一层的li显示 */
+    .dropdown li:hover>ul>li {
+      position: relative;
+      display: block;
+      top: 0;
+
+      padding: 10px;
+      margin: 2px;
+      width: 100%;
+      color: rgba(158, 73, 109, 0.8);
+      background-color: rgba(248, 232, 179, 0.8);
+    }
+
+    /* 所有li的右侧提示符，由下层ul的:before位移得到 */
+    .dropdown ul li ul::before {
+      position: absolute;
+      content: ">";
+      right: 100%;
       margin-right: 5px;
     }
 
-
-    /* 二级菜单默认效果 */
-    :is(.dropdown, .dropdown2, .dropdown3)>li>ul {
+    /* 快捷键 */
+    .dropdown li[data-short]:after {
+      content: attr(data-short);
+      /* display: inline-block; */
       position: absolute;
-      display: none;
-      width: 200px;
-      left: 200px;
-      top: 0px;
-    }
-
-    /* 使二级菜单可见 */
-    :is(.dropdown, .dropdown2, .dropdown3)>li:hover>ul {
-      display: block;
-      z-index: 2;
-    }
-
-    :is(.dropdown, .dropdown2, .dropdown3)>li>ul>li {
-      position: relative;
-      display: block;
-      padding: 10px;
-      text-align: center;
-      margin: 2px;
-      width: 100%;
-      height: 20%;
-      color: rgba(158, 73, 109, 0.8);
-      background-color: rgba(248, 232, 179, 0.8);
+      margin-left: 5px;
+      /* right: 10%; */
     }
 
     /* 后续主体内容 */
@@ -147,70 +161,67 @@
 <body>
   <div class="top">
     <ul class="dropdown">
-      <p>Menu</p>
-      <li class="con1">HTML
+      <li>HTML
         <ul>
-          <li>HTML 介绍</li>
-          <li>HTML 教程</li>
-          <li>HTML 元素参考</li>
-          <li>HTML 属性参考</li>
-          <li>相关主题</li>
+          <li>HTML 介绍
+            <ul>
+              <li data-short="Ctrl+a">HTML概念
+                <ul>
+                  <li>标签</li>
+                  <li>表格</li>
+                  <li>结构</li>
+                  <li>注意事项</li>
+                </ul>
+              </li>
+              <li data-short="Ctrl+b">常用标签</li>
+              <li data-short="Ctrl+c">头文件属性</li>
+              <li data-short="Ctrl+d">web表单</li>
+              <li data-short="Ctrl+e">多媒体与嵌入</li>
+            </ul>
+          </li>
+          <li data-short="Ctrl+1">HTML 教程</li>
+          <li data-short="Ctrl+2">HTML 元素参考</li>
+          <li data-short="Ctrl+3">HTML 属性参考</li>
+          <li data-short="Ctrl+4">相关主题</li>
         </ul>
       </li>
-      <li class="con2">CSS3
+      <li>CSS3
         <ul>
-          <li>HTML 介绍</li>
-          <li>HTML 教程</li>
-          <li>HTML 元素参考</li>
-          <li>HTML 属性参考</li>
-          <li>相关主题</li>
+          <li>CSS 介绍</li>
+          <li>CSS 教程
+            <ul>
+              <li>CSS选择器
+                <ul>
+                  <li>元素选择器</li>
+                  <li>ID选择器</li>
+                  <li>类选择器</li>
+                  <li>属性选择器</li>
+                  <li>伪类选择器</li>
+                  <li>伪元素选择器</li>
+                </ul>
+              </li>
+              <li>声明</li>
+              <li>属性</li>
+              <li>属性值</li>
+              <li>语法</li>
+            </ul>
+          </li>
+          <li>CSS3特性</li>
+          <li>常用布局</li>
         </ul>
 
       </li>
-      <li class="con3">JavaScript
+      <li>JavaScript
         <ul>
-          <li>HTML 介绍</li>
-          <li>HTML 教程</li>
-          <li>HTML 元素参考</li>
-          <li>HTML 属性参考</li>
-          <li>相关主题</li>
+          <li>JavaScript介绍</li>
+          <li>JavaScript教程</li>
         </ul>
       </li>
-      <li class="con4">Vue
-        <ul>
-          <li>HTML 介绍</li>
-          <li>HTML 教程</li>
-          <li>HTML 元素参考</li>
-          <li>HTML 属性参考</li>
-          <li>相关主题</li>
-        </ul>
-      </li>
-      <li class="con5">React
-        <ul>
-          <li>HTML 介绍</li>
-          <li>HTML 教程</li>
-          <li>HTML 元素参考</li>
-          <li>HTML 属性参考</li>
-          <li>相关主题</li>
-        </ul>
-      </li>
-
-    </ul>
-    <ul class="dropdown2">
-      <p>Menu2</p>
-      <li class="con1">1</li>
-      <li class="con2">2</li>
-      <li class="con3">3</li>
-      <li class="con4">4</li>
-    </ul>
-    <ul class="dropdown3">
-      <p>Menu3</p>
-      <li class="con1">1</li>
-      <li class="con2">2</li>
-      <li class="con3">3</li>
-      <li class="con4">4</li>
+      <li>WebAPIs</li>
+      <li>HTTP</li>
     </ul>
   </div>
+
 
   <div class="main">
     <p>lorem1</p>
