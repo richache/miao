@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
+  <meta name="description" content="flex布局实现QQ网页邮箱布局仿写">
+  <meta name="author" content="Richache,richardchen2016@163.com">
+  <title>qq-mail-flex</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    /* 顶部栏 */
+    .top {
+      background-color: rgb(95, 158, 160);
+      width: 100%;
+      height: 100px;
+      overflow: auto;
+      box-sizing: border-box;
+    }
+
+    /* 除了顶部栏，宽度100%，高度自适应 */
+    .all {
+      width: 100%;
+      height: calc(100% - 100px);
+      display: flex;
+      flex-flow: row;
+      margin: auto;
+    }
+
+    /* 左侧栏，定宽，高度自适应 */
+    .left {
+      background-color: rgb(248, 211, 145);
+      width: 200px;
+      height: cacl(100% - 100px);
+      padding: 10px;
+      overflow: auto;
+      box-sizing: border-box;
+    }
+
+    /* 左侧栏列表 */
+    :is(ul, a) {
+      list-style-type: none;
+      text-decoration: none;
+      text-align: center;
+      padding-inline-start: 0px;
+      font-size: large;
+    }
+
+    /* 左侧链接悬停效果 */
+    li a:hover {
+      display: inline-block;
+      margin: -10px;
+      width: 80%;
+      font-size: x-large;
+      font-weight: bold;
+      color: gray;
+      text-decoration: underline;
+      background-color: aqua;
+      border: 1px rgb(83, 20, 16) double;
+      box-shadow: inset 1px 1px 3px black;
+      border-radius: 6px;
+      text-shadow: black 0px 0px 2px, red 1px 1px 2px, silver -1px 1px 2px, pink -1px -1px 2px, silver 1px -1px 2px, lightblue 0px 0px 2px;
+
+    }
+
+    /* 内容,宽度自适应 */
+    .main {
+      background-color: rgb(195, 200, 212);
+      width: calc(100% - 200px);
+      padding: 20px;
+      overflow: auto;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="top">QQ邮箱</div>
+  <div class="all">
+    <div class="left">
+      <ul>
+        <li><a href="">收件箱</a></li>
+        <li><a href="">发件箱</a></li>
+        <li><a href="">草稿箱</a></li>
+        <li><a href="">垃圾箱</a></li>
+        <li><a href="">记事本</a></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+    <div class="main">
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, voluptatum.
+        Ipsum quia saepe totam, temporibus adipisci porro fugit magnam odio!
+        Officiis iure amet corrupti facere eius, eaque dolores cum ratione!
+        Id amet praesentium doloribus at fugit nostrum temporibus reprehenderit! Odio!
+        In velit iusto id dolorem voluptatem aspernatur cumque repudiandae non.
+        Corrupti autem sint saepe maiores officiis sequi ea veniam illo.
+        Provident minus nemo explicabo doloremque officia dignissimos eligendi ullam assumenda!
+        Odio ab quaerat, provident quas excepturi rem id ipsum laboriosam?
+        Inventore quidem, labore incidunt itaque quis rem minus optio eius.
+        Quas alias dicta animi. Reprehenderit consequuntur id sequi nulla atque.</p>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus accusantium nihil et, soluta ullam
+        placeat
+        dignissimos? Veniam iste tenetur mollitia?</p>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus accusantium nihil et, soluta ullam
+        placeat
+        dignissimos? Veniam iste tenetur mollitia?</p>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus accusantium nihil et, soluta ullam
+        placeat
+        dignissimos? Veniam iste tenetur mollitia?</p>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus accusantium nihil et, soluta ullam
+        placeat
+        dignissimos? Veniam iste tenetur mollitia?</p>
+    </div>
+  </div>
+</body>
+
+</html>
