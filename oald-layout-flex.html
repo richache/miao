@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
+  <meta name="description" content="flex实现牛津高阶词典布局仿写">
+  <meta name="author" content="Richache,richardchen2016@163.com">
+  <title>Olad-layout-flex</title>
+  <style>
+    /* html，body都需要设置高度100%，清除margin */
+    * {
+      margin: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* 整体布局的父元素 ，设置最小宽度以保证中间内容栏有剩余空间可自适应，
+    作为父元素flex设置一个nowrap的row （单行）*/
+    .all {
+      width: 100%;
+      height: 100%;
+      min-width: 800px;
+
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+    }
+
+    /* 所有栏目的header */
+    h3 {
+      padding-left: 20px;
+    }
+
+    /* 左侧边栏，定宽，高100%，grow给1自适应，shrink给0不参与自适应。
+    作为父元素flex设置一个nowrap的column （单列）*/
+    .aside {
+      text-align: center;
+      border-right: 1px black solid;
+      background-color: rgb(255, 192, 203);
+
+      display: flex;
+      flex-flow: column nowrap;
+
+      width: 200px;
+      height: 100%;
+      flex-grow: 1;
+      flex-shrink: 0;
+
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    /* 左侧栏单词列表 ,grow给1让宽高自适应占满其父元素.aside的剩余空间 */
+    div:has(>form) {
+      /* width: 100%; */
+      /* height: calc(100% - 70px); */
+      flex-grow: 1;
+      overflow: auto;
+      box-sizing: border-box;
+    }
+
+    ul {
+      text-align: center;
+      list-style: none;
+      padding-inline-start: 0;
+    }
+
+    /* 左侧搜索栏输入框 */
+    #word {
+      display: inline-block;
+      margin-right: 5px;
+      width: 120px;
+      border-radius: 5px;
+    }
+
+    /* 左侧栏单词链接 */
+    a {
+      text-decoration: none;
+    }
+
+    /* 中间单词释义栏，grow给1使其宽高自适应占满父元素剩余空间。
+    作为父元素flex设置一个nowrap的column （单列） */
+    .Word {
+      background-color: rgb(255, 248, 220);
+      border-right: 1px black solid;
+      box-sizing: border-box;
+      overflow: auto;
+
+      display: flex;
+      flex-flow: column nowrap;
+
+      flex-grow: 1;
+    }
+
+    /* 中间释义栏标题，宽高自适应 */
+    #Word-h3 {
+      border-bottom: 1px solid black;
+      margin-bottom: 0px;
+      padding-bottom: 20px;
+    }
+
+    /* 中间释义栏主体，宽高自适应 */
+    #W_main {
+      padding: 20px;
+      overflow: auto;
+      box-sizing: border-box;
+    }
+
+    /* 右侧词汇栏，定宽，高100%，grow给1自适应，shrink给0不参与自适应。
+    作为父元素flex设置一个nowrap的column （单列） */
+    .Vocabulary {
+      text-align: center;
+      border-right: 1px black solid;
+      background-color: rgb(255, 192, 203);
+      box-sizing: border-box;
+      overflow: auto;
+
+      display: flex;
+      flex-flow: column nowrap;
+
+      flex-grow: 1;
+      flex-shrink: 0;
+      width: 200px;
+      height: 100%;
+    }
+
+    /* 词汇栏主体，宽高自适应 */
+    #V_main {
+      /* height: calc(100% - 70px); */
+      padding: 20px;
+      overflow: auto;
+      box-sizing: border-box;
+    }
+
+
+    /* 右侧历史记录栏，定宽，高100%，grow给1自适应，shrink给0不参与自适应。
+    作为父元素flex设置一个nowrap的column （单列） */
+    .History {
+      text-align: center;
+      background-color: rgb(255, 192, 203);
+      box-sizing: border-box;
+      overflow: auto;
+
+      display: flex;
+      flex-flow: column nowrap;
+
+      flex-grow: 1;
+      flex-shrink: 0;
+      width: 200px;
+      height: 100%;
+    }
+
+    /* 历史记录栏主体，宽高自适应*/
+    #H_main {
+      padding: 20px;
+      /* height: calc(100% - 70px); */
+      overflow: auto;
+      box-sizing: border-box;
+    }
+
+  </style>
+
+</head>
+
+<body>
+  <div class="all">
+    <div class="aside">
+      <h3>OALD Se7en</h3>
+      <div>
+        <input type="text" id="word">
+        <button>search</button>
+      </div>
+      <div>
+        <form action="" name="aside">
+          <ul>
+            <li><a href="">word1</a></li>
+            <li><a href="">word2</a></li>
+            <li><a href="">word3</a></li>
+            <li><a href="">word4</a></li>
+            <li><a href="">word5</a></li>
+            <li><a href="">word6</a></li>
+            <li><a href="">word7</a></li>
+            <li><a href="">word8</a></li>
+            <li><a href="">word9</a></li>
+            <li><a href="">word10</a></li>
+            <li><a href="">word11</a></li>
+            <li><a href="">word12</a></li>
+            <li><a href="">word13</a></li>
+            <li><a href="">word14</a></li>
+            <li><a href="">word15</a></li>
+            <li><a href="">word16</a></li>
+            <li><a href="">word17</a></li>
+            <li><a href="">word18</a></li>
+            <li><a href="">word19</a></li>
+            <li><a href="">word20</a></li>
+            <li><a href="">word21</a></li>
+            <li><a href="">word22</a></li>
+            <li><a href="">word23</a></li>
+            <li><a href="">word24</a></li>
+            <li><a href="">word25</a></li>
+            <li><a href="">word26</a></li>
+            <li><a href="">word27</a></li>
+            <li><a href="">word28</a></li>
+            <li><a href="">word29</a></li>
+            <li><a href="">word30</a></li>
+            <li><a href="">word31</a></li>
+            <li><a href="">word32</a></li>
+            <li><a href="">word33</a></li>
+            <li><a href="">word34</a></li>
+            <li><a href="">word35</a></li>
+            <li><a href="">word36</a></li>
+            <li><a href="">word37</a></li>
+            <li><a href="">word38</a></li>
+            <li><a href="">word39</a></li>
+            <li><a href="">word40</a></li>
+            <li><a href="">word41</a></li>
+            <li><a href="">word42</a></li>
+            <li><a href="">word43</a></li>
+            <li><a href="">word44</a></li>
+            <li><a href="">word45</a></li>
+            <li><a href="">word46</a></li>
+            <li><a href="">word47</a></li>
+            <li><a href="">word48</a></li>
+            <li><a href="">word49</a></li>
+            <li><a href="">word50</a></li>
+          </ul>
+        </form>
+      </div>
+    </div>
+    <div class="Word">
+      <h3 id="Word-h3">fantasy</h3>
+      <div id="W_main">
+        <p>1.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores expedita nulla, alias atque quasi, esse
+          voluptas
+          illo sed et quam doloribus, minus quia commodi ex earum magnam? Magnam, eveniet repellat?
+          Commodi quod nihil hic. Vero architecto quae libero delectus veniam, recusandae accusamus ratione possimus
+          assumenda
+          iure dolore maiores odit autem cumque similique ullam, numquam suscipit. Praesentium placeat asperiores
+          expedita
+          sint?</p>
+        <p>2.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, fugit sequi repudiandae possimus
+          consequuntur maxime?</p>
+        <p>3.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt molestiae inventore odit nulla excepturi
+          necessitatibus reiciendis dolore, in repudiandae. Maiores, magnam sequi.</p>
+        <p>4.Lorem ipsum dolor sit.</p>
+        <p>5.Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam doloribus minus cum quam sint amet error
+          quasi. Officia optio, sunt consectetur voluptate labore debitis amet corporis, voluptatum molestias dolore
+          beatae id facilis quia provident necessitatibus et obcaecati, maxime dolorum quibusdam?</p>
+        <p>6.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae tempora accusantium itaque laboriosam natus
+          necessitatibus consequuntur. Asperiores tempore repudiandae ea odit soluta facere ullam! Nemo obcaecati illo
+          accusantium, assumenda tempore iure rem commodi!</p>
+        <p>7.Lorem ipsum dolor sit amet.</p>
+      </div>
+    </div>
+
+    <div class="Vocabulary">
+      <h3>Vocabulary</h3>
+      <div id="V_main">
+        <p>1.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+        </p>
+        <p>2.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+        </p>
+        <p>3.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+        </p>
+        <p>4.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+        </p>
+        <p>5.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+        </p>
+        <p>6.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+        </p>
+        <p>7.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+        </p>
+        <p>8.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+        </p>
+        <p>9.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+        </p>
+        <p>10.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+        </p>
+        <p>11.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+        </p>
+        <p>12.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+        </p>
+        <p>13.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+        </p>
+        <p>14.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+        </p>
+        <p>15.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a placeat reprehenderit!
+        </p>
+      </div>
+    </div>
+    <div class="History">
+      <h3>History</h3>
+      <div id="H_main">
+        <p>1. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>2. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>3. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>4. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>5. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>6. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>7. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>8. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>9. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>10. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>11. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>12. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>13. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>14. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>15. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>16. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>17. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>18. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>19. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+        <p>20. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rerum corporis alias, voluptates autem qui!
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
