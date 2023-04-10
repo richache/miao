@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
+  <meta name="description" content="九宫格悬停瞩目实现">
+  <meta name="author" content="Richache,richardchen2016@163.com">
+  <title>9-grid</title>
+  <style type="text/less">
+    table {
+      border-collapse: collapse;
+      width: 210px;
+      height: 210px;
+      box-sizing: border-box;
+      text-align:center;
+
+      td{
+        color: green;
+        border: 2px solid blue;
+        cursor: pointer;
+        box-sizing: border-box;
+      }
+
+      td:hover{
+        border:2px solid red;
+        border-top:hidden;
+        border-left:hidden;
+      }
+    }
+
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/less"></script>
+</head>
+
+<body>
+  <table>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>8</td>
+      <td>9</td>
+    </tr>
+  </table>
+</body>
+
+</html>
