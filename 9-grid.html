@@ -10,6 +10,7 @@
   <meta name="author" content="Richache,richardchen2016@163.com">
   <title>9-grid</title>
   <style type="text/less">
+
     table {
       border-collapse: collapse;
       width: 210px;
@@ -17,19 +18,46 @@
       box-sizing: border-box;
       text-align:center;
 
+      /* 给行与列设置border，表格优先级比行高又比列高，会覆盖border */
+      tr,col{
+        border: 5px solid blue;
+      }
+
       td{
         color: green;
-        border: 2px solid blue;
         cursor: pointer;
-        box-sizing: border-box;
       }
 
       td:hover{
-        border:2px solid red;
-        border-top:hidden;
-        border-left:hidden;
+        border:5px solid red;
       }
     }
+
+
+    /* 也可用列表（ul，li）按flex布局，设置z-index（需要提前定位relative）使li瞩目显示 */
+    ul {
+      padding: 0;
+      list-style-type: none;
+      overflow: hidden;
+      width: 165px;
+      padding: 0 5px 5px 0;
+    }
+    li {
+      color: green;
+      text-align: center;
+      border: 5px solid blue;
+      width: 50px;
+      height: 50px;
+      float: left;
+      margin-right: -5px;
+      margin-bottom: -5px;
+      position: relative;
+    }
+    li:hover {
+      border-color: red;
+      z-index: 5;
+    }
+
 
   </style>
   <script src="https://cdn.jsdelivr.net/npm/less"></script>
@@ -37,6 +65,9 @@
 
 <body>
   <table>
+    <col>
+    <col>
+    <col>
     <tr>
       <td>1</td>
       <td>2</td>
@@ -53,6 +84,18 @@
       <td>9</td>
     </tr>
   </table>
+
+  <ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+  </ul>
 </body>
 
 </html>
