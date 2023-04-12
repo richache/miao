@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
+  <meta name="description" content="dl列表grid优化实现">
+  <meta name="author" content="Richache,richardchen2016@163.com">
+  <title>dl-layout</title>
+  <style>
+    * {
+      margin: 0;
+      /* border: 1px solid red; */
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+
+    html,
+    body {
+      height: 100%;
+      min-width: 500px;
+      min-height: 1000px;
+    }
+
+    /* grid父容器，定宽定高，1X4，
+    设置最小行高和repeat：repeat(auto-fit)（如果auto-fill则容器剩余留白不分配） */
+    div {
+      overflow: auto;
+      height: 100%;
+      width: 100%;
+
+      display: grid;
+      grid-template-rows: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    /* grid父容器，
+    设置最小列宽和repeat：repeat(auto-fill)
+    设置最小行高和repeat：repeat(auto-fill)
+    不用fit以免items与容器内容相互入侵
+    */
+    dl {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+      grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
+      gap: 10px;
+    }
+
+    /* 设置dt占据每个dl的第一列 */
+    dt {
+      grid-row: 1 / span all;
+      place-self: start center;
+    }
+
+    /* 设置每个dd自身的位置 */
+    dd {
+      font-size: 10px;
+      place-self: center start;
+    }
+
+    /* dd整个逗号 */
+    dd::after {
+      content: "，";
+    }
+
+    /* 最后的dd逗号整没 */
+    dd:last-child::after {
+      content: " ";
+    }
+
+  </style>
+</head>
+
+<body>
+  <div>
+    <dl>
+      <dt>导演：</dt>
+      <dd>法外狂徒张三</dd>
+      <dd>李四</dd>
+      <dd>王五</dd>
+    </dl>
+
+    <dl>
+      <dt>演员：</dt>
+      <dd>龙</dd>
+      <dd>孙</dd>
+      <dd>睿</dd>
+      <dd>真</dd>
+      <dd>鸡</dd>
+      <dd>雷</dd>
+      <dd>刀</dd>
+    </dl>
+
+    <dl>
+      <dt>客串：</dt>
+      <dd>1</dd>
+      <dd>2</dd>
+      <dd>3</dd>
+      <dd>4</dd>
+      <dd>5</dd>
+      <dd>6</dd>
+      <dd>7</dd>
+      <dd>8</dd>
+    </dl>
+
+    <dl>
+      <dt>场务：</dt>
+      <dd>1</dd>
+      <dd>2</dd>
+      <dd>3</dd>
+      <dd>4</dd>
+      <dd>5</dd>
+      <dd>6</dd>
+      <dd>7</dd>
+      <dd>8</dd>
+      <dd>9</dd>
+      <dd>10</dd>
+      <dd>11</dd>
+      <dd>12</dd>
+      <dd>13</dd>
+      <dd>14</dd>
+      <dd>15</dd>
+    </dl>
+  </div>
+</body>
+
+</html>
