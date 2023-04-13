@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
+  <meta name="description" content="grid布局练习">
+  <meta name="author" content="Richache,richardchen2016@163.com">
+  <title>grid-layout-practice</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding-inline-start: 0;
+      list-style-type: none;
+      background-color: rgba(0, 0, 0, 0.03);
+      border: 1px dashed red;
+    }
+
+    html,
+    body {
+      height: 100%;
+      min-height: 3000px;
+    }
+
+    /* 轮播图左侧菜单 */
+    .practice1 {
+      height: 480px;
+      width: 530px;
+      margin-bottom: 50px;
+    }
+
+    .practice1 ul {
+      height: 100%;
+      display: grid;
+      grid-auto-flow: column;
+      grid-template-rows: repeat(6, 80px);
+      grid-auto-columns: 265px;
+    }
+
+    /* 小米页面导购面板 */
+    .practice2 {
+      height: 628px;
+      width: 1230px;
+      margin-bottom: 50px;
+    }
+
+    .practice2 ul {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-rows: 1fr 1fr 1fr 1fr;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+    }
+
+    .practice2 ul li {
+      grid-row-end: span 2;
+    }
+
+    .practice2 ul li:first-child {
+      grid-row-end: span 4;
+    }
+
+    .practice2 ul li:nth-last-child(-n+2) {
+      grid-row-end: span 1;
+    }
+
+    /* S型照片墙 */
+    .practice3 {
+      height: 1500px;
+      width: 300px;
+
+    }
+
+    .practice3 ul {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 50px);
+      grid-auto-rows: 50px;
+    }
+
+    .practice3 ul li:nth-child(12n+4) {
+      grid-row: span 2;
+      grid-column: span 2;
+    }
+
+    .practice3 ul li:nth-child(12n+11) {
+      grid-row: span 2;
+      grid-column: span 2;
+    }
+
+  </style>
+
+</head>
+
+<body>
+  <div class="practice1">
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+      <li>7</li>
+    </ul>
+  </div>
+
+  <div class="practice2">
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+      <li>10</li>
+    </ul>
+  </div>
+  <div class="practice3">
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+      <li>10</li>
+      <li>11</li>
+      <li>12</li>
+      <li>13</li>
+      <li>14</li>
+      <li>15</li>
+      <li>16</li>
+      <li>17</li>
+      <li>18</li>
+      <li>19</li>
+      <li>20</li>
+      <li>21</li>
+      <li>22</li>
+      <li>23</li>
+      <li>24</li>
+      <li>25</li>
+      <li>26</li>
+      <li>27</li>
+      <li>28</li>
+      <li>29</li>
+      <li>30</li>
+      <li>31</li>
+      <li>32</li>
+      <li>33</li>
+      <li>34</li>
+      <li>35</li>
+      <li>36</li>
+      <li>37</li>
+      <li>38</li>
+      <li>39</li>
+      <li>40</li>
+      <li>41</li>
+      <li>42</li>
+      <li>43</li>
+      <li>44</li>
+      <li>45</li>
+      <li>46</li>
+      <li>47</li>
+      <li>48</li>
+      <li>49</li>
+      <li>50</li>
+    </ul>
+  </div>
+
+</body>
+
+</html>
