@@ -10,61 +10,36 @@
     <meta name="author" content="Richache,richardchen2016@163.com">
     <title>mi-index</title>
 
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="./reset.css" type="text/css">
+    <link rel="stylesheet" href="./mi-icon-font.css" type="text/css">
     <style type="text/less">
-        @font-face{
-            font-family: MiFont;
-            src: url(./mi-icon-font.ttf);
-        }
-        .icon{
-            font-family: MiFont;
-            font-size: 20px;
-        }
-        .iconfont-cart::before{
-            content: "\E60C";
-        }
-        .iconfont-right-s::before
-        {
-            content:"\E623";
-        }
-
-
 
         *{
-            background-color: rgba(0,0,0,0.08);
-            box-shadow: inset 0 0 1px red;
+            /* background-color: rgba(0,0,0,0.08); */
+            /* box-shadow: inset 0 0 1px red; */
         }/* 调试用 */
 
         html,
         body {
             min-width: 1230px;
             width: 100%;
-            height: 100%;
+            height: auto;
             margin: 0;
         }
 
-        #body {
-            margin: 0;
+        /* 页面主体 父容器 */
+        .body {
             width: 100%;
             height: 100%;
-            min-width: 1230px;
-            font-family: sans-serif;
-            text-align: inherit;
-            white-space: nowrap;
-
-            ul{
-                margin: 0;
-                list-style: none;
-                padding-inline-start: 0;
-            }
             a{
-                text-decoration: none;
+            text-decoration: none;
+            color:inherit;
             }
         }
         /*  */
         /*  */
         /*  */
-
+        /* 顶部工具栏，级联菜单，logo，购物车 父容器 */
         .body-header {
             width: 100%;
             height: 140px;
@@ -73,11 +48,10 @@
         }
         /*  */
         /*  */
-
+        /* 顶部工具栏 */
         .header-toolbar {
             position: relative;
             height: 40px;
-            font-size: 10px;
             background-color: rgb(51, 51, 51);
             flex: none;
 
@@ -85,23 +59,22 @@
                 display: flex;
                 flex-flow:row nowrap;
                 width: 1230px;
-                margin-left: auto;
-                margin-right: auto;
+                margin:0 auto;
 
+                /* 每个前面有li的li通过伪元素添加 | */
                 li {
                     margin: 10px auto;
                     display: inline-block;
-                    a{color: rgb(176, 176, 176);}
+                    a{
+                        color: rgb(176, 176, 176);
+                        font-size: 10px;
+                    }
                     :hover{color: white;}
                 }
-                li::after {
+                li+li::before {
                     content: "\20|\20";
                     color: rgb(66, 66, 66);
                 }
-                li:last-child::after{
-                    content: " ";
-                }
-
                 .HTL{
                     width: 820px;
                     flex: none;
@@ -118,22 +91,26 @@
         }
         /*  */
         /*  */
-
+        /* 级联菜单，logo，购物车 */
         .header-selector {
             width: 1230px;
+            height: 100px;
             text-align: center;
             margin: 0 auto;
             flex: 1 0 0;
 
+            /* 顶部级联菜单 */
             .HS{
+
                 display: flex;
-                flex-flow: row nowrap;
+                flex-wrap:nowrap;
                 justify-content:space-between;
 
+                /* 小米logo */
                 .logo{
                     width: 60px;
                     height: 60px;
-                    margin: 5px;
+                    margin: auto 10px;
                     flex: none;
                     justify-self:start;
                     background-image: url(https://cdn.cnbj1.fds.api.mi-img.com/mi.com-assets/shop/img/logo-mi2.png);
@@ -141,71 +118,116 @@
                     background-repeat: no-repeat;
                     background-position: center;
 
+                    /* logo点击2D动画 */
                     &:active{
-                        background-size: 56px;
+                        /* background-size: 56px; */
+                        transition: .3s;
+                        transform: scale(0.8);
                     }
                 }
+                /* 级联菜单 */
                 .HSM {
+                    display: flex;
                     width: 640px;
                     color: black;
 
-                    vertical-align:middle;
-
                     li{
-                        margin: 10px auto;
-                        display: inline-block;
-                        margin:0 auto ;
-                        a{color: initial;}
+                        margin:0 auto;
+                        height:100px;
+                        a{
+                            display: inline-block;
+                            padding: 42px 0;
+                            font-size: 16px;
+                            color: initial;
+                        }
                         :hover{color:orange;}
                     }
                  }
-
+                 /* 右侧搜索栏 */
                 .HSR{
-                    width: 300px;
                     flex: none;
-                    margin: 10px;
+                    margin: auto 20px;
+                    border: 1px solid lightgray;
+                    font-size: 0;
+                    &:hover{
+                           border-color:gray;
+                        }
+
+                    /* 左侧文本框无边框，右侧按钮左边框 */
+                    input{
+                        font-size:16px;
+                        height: 30px;
+                        padding:10px;
+                        text-align:left;
+                        border: none;
+                        cursor: pointer;
+                        &:focus-visible{
+                            outline:none;
+                        }
+                        &:first-child{
+                            float:left;
+                            width:200px;
+                            &:hover+input{border-left: 1px solid gray;}
+                        }
+                        &:last-child{
+                            border-left: 1px solid lightgray;
+                            width: 42px;
+                            height: 54px;
+                            &:hover{
+                                transition: .3s;
+                                border-left: 1px solid rgb(255,103,0);
+                                color: white;
+                                background-color: rgb(255,103,0);
+                            }
+                        }
+                    }
                 }
             }
         }
         /*  */
         /*  */
         /*  */
-
+        /* 轮播图，左侧级联菜单，分隔栏 父容器*/
         .body-slideshow{
             width: 1230px;
-            margin:0 auto;
+            margin:0 auto 20px;
             position: relative;
         }
         /*  */
         /*  */
-
+        /* 轮播图，左侧级联菜单 */
         .showbar{
             position: relative;
             width: 1230px;
             height: 460px;
-            /* overflow: hidden; */
-
+            margin: 15px 0;
+            /* 左侧级联菜单 */
             ul{
                 position: absolute;
                 height: 100%;
                 width: 235px;
-                background-color: rgb(165,163,163);
+                background-color: rgba(105,105,105,0.5);
                 z-index: 100;
                 padding:10px 0;
+                color:white;
                 box-sizing: border-box;
-
                 display:flex;
                 flex-flow:column nowrap;
 
                 li{
                 flex: 1 0 0;
+                padding: 0 10px;
+                display: flex;
                 cursor: pointer;
-                /* justify-content: center; */
+                /* 菜单字体居中 */
 	            align-items: center;
-                display:flex;
-                }/* 菜单字体居中 */
+                justify-content: space-between;
+                    &:hover{
+                        background-color: rgb(255,103,0);
+                    }
+                }
             }
-
+            /* 轮播图 */
             .showmain{
                 position: absolute;
                 right: 0;
@@ -216,7 +238,7 @@
                 .switchbar {
                     position: absolute;
                     right: 10px;
-                    bottom: 5px;
+                    bottom: 0;
                     margin: 2px;
                     width: 75px;
                     height: 20px;
@@ -229,19 +251,20 @@
                     display: inline-block;
                     width: 10px;
                     height: 10px;
-                    margin-left: 1px;
                     border: 2px solid gray;
                     border-radius: 10px;
+
+                    margin: 3px 0 0 1px;
                     cursor: pointer;
                     white-space: nowrap;
-                    z-index: 100;
+
                     }
                 }
 
                 /* 轮播图图层堆叠 */
                 .sw-img>img {
                     position: absolute;
-                    margin-left: -235px;
+                    margin-left: -240px;
                     height: 460px;
                     width: 1230px;
                     opacity: 0;
@@ -258,40 +281,224 @@
         }
         /*  */
         /*  */
-
-        .slider-block{
-            float: left;
+        /* 分隔栏 */
+        .slide-block{
+            display: flex;
+            flex-flow:row nowrap;
             width:1230px;
             height:170px;
+            overflow: hidden;
+            justify-content: space-between;
+
+            .blockbar{
+                width: 234px;
+                height:170px;
+                background-color:rgb(95,87,80);
+
+                li{
+                    float:left;
+                    width: 70px;
+                    height: 82px;
+                    margin:0 4px;
+
+                    color:rgb(195,195,195);
+
+                    a{
+                        height: 100%;
+                        font-size:12px;
+                        text-align: center;
+                        display: block;
+                        color:white;
+                        opacity:0.5;
+
+                        &:hover{
+                        opacity: 1;
+                        }
+                        img{
+                            display: block;
+                            margin:10px auto;
+                            width: 24px;
+                            height: 24px;
+                        }
+                    }
+                }
+            }
+            .blocklist{
+                width: 316px;
+                img{
+                    width: 100%;
+                }
+            }
         }
         /*  */
         /*  */
         /*  */
+        /* 卡片 父容器 */
+        .body-main{
+            width: 1230px;
+            margin:0 auto;
+            position: relative;
+            .main{
+                margin-bottom:20px ;
+            }
+        }
+        /* 卡片区页眉页脚分隔栏 */
+        .main-topfoot-block{
+            width: 100%;
+            height: 120px;
+            img{
+                width: 100%;
+            }
+        }
+        /* 卡片区1父容器 , 仅使用块级元素调整margin实现卡片布局( 原始方法微调真够累的吖XD ) */
+        .main1{
+            width: 100%;
+            &>div{
+                display: inline-block;
+                height: 58px;
+                width: 100%;
+                margin-bottom:20px;
+                text-align:center;
+
+                p{
+                    display:block;
+                    margin-top: 20px;
+                    font-size:22px;
+                    width: 100px;
+                }
+                a{
+                    display:block;
+                    margin-left:1100px;
+                    margin-top: -20px;
+                }
+            }
+            /* 块级元素负margin实现卡片布局 */
+            li{
+                display: block;
+                width: 234px;
+                height:300px;
+
+                img{
+                    display: block;
+                    height:160px;
+                    width: 160px;
+                    margin:0 auto 10px;
+                }
+                a{
+                    height: 100%;
+                    display: block;
+                }
+                /* 描述字体过长用overflow隐藏 */
+                p{
+                    display: block;
+                    margin: 10px 6px;
+                    text-align:center;
+                    overflow:hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    &.description{
+                        font-size: 12px;
+                        color: rgb(194, 194, 194);
+                    }
+                    &.price{
+                        color: rgb(255, 103, 0);
+                    }
+                    span{
+                        margin-left:0.5em;
+                        color: rgb(194, 194, 194);
+                        text-decoration: line-through;
+                    }
+                }
+                &:first-child{
+                    width: 234px;
+                    height: 614px;
+                    img{
+                        width: 100%;
+                        height:100%;
+                    }
+                }
+                &.l2{
+                    margin-left:244px;
+                    margin-top:-614px;
+                }
+                &.l3{
+                    margin-left:488px;
+                    margin-top: -300px;
+                }
+                &.l4{
+                    margin-left:732px;
+                    margin-top: -300px;
+                }
+                &.l5{
+                    margin-left:976px;
+                    margin-top: -300px;
+                }
+                &.l6{
+                    margin-left:244px;
+                    margin-top: 15px;
+                }
+                &.l7{
+                    margin-left:488px;
+                    margin-top: -300px;
+                }
+                &.l8{
+                    margin-left:732px;
+                    margin-top: -300px;
+                }
+                &.l9{
+                    margin-left:976px;
+                    margin-top: -300px;
+                }
+            }
+        }
+        /*  */
+        /*  */
+        /* 卡片区2父容器 , 使用定位实现卡片布局 */
+        .main2{
+            width: 100%;
+            &>div{
+                display: inline-block;
+                height: 58px;
+                width: 100%;
+                margin-bottom:20px;
+                p{
+                    display:inline-block;
+                    margin:20px 10px;
+                    font-size:22px;
+                }
+                a{
+                    display: inline-block;
+                    margin:20px 10px;
+                    position: relative;
+                    left: calc(100% - 250px);
+                }
+            }
+        }
 
     </style>
     <script src="https://cdn.jsdelivr.net/npm/less"></script>
 
 </head>
 
-<spanody>
-    <div id="body">
+<body>
+    <div class="body">
         <div class="body-header">
             <div class="header-toolbar">
                 <div class="HT">
                     <ul class="HTL">
-                        <li><a class="HTL1" href="https://www.mi.com/">小米官网</a></li>
-                        <li><a class="HTL2" href="">小米商城</a></li>
-                        <li><a class="HTL3" href="">MIUI</a></li>
-                        <li><a class="HTL4" href="">IoT</a></li>
-                        <li><a class="HTL5" href="">云服务</a></li>
-                        <li><a class="HTL6" href="">天星科技</a></li>
-                        <li><a class="HTL7" href="">有品</a></li>
-                        <li><a class="HTL8" href="">小爱开放平台</a></li>
-                        <li><a class="HTL9" href="">企业团购</a></li>
-                        <li><a class="HTL10" href="">资质证照</a></li>
-                        <li><a class="HTL11" href="">协议规则</a></li>
-                        <li><a class="HTL12" href="">下载app</a></li>
-                        <li><a class="HTL13" href="">Selection Location</a></li>
+                        <li><a href="https://www.mi.com/">小米官网</a></li>
+                        <li><a href="https://www.mi.com/shop">小米商城</a></li>
+                        <li><a href="https://www.miui.com/">MIUI</a></li>
+                        <li><a href="https://iot.mi.com/">IoT</a></li>
+                        <li><a href="https://i.mi.com/">云服务</a></li>
+                        <li><a href="https://airstar.com/home">天星科技</a></li>
+                        <li><a href="https://youpin.mi.com/">有品</a></li>
+                        <li><a href="https://xiaoai.mi.com/">小爱开放平台</a></li>
+                        <li><a href="https://qiye.mi.com/">企业团购</a></li>
+                        <li><a href="https://www.mi.com/aptitude/list/?id=88">资质证照</a></li>
+                        <li><a href="https://www.mi.com/aptitude/list/">协议规则</a></li>
+                        <li><a class="download" href="">下载app</a></li>
+                        <li><a href="">Selection Location</a></li>
                     </ul>
                     <ul class="HTM">
                         <li><a class="HTM1" href="">登录</a></li>
@@ -320,7 +527,7 @@
                     </ul>
                     <form action="" class="HSR">
                         <input type="text">
-                        <input type="submit" value="   ">
+                        <input type="submit" value="" class="icon iconfont-search">
                     </form>
                 </div>
             </div>
@@ -331,7 +538,7 @@
         <div class="body-slideshow">
             <div class="showbar">
                 <ul>
-                    <li>手机<span class="icon iconfont-right-s"></li>
+                    <li>手机<span class="icon iconfont-right-s"></span></li>
                     <li>电视<span class="icon iconfont-right-s"></li>
                     <li>家电<span class="icon iconfont-right-s"></li>
                     <li>笔记本 平板<span class="icon iconfont-right-s"></li>
@@ -367,17 +574,249 @@
             </div>
 
             <div class="slide-block">
-
-                <div>3</div>
-                <div>4</div>
-                <div>5</div>
-                <div>6</div>
+                <div class="blockbar">
+                    <ul>
+                        <li><a href=""><img
+                                    src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/82abdba456e8caaea5848a0cddce03db.png?w=48&h=48"
+                                    alt="">保障服务</a></li>
+                        <li><a href=""><img
+                                    src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/806f2dfb2d27978e33fe3815d3851fa3.png?w=48&h=48"
+                                    alt="">企业团购</a></li>
+                        <li><a href=""><img
+                                    src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/eded6fa3b897a058163e2485532c4f10.png?w=48&h=48"
+                                    alt="">F码通道</a></li>
+                        <li><a href=""><img
+                                    src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/43a3195efa6a3cc7662efed8e7abe8bf.png?w=48&h=48"
+                                    alt="">米粉卡</a></li>
+                        <li><a href=""><img
+                                    src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/f4846bca6010a0deb9f85464409862af.png?w=48&h=48"
+                                    alt="">以旧换新</a></li>
+                        <li><a href=""><img
+                                    src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9a76d7636b08e0988efb4fc384ae497b.png?w=48&h=48"
+                                    alt="">话费充值</a></li>
+                    </ul>
+                </div>
+                <div class="blocklist"><a href="https://www.mi.com/shop/buy?product_id=18075"><img
+                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/0cf5e958bc88727b50c5c5fba7a8f47a.jpg?w=632&h=340"
+                            alt=""></a>
+                </div>
+                <div class="blocklist"><a href="https://www.mi.com/shop/buy?product_id=10050021"><img
+                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/6dd2f3e0de4e6cbba98fd3799cfa5bf7.jpg?w=632&h=340"
+                            alt=""></a></div>
+                <div class="blocklist"><a href="https://www.mi.com/xiaomimixfold2"><img
+                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d7d4be1a9e701e16de498f89b1865867.jpg?w=632&h=340"
+                            alt=""></a></div>
             </div>
         </div>
         <!--  -->
         <!--  -->
         <!--  -->
-        <div class="body-main"></div>
+        <div class="body-main">
+            <div class="main main-topfoot-block">
+                <a href="https://www.mi.com/a/h/28779.html?sign=1a6153cd4077c6918cdd9380ddca218d"><img
+                        src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/8034ed2ad4b10f7f117ac2529b06cfca.jpg?thumb=1&w=817&h=80&f=webp&q=90"
+                        alt=""></a>
+            </div>
+            <div class="main main1">
+                <div>
+                    <p>手机</p><a href="https://www.mi.com/p/1915.html">查看更多<span
+                            class="icon iconfont-right-s"></span></a>
+                </div>
+                <ul>
+                    <li class="l1"><a href="https://www.mi.com/shop/buy?product_id=18075"><img
+                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d91bb6cf7da0947e8a6e50e03f4daf06.jpg?thumb=1&w=176&h=461&f=webp&q=90"
+                                alt=""></a>
+                    </li>
+                    <li class="l2"><a href="https://www.mi.com/shop/buy?product_id=18268"><img
+                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/8b046feca0a7bb3f7b961a9690babb1b.jpg?thumb=1&w=150&h=150&f=webp&q=90"
+                                alt="">
+                            <p class="title">Redmi Note 12 Turbo</p>
+                            <p class="description">狂暴引擎 超强性能释放</p>
+                            <p class="price">1999元起</p>
+                        </a>
+                    </li>
+                    <li class="l3"><a href="https://www.mi.com/shop/buy?product_id=18075"><img
+                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a6cec580260ceb20ae6a885c2c65c611.png?thumb=1&w=150&h=150&f=webp&q=90"
+                                alt="">
+                            <p class="title">
+                                Redmi K60
+                            </p>
+                            <p class="description">骁龙8+｜2K 高光直屏｜5500mAh+67W闪充</p>
+                            <p class="price">2499元起<span class="delp">2699元</span></p>
+                        </a></li>
+                    <li class="l4"><a href="https://www.mi.com/shop/buy?product_id=18077"><img
+                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/f37dd30477e7ba040c7fb69c31ad8bf3.png?thumb=1&w=150&h=150&f=webp&q=90"
+                                alt="">
+                            <p class="title">
+                                Redmi K60 Pro
+                            </p>
+                            <p class="description">【第二代骁龙8】狂暴引擎</p>
+                            <p class="price">3299元起<span class="delp">3599元</span></p>
+                        </a></li>
+                    <li class="l5"><a href="https://www.mi.com/shop/buy?product_id=18092"><img
+                                src="https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202212251443_29b17941a7365948446bd193011d9241.png?thumb=1&w=150&h=150&f=webp&q=90"
+                                alt="">
+                            <p class="title">
+                                Redmi Note 12 Pro 极速版
+                            </p>
+                            <p class="description">高通骁龙778G，OLED柔性直屏+一亿像素</p>
+                            <p class="price">1699元起</p>
+                        </a></li>
+                    <li class="l6">
+                        <a href="https://www.mi.com/shop/buy?product_id=17972"><img
+                                src="https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202211292351_92aba2c69123166a74ba2e2b525b1ae2.png?thumb=1&w=150&h=150&f=webp&q=90"
+                                alt="">
+                            <p class="title">
+                                Xiaomi 13 限量定制色
+                            </p>
+                            <p class="description">全新第二代骁龙8｜徕卡专业光学镜头｜徕卡原生双画质 | 6.36″超窄边屏幕｜67W小米澎湃秒充｜徕卡75mm长焦镜头</p>
+                            <p class="price">4999元</p>
+                        </a>
+                    </li>
+                    <li class="l7"><a href="https://www.mi.com/shop/buy?product_id=17969"><img
+                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/aa047170a22d9f0852254aa36df5f5f0.png?thumb=1&w=150&h=150&f=webp&q=90"
+                                alt="">
+                            <p class="title">
+                                Xiaomi 13 Pro
+                            </p>
+                            <p class="description">全新第二代骁龙8｜徕卡专业光学镜头｜徕卡原生双画质 | 2K 专业原色屏｜120W小米澎湃秒充 ｜徕卡75mm长焦镜头</p>
+                            <p class="price">4999元起</p>
+                        </a></li>
+                    <li class="l8"><a href="https://www.mi.com/shop/buy?product_id=17971"><img
+                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/94c6497b70f2e881460cb232082a0da6.png?thumb=1&w=150&h=150&f=webp&q=90"
+                                alt="">
+                            <p class="title">
+                                Xiaomi 13
+                            </p>
+                            <p class="description">全新第二代骁龙8｜徕卡专业光学镜头｜徕卡原生双画质 | 6.36″超窄边屏幕｜67W小米澎湃秒充｜徕卡75mm长焦镜头</p>
+                            <p class="price">3999元起</p>
+                        </a></li>
+                    <li class="l9"><a href="https://www.mi.com/shop/buy?product_id=16642"><img
+                                src="https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202210262033_ef39fca0e37395d07682124770fd3ad9.png?thumb=1&w=150&h=150&f=webp&q=90"
+                                alt="">
+                            <p class="title">
+                                Redmi Note 12 5G
+                            </p>
+                            <p class="description">三星 OLED 护眼屏｜骁龙 5G 芯｜5000mAh 电量</p>
+                            <p class="price">1199元起</p>
+                        </a></li>
+                </ul>
+            </div>
+            <div class="main main2">
+                <div>
+                    <p>智能穿戴</p>
+                    <a href="">穿戴</a>
+                    <a href="">耳机</a>
+                </div>
+                <ul>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                    <li>5</li>
+                    <li>6</li>
+                    <li>7</li>
+                    <li>8</li>
+                    <li>9</li>
+                    <li>10</li>
+                </ul>
+            </div>
+            <div class="main main3">
+                <div></div>
+                <ul>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                    <li>5</li>
+                    <li>6</li>
+                    <li>7</li>
+                    <li>8</li>
+                    <li>9</li>
+                    <li>10</li>
+                </ul>
+            </div>
+            <div class="main main4">
+                <div></div>
+                <ul>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                    <li>5</li>
+                    <li>6</li>
+                    <li>7</li>
+                    <li>8</li>
+                    <li>9</li>
+                    <li>10</li>
+                </ul>
+            </div>
+            <div class="main main5">
+                <div></div>
+                <ul>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                    <li>5</li>
+                    <li>6</li>
+                    <li>7</li>
+                    <li>8</li>
+                    <li>9</li>
+                    <li>10</li>
+                </ul>
+            </div>
+            <div class="main main6">
+                <div></div>
+                <ul>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                    <li>5</li>
+                    <li>6</li>
+                    <li>7</li>
+                    <li>8</li>
+                    <li>9</li>
+                    <li>10</li>
+                </ul>
+            </div>
+            <div class="main main7">
+                <div></div>
+                <ul>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                    <li>5</li>
+                    <li>6</li>
+                    <li>7</li>
+                    <li>8</li>
+                    <li>9</li>
+                    <li>10</li>
+                </ul>
+            </div>
+            <div class="main main8">
+                <div></div>
+                <ul>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                    <li>5</li>
+                    <li>6</li>
+                    <li>7</li>
+                    <li>8</li>
+                    <li>9</li>
+                    <li>10</li>
+                </ul>
+            </div>
+            <div class="main main-topfoot-block">
+                <a href="https://www.mi.com/shop/buy?product_id=9836"><img
+                        src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/88e35cffc82cd98cd53172460067af17.jpg?thumb=1&w=817&h=80&f=webp&q=90"
+                        alt=""></a>
+            </div>
+        </div>
         <!--  -->
         <!--  -->
         <!--  -->
@@ -387,6 +826,6 @@
         <!--  -->
     </div>
     <div class="tool-bar"></div>
-    </body>
+</body>
 
 </html>
