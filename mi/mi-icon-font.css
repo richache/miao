@@ -1,0 +1,15 @@
+ @font-face{
+            font-family: MiFont;
+            src: url(./mi-icon-font.ttf);
+        }
+        .icon{
+            font-family: MiFont;
+            font-size: 20px;
+        }
+        .iconfont-cart::before{
+            content: "\E60C";
+        }
+        .iconfont-right-s::before
+        {
+            content:"\E623";
+        }
