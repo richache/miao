@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
+  <meta name="description" content="笑脸公转及常用居中方案">
+  <meta name="author" content="Richache,richardchen2016@163.com">
+  <title>abs-center</title>
+  <style>
+    /* 调试用 */
+    * {
+      /* background-color: rgba(0, 0, 0, 0.08); */
+      /* border: 1px solid red; */
+    }
+
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+    }
+
+    .smile {
+      width: 300px;
+      height: 700px;
+    }
+
+    .smile img {
+      width: 50px;
+      height: 50px;
+    }
+
+    /* 容器公转 */
+    .s1 {
+      background-color: lightblue;
+      margin: auto 20px;
+      width: 300px;
+      height: 300px;
+      transition: 2s linear;
+    }
+
+    .s1:hover {
+      transform: rotate(360deg);
+    }
+
+    /* 子元素反向自转 */
+    .s1 img {
+      display: block;
+      margin: auto 20px;
+      transition: 2s linear;
+    }
+
+    .s1:hover img {
+      transform: rotate(-360deg);
+    }
+
+    /* 第二种方案,旋转+位移+反向旋转 */
+    .s2 {
+      background-color: lightblue;
+      display: inline-block;
+      width: 300px;
+      height: 300px;
+      margin: 150px;
+      transition: 2s linear;
+      transform: rotate(0deg) translate(100px) rotate(calc(-1 * 0deg));
+    }
+
+    .smile:hover .s2 {
+      transform: rotate(360deg) translate(100px) rotate(calc(-1 * 360deg));
+    }
+
+  </style>
+
+<body>
+  <div class="smile">
+    <div class="s1">
+      <img src="https://pngimg.com/uploads/smiley/smiley_PNG43.png" alt="">
+    </div>
+    <div class="s2">
+      <img src="https://pngimg.com/uploads/smiley/smiley_PNG43.png" alt="">
+    </div>
+  </div>
+
+
+
+</body>
+
+</html>
