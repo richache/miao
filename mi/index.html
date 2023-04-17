@@ -15,8 +15,8 @@
     <style type="text/less">
 
         *{
-            /* background-color: rgba(0,0,0,0.08); */
-            /* box-shadow: inset 0 0 1px red; */
+            background-color: rgba(0,0,0,0.08);
+            box-shadow: inset 0 0 1px red;
         }/* 调试用 */
 
         html,
@@ -71,7 +71,9 @@
                         color: rgb(176, 176, 176);
                         font-size: 10px;
                     }
-                    :hover{color: white;}
+                    &:hover>a{
+                        color: white;
+                    }
                 }
                 li+li::before {
                     content: "\20|\20";
@@ -88,23 +90,39 @@
 
                 /* 购物车 */
                 .HTR {
+                    width: 120px;
                     display: block;
                     flex:none;
-
                     background-color:rgb(66, 66, 66);
                     &:hover{
                             background-color:white;
                             a{color:rgb(255,153,0);}
+                            div{
+                                height: 100px;
+                            }
                     }
                     a{
-                        width: 120px;
+                        width:120px;
                         display: inline-block;
                         text-align:center;
                         margin:0 auto;
                         span{
                             font-size:14px;
                         }
-
+                    }
+                    div{
+                        margin-left: -200px;
+                        width:320px;
+                        height: 0px;
+                        background-color:white;
+                        box-shadow: 1px 1px .2em gray;
+                        overflow:hidden;
+                        height: 0;
+                        transition: .3s;
+                        p{
+                            line-height: 100px;
+                            text-align:center;
+                        }
                     }
                 }
             }
@@ -148,71 +166,91 @@
                 .HSM {
                     display: flex;
                     color: black;
-
-                    /* 导航列表 */
-                    &>li{
-                        padding:0 10px;
-                        height:100px;
-                        /* overflow:hidden; */
-                        a{
-                            display: block;
-                            margin:50px auto;
-                            font-size: 16px;
-                            color: initial;
-                        }
+                    >ul:first-child{
+                        display: flex;
                         &:hover{
-                            a{color:orange;}
-                            /* hover时下级菜单浮现 */
-                            &>ul{
+                            /* 整体被hover时所有下级菜单高度增长 */
+                            ul{
                                 height:230px;
-                                /* z-index:111; */
-                                opacity: 1;
-                                transition: .3s .3s;
                             }
                         }
-                        /* 下拉一级菜单,图，文字描述 */
-                        &>ul{
-                            width:100%;
-                            height:0px;
-                            position: absolute;
-                            opacity: 0;
-                            left:0;
-                            box-shadow: 0px 2px 1em lightgray;
-                            overflow: hidden;
-                            background-color: white;
-                            z-index: 101;
-                            transition:.3s;
-
-                            &>li{
-                                display: inline-block;
-                                position: relative;
-                                margin:0 10px;
-                                width:180px;
-                                height:100%;
-                                border-right:1px solid lightgray;
-                                p{
-                                    display: block;
-                                    margin: 10px 6px;
-                                    text-align:center;
-                                    overflow:hidden;
-                                    /* text-overflow: ellipsis; */
-                                    white-space: nowrap;
-                                    &.title{
-                                        font-size: 16px;
-                                        color:initial;
-                                    }
-                                    &.price{
-                                        color: rgb(255, 103, 0);
-                                    }
+                        /* 导航列表 */
+                        &>li{
+                            padding:0 10px;
+                            height:100px;
+                            a{
+                                display: block;
+                                margin:40px auto;
+                                font-size: 16px;
+                                color: initial;
+                            }
+                            &:hover{
+                                >a{color:rgb(255,153,0);}
+                                /* 某个li被hover时对应下级菜单z-index增大盖住其他下级菜单 */
+                                &>ul{
+                                    z-index:111;
                                 }
-                                img{
-                                    width:160px;
+                            }
+                            /* 下拉一级菜单,图，文字描述 */
+                            &>ul{
+                                width:100%;
+                                position: absolute;
+                                left:0;
+                                box-shadow: 0px 2px 1em lightgray;
+                                background-color: white;
+                                /* 默认：0高，overflow隐藏，z-index下层，缓动带延迟 */
+                                height:0;
+                                overflow: hidden;
+                                z-index: 101;
+                                transition:.5s;
 
+                                &>li{
+                                    display: inline-block;
+                                    position: relative;
+                                    margin:0 10px;
+                                    width:180px;
+                                    height:100%;
+                                    border-right:1px solid lightgray;
+                                    p{
+                                        display: block;
+                                        margin: 10px 6px;
+                                        text-align:center;
+                                        overflow:hidden;
+                                        /* text-overflow: ellipsis; */
+                                        white-space: nowrap;
+                                        &.title{
+                                            font-size: 16px;
+                                            color:initial;
+                                        }
+                                        &.price{
+                                            color: rgb(255, 103, 0);
+                                        }
+                                    }
+                                    img{
+                                        width:160px;
+                                    }
                                 }
                             }
                         }
                     }
-                 }
+                    >ul:last-child{
+                        width: 137px;
+                        display: flex;
+                        li{
+                            padding:0 10px;
+                            height:100px;
+                            a{
+                                display: block;
+                                margin:40px auto;
+                                font-size: 16px;
+                                color: initial;
+                            }
+                            &:hover{
+                                >a{color:rgb(255,153,0);}
+                            }
+                        }
+                    }
+                }
                  /* 右侧搜索栏 */
                 .HSR{
                     flex: none;
@@ -272,7 +310,7 @@
             height: 460px;
             margin: 15px 0;
             /* 左侧级联菜单 */
-            ul{
+            &>ul{
                 position: absolute;
                 height: 100%;
                 width: 235px;
@@ -284,7 +322,7 @@
                 display:flex;
                 flex-flow:column nowrap;
 
-                li{
+                &>li{
                 flex: 1 0 0;
                 padding: 0 10px;
                 display: flex;
@@ -292,8 +330,44 @@
                 /* 菜单字体居中 */
 	            align-items: center;
                 justify-content: space-between;
+
                     &:hover{
                         background-color: rgb(255,103,0);
+                        ul{
+                            display: grid;
+                        }
+                    }
+                    /* 右拉下级菜单 */
+                    ul{
+                        position: absolute;
+                        height: 460px;
+                        left: 100%;
+                        top: 0;
+                        display: none;
+                        grid-template-rows:repeat(6,1fr) ;
+                        grid-auto-columns:265px;
+                        grid-auto-flow: column;
+                        z-index: 110;
+                        background-color: white;
+                        color: black;
+                        li{
+                            a{
+                                line-height:40px;
+                                padding:20px;
+                                display: block;
+                                text-align:center;
+                                vertical-align: middle;
+                                img{
+                                    width: 40px;
+                                    float: left;
+                                    vertical-align: middle;
+                                }
+                            }
+                            &:hover{
+                                color: rgb(255,153,0);
+
+                            }
+                        }
                     }
                 }
             }
@@ -304,14 +378,21 @@
                 width: 990px;
                 height: 100%;
 
+                #sw1:checked ~ label:nth-child(5),
+                #sw2:checked ~ label:nth-child(6),
+                #sw3:checked ~ label:nth-child(7),
+                #sw4:checked ~ label:nth-child(8){
+                    background-color:rgb(255, 147, 237);
+                }
                 /* 轮播位置指示条（input的label所在的div） */
                 .switchbar {
                     position: absolute;
                     right: 10px;
                     bottom: 0;
-                    margin: 2px;
-                    width: 75px;
-                    height: 20px;
+                    text-align: center;
+                    padding: 2px;
+                    width: 90px;
+                    height: 16px;
                     background-color: rgba(128, 128, 128, 0.3);
                     border-radius: 10px;
                     z-index: 100;
@@ -322,12 +403,14 @@
                     width: 10px;
                     height: 10px;
                     border: 2px solid gray;
+                    background-color:initial;
                     border-radius: 10px;
-
-                    margin: 3px 0 0 1px;
                     cursor: pointer;
                     white-space: nowrap;
-
+                    transition:.3s;
+                        &:hover{
+                            background-color: rgb(255, 247, 237);
+                        }
                     }
                 }
 
@@ -357,7 +440,6 @@
             flex-flow:row nowrap;
             width:1230px;
             height:170px;
-            /* overflow: hidden; */
             justify-content: space-between;
 
             .blockbar{
@@ -610,296 +692,303 @@
                     <ul class="HTR">
                         <li><a href=""><span class="icon iconfont-cart"></span>购物车( 0 )</a>
                         </li>
+                        <div>
+                            <p>购物车中还没有商品，赶紧选购吧！</p>
+                        </div>
                     </ul>
                 </div>
             </div>
             <div class="header-selector">
                 <div class="HS">
                     <a href="https://www.mi.com/" class="logo"></a>
-                    <ul class="HSM">
-                        <li><a href="">Xiaomi手机</a>
-                            <ul>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c758eb7e0dce4307c62c47155519bc80.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title"> Xiaomi 13 </p>
-                                        <p class="price">3999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/11e28a0a7c6a2ca07f0dc2044d3858c2.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title"> Xiaomi 13 Pro </p>
-                                        <p class="price">4999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/581f3a690e6803add02e4c9fde98cb78.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi MIX Fold 2 </p>
-                                        <p class="price">8999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4ef3713521fb9d7f114aa8bb152e220d.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi Civi 2 </p>
-                                        <p class="price">2299元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fea69fb5990da9dfc909aa8279aaea7e.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi 11 青春活力版</p>
-                                        <p class="price">1399元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9c06f92c3216c90a566916e719935018.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi 13 限量定制色</p>
-                                        <p class="price">4999元</p>
-                                    </a></li>
-                            </ul>
-                        </li>
-                        <li><a href="">Redmi手机</a>
-                            <ul>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c758eb7e0dce4307c62c47155519bc80.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title"> Xiaomi 13 </p>
-                                        <p class="price">3999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/11e28a0a7c6a2ca07f0dc2044d3858c2.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title"> Xiaomi 13 Pro </p>
-                                        <p class="price">4999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/581f3a690e6803add02e4c9fde98cb78.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi MIX Fold 2 </p>
-                                        <p class="price">8999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4ef3713521fb9d7f114aa8bb152e220d.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi Civi 2 </p>
-                                        <p class="price">2299元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fea69fb5990da9dfc909aa8279aaea7e.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi 11 青春活力版</p>
-                                        <p class="price">1399元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9c06f92c3216c90a566916e719935018.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi 13 限量定制色</p>
-                                        <p class="price">4999元</p>
-                                    </a></li>
-                            </ul>
-                        </li>
-                        <li><a href="">电视</a>
-                            <ul>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c758eb7e0dce4307c62c47155519bc80.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title"> Xiaomi 13 </p>
-                                        <p class="price">3999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/11e28a0a7c6a2ca07f0dc2044d3858c2.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title"> Xiaomi 13 Pro </p>
-                                        <p class="price">4999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/581f3a690e6803add02e4c9fde98cb78.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi MIX Fold 2 </p>
-                                        <p class="price">8999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4ef3713521fb9d7f114aa8bb152e220d.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi Civi 2 </p>
-                                        <p class="price">2299元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fea69fb5990da9dfc909aa8279aaea7e.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi 11 青春活力版</p>
-                                        <p class="price">1399元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9c06f92c3216c90a566916e719935018.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi 13 限量定制色</p>
-                                        <p class="price">4999元</p>
-                                    </a></li>
-                            </ul>
-                        </li>
-                        <li><a href="">笔记本</a>
-                            <ul>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c758eb7e0dce4307c62c47155519bc80.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title"> Xiaomi 13 </p>
-                                        <p class="price">3999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/11e28a0a7c6a2ca07f0dc2044d3858c2.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title"> Xiaomi 13 Pro </p>
-                                        <p class="price">4999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/581f3a690e6803add02e4c9fde98cb78.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi MIX Fold 2 </p>
-                                        <p class="price">8999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4ef3713521fb9d7f114aa8bb152e220d.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi Civi 2 </p>
-                                        <p class="price">2299元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fea69fb5990da9dfc909aa8279aaea7e.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi 11 青春活力版</p>
-                                        <p class="price">1399元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9c06f92c3216c90a566916e719935018.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi 13 限量定制色</p>
-                                        <p class="price">4999元</p>
-                                    </a></li>
-                            </ul>
-                        </li>
-                        <li><a href="">平板</a>
-                            <ul>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c758eb7e0dce4307c62c47155519bc80.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title"> Xiaomi 13 </p>
-                                        <p class="price">3999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/11e28a0a7c6a2ca07f0dc2044d3858c2.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title"> Xiaomi 13 Pro </p>
-                                        <p class="price">4999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/581f3a690e6803add02e4c9fde98cb78.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi MIX Fold 2 </p>
-                                        <p class="price">8999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4ef3713521fb9d7f114aa8bb152e220d.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi Civi 2 </p>
-                                        <p class="price">2299元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fea69fb5990da9dfc909aa8279aaea7e.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi 11 青春活力版</p>
-                                        <p class="price">1399元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9c06f92c3216c90a566916e719935018.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi 13 限量定制色</p>
-                                        <p class="price">4999元</p>
-                                    </a></li>
-                            </ul>
-                        </li>
-                        <li><a href="">家电</a>
-                            <ul>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c758eb7e0dce4307c62c47155519bc80.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title"> Xiaomi 13 </p>
-                                        <p class="price">3999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/11e28a0a7c6a2ca07f0dc2044d3858c2.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title"> Xiaomi 13 Pro </p>
-                                        <p class="price">4999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/581f3a690e6803add02e4c9fde98cb78.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi MIX Fold 2 </p>
-                                        <p class="price">8999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4ef3713521fb9d7f114aa8bb152e220d.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi Civi 2 </p>
-                                        <p class="price">2299元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fea69fb5990da9dfc909aa8279aaea7e.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi 11 青春活力版</p>
-                                        <p class="price">1399元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9c06f92c3216c90a566916e719935018.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi 13 限量定制色</p>
-                                        <p class="price">4999元</p>
-                                    </a></li>
-                            </ul>
-                        </li>
-                        <li><a href="">路由器</a>
-                            <ul>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c758eb7e0dce4307c62c47155519bc80.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title"> Xiaomi 13 </p>
-                                        <p class="price">3999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/11e28a0a7c6a2ca07f0dc2044d3858c2.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title"> Xiaomi 13 Pro </p>
-                                        <p class="price">4999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/581f3a690e6803add02e4c9fde98cb78.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi MIX Fold 2 </p>
-                                        <p class="price">8999元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4ef3713521fb9d7f114aa8bb152e220d.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi Civi 2 </p>
-                                        <p class="price">2299元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fea69fb5990da9dfc909aa8279aaea7e.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi 11 青春活力版</p>
-                                        <p class="price">1399元起</p>
-                                    </a></li>
-                                <li><a href=""><img
-                                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9c06f92c3216c90a566916e719935018.png?thumb=1&w=120&h=83&f=webp&q=90"
-                                            alt="">
-                                        <p class="title">Xiaomi 13 限量定制色</p>
-                                        <p class="price">4999元</p>
-                                    </a></li>
-                            </ul>
-                        </li>
-                        <li><a href="">服务中心</a></li>
-                        <li><a href="">社区</a></li>
-                    </ul>
+                    <div class="HSM">
+                        <ul>
+                            <li><a href="">Xiaomi手机</a>
+                                <ul>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c758eb7e0dce4307c62c47155519bc80.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title"> Xiaomi 13 </p>
+                                            <p class="price">3999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/11e28a0a7c6a2ca07f0dc2044d3858c2.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title"> Xiaomi 13 Pro </p>
+                                            <p class="price">4999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/581f3a690e6803add02e4c9fde98cb78.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi MIX Fold 2 </p>
+                                            <p class="price">8999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4ef3713521fb9d7f114aa8bb152e220d.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi Civi 2 </p>
+                                            <p class="price">2299元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fea69fb5990da9dfc909aa8279aaea7e.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi 11 青春活力版</p>
+                                            <p class="price">1399元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9c06f92c3216c90a566916e719935018.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi 13 限量定制色</p>
+                                            <p class="price">4999元</p>
+                                        </a></li>
+                                </ul>
+                            </li>
+                            <li><a href="">Redmi手机</a>
+                                <ul>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c758eb7e0dce4307c62c47155519bc80.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title"> Xiaomi 14 </p>
+                                            <p class="price">3999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/11e28a0a7c6a2ca07f0dc2044d3858c2.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title"> Xiaomi 14 Pro </p>
+                                            <p class="price">4999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/581f3a690e6803add02e4c9fde98cb78.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi MIX Fold 3 </p>
+                                            <p class="price">8999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4ef3713521fb9d7f114aa8bb152e220d.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi Civi 3 </p>
+                                            <p class="price">2299元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fea69fb5990da9dfc909aa8279aaea7e.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi 12 青春活力版</p>
+                                            <p class="price">1399元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9c06f92c3216c90a566916e719935018.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi 14 限量定制色</p>
+                                            <p class="price">4999元</p>
+                                        </a></li>
+                                </ul>
+                            </li>
+                            <li><a href="">电视</a>
+                                <ul>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c758eb7e0dce4307c62c47155519bc80.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title"> Xiaomi 15 </p>
+                                            <p class="price">3999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/11e28a0a7c6a2ca07f0dc2044d3858c2.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title"> Xiaomi 15 Pro </p>
+                                            <p class="price">4999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/581f3a690e6803add02e4c9fde98cb78.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi MIX Fold 4 </p>
+                                            <p class="price">8999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4ef3713521fb9d7f114aa8bb152e220d.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi Civi 4 </p>
+                                            <p class="price">2299元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fea69fb5990da9dfc909aa8279aaea7e.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi 13 青春活力版</p>
+                                            <p class="price">1399元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9c06f92c3216c90a566916e719935018.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi 15 限量定制色</p>
+                                            <p class="price">4999元</p>
+                                        </a></li>
+                                </ul>
+                            </li>
+                            <li><a href="">笔记本</a>
+                                <ul>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c758eb7e0dce4307c62c47155519bc80.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title"> Xiaomi 16 </p>
+                                            <p class="price">3999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/11e28a0a7c6a2ca07f0dc2044d3858c2.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title"> Xiaomi 16 Pro </p>
+                                            <p class="price">4999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/581f3a690e6803add02e4c9fde98cb78.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi MIX Fold 5 </p>
+                                            <p class="price">8999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4ef3713521fb9d7f114aa8bb152e220d.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi Civi 5 </p>
+                                            <p class="price">2299元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fea69fb5990da9dfc909aa8279aaea7e.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi 14 青春活力版</p>
+                                            <p class="price">1399元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9c06f92c3216c90a566916e719935018.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi 16 限量定制色</p>
+                                            <p class="price">4999元</p>
+                                        </a></li>
+                                </ul>
+                            </li>
+                            <li><a href="">平板</a>
+                                <ul>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c758eb7e0dce4307c62c47155519bc80.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title"> Xiaomi 17 </p>
+                                            <p class="price">3999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/11e28a0a7c6a2ca07f0dc2044d3858c2.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title"> Xiaomi 17 Pro </p>
+                                            <p class="price">4999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/581f3a690e6803add02e4c9fde98cb78.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi MIX Fold 6 </p>
+                                            <p class="price">8999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4ef3713521fb9d7f114aa8bb152e220d.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi Civi 6 </p>
+                                            <p class="price">2299元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fea69fb5990da9dfc909aa8279aaea7e.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi 15 青春活力版</p>
+                                            <p class="price">1399元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9c06f92c3216c90a566916e719935018.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi 17 限量定制色</p>
+                                            <p class="price">4999元</p>
+                                        </a></li>
+                                </ul>
+                            </li>
+                            <li><a href="">家电</a>
+                                <ul>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c758eb7e0dce4307c62c47155519bc80.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title"> Xiaomi 18 </p>
+                                            <p class="price">3999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/11e28a0a7c6a2ca07f0dc2044d3858c2.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title"> Xiaomi 18 Pro </p>
+                                            <p class="price">4999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/581f3a690e6803add02e4c9fde98cb78.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi MIX Fold 7 </p>
+                                            <p class="price">8999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4ef3713521fb9d7f114aa8bb152e220d.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi Civi 7 </p>
+                                            <p class="price">2299元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fea69fb5990da9dfc909aa8279aaea7e.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi 16 青春活力版</p>
+                                            <p class="price">1399元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9c06f92c3216c90a566916e719935018.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi 18 限量定制色</p>
+                                            <p class="price">4999元</p>
+                                        </a></li>
+                                </ul>
+                            </li>
+                            <li><a href="">路由器</a>
+                                <ul>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c758eb7e0dce4307c62c47155519bc80.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title"> Xiaomi 19 </p>
+                                            <p class="price">3999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/11e28a0a7c6a2ca07f0dc2044d3858c2.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title"> Xiaomi 19 Pro </p>
+                                            <p class="price">4999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/581f3a690e6803add02e4c9fde98cb78.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi MIX Fold 8 </p>
+                                            <p class="price">8999元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4ef3713521fb9d7f114aa8bb152e220d.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi Civi 8 </p>
+                                            <p class="price">2299元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fea69fb5990da9dfc909aa8279aaea7e.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi 17 青春活力版</p>
+                                            <p class="price">1399元起</p>
+                                        </a></li>
+                                    <li><a href=""><img
+                                                src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9c06f92c3216c90a566916e719935018.png?thumb=1&w=120&h=83&f=webp&q=90"
+                                                alt="">
+                                            <p class="title">Xiaomi 19 限量定制色</p>
+                                            <p class="price">4999元</p>
+                                        </a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li><a href="">服务中心</a></li>
+                            <li><a href="">社区</a></li>
+                        </ul>
+                    </div>
                     <form action="" class="HSR">
                         <input type="text" placeholder="永远相信美好事情即将发生">
                         <input type="submit" value="" class="icon iconfont-search">
@@ -913,7 +1002,88 @@
         <div class="body-slideshow">
             <div class="showbar">
                 <ul>
-                    <li>手机<span class="icon iconfont-right-s"></span></li>
+                    <li>手机<span class="icon iconfont-right-s"></span>
+                        <ul>
+                            <li><a
+                                    href="https://www.mi.com/shop/search?keyword=xiaomi%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97"><img
+                                        src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/827fae95d0f1d75f1535ef93e357b2af.png?thumb=1&w=40&h=40&f=webp&q=90"
+                                        alt="">
+                                    <p>Xiaomi 数字系列</p>
+                                </a></li>
+                            <li><a
+                                    href="https://www.mi.com/shop/search?keyword=xiaomi%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97"><img
+                                        src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/827fae95d0f1d75f1535ef93e357b2af.png?thumb=1&w=40&h=40&f=webp&q=90"
+                                        alt="">
+                                    <p>Xiaomi 数字系列</p>
+                                </a></li>
+                            <li><a
+                                    href="https://www.mi.com/shop/search?keyword=xiaomi%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97"><img
+                                        src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/827fae95d0f1d75f1535ef93e357b2af.png?thumb=1&w=40&h=40&f=webp&q=90"
+                                        alt="">
+                                    <p>Xiaomi 数字系列</p>
+                                </a></li>
+                            <li><a
+                                    href="https://www.mi.com/shop/search?keyword=xiaomi%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97"><img
+                                        src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/827fae95d0f1d75f1535ef93e357b2af.png?thumb=1&w=40&h=40&f=webp&q=90"
+                                        alt="">
+                                    <p>Xiaomi 数字系列</p>
+                                </a></li>
+                            <li><a
+                                    href="https://www.mi.com/shop/search?keyword=xiaomi%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97"><img
+                                        src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/827fae95d0f1d75f1535ef93e357b2af.png?thumb=1&w=40&h=40&f=webp&q=90"
+                                        alt="">
+                                    <p>Xiaomi 数字系列</p>
+                                </a></li>
+                            <li><a
+                                    href="https://www.mi.com/shop/search?keyword=xiaomi%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97"><img
+                                        src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/827fae95d0f1d75f1535ef93e357b2af.png?thumb=1&w=40&h=40&f=webp&q=90"
+                                        alt="">
+                                    <p>Xiaomi 数字系列</p>
+                                </a></li>
+                            <li><a
+                                    href="https://www.mi.com/shop/search?keyword=xiaomi%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97"><img
+                                        src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/827fae95d0f1d75f1535ef93e357b2af.png?thumb=1&w=40&h=40&f=webp&q=90"
+                                        alt="">
+                                    <p>Xiaomi 数字系列</p>
+                                </a></li>
+                            <li><a
+                                    href="https://www.mi.com/shop/search?keyword=xiaomi%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97"><img
+                                        src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/827fae95d0f1d75f1535ef93e357b2af.png?thumb=1&w=40&h=40&f=webp&q=90"
+                                        alt="">
+                                    <p>Xiaomi 数字系列</p>
+                                </a></li>
+                            <li><a
+                                    href="https://www.mi.com/shop/search?keyword=xiaomi%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97"><img
+                                        src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/827fae95d0f1d75f1535ef93e357b2af.png?thumb=1&w=40&h=40&f=webp&q=90"
+                                        alt="">
+                                    <p>Xiaomi 数字系列</p>
+                                </a></li>
+                            <li><a
+                                    href="https://www.mi.com/shop/search?keyword=xiaomi%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97"><img
+                                        src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/827fae95d0f1d75f1535ef93e357b2af.png?thumb=1&w=40&h=40&f=webp&q=90"
+                                        alt="">
+                                    <p>Xiaomi 数字系列</p>
+                                </a></li>
+                            <li><a
+                                    href="https://www.mi.com/shop/search?keyword=xiaomi%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97"><img
+                                        src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/827fae95d0f1d75f1535ef93e357b2af.png?thumb=1&w=40&h=40&f=webp&q=90"
+                                        alt="">
+                                    <p>Xiaomi 数字系列</p>
+                                </a></li>
+                            <li><a
+                                    href="https://www.mi.com/shop/search?keyword=xiaomi%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97"><img
+                                        src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/827fae95d0f1d75f1535ef93e357b2af.png?thumb=1&w=40&h=40&f=webp&q=90"
+                                        alt="">
+                                    <p>Xiaomi 数字系列</p>
+                                </a></li>
+                            <li><a
+                                    href="https://www.mi.com/shop/search?keyword=xiaomi%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97"><img
+                                        src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/827fae95d0f1d75f1535ef93e357b2af.png?thumb=1&w=40&h=40&f=webp&q=90"
+                                        alt="">
+                                    <p>Xiaomi 数字系列</p>
+                                </a></li>
+                        </ul>
+                    </li>
                     <li>电视<span class="icon iconfont-right-s"></li>
                     <li>家电<span class="icon iconfont-right-s"></li>
                     <li>笔记本 平板<span class="icon iconfont-right-s"></li>
@@ -926,14 +1096,14 @@
                 </ul>
                 <div class="showmain">
                     <div class="switchbar">
-                        <label for="sw1" class="switch"></label>
-                        <label for="sw2" class="switch"></label>
-                        <label for="sw3" class="switch"></label>
-                        <label for="sw4" class="switch"></label>
                         <input type="radio" name="switchbar" hidden id="sw1" checked>
                         <input type="radio" name="switchbar" hidden id="sw2">
                         <input type="radio" name="switchbar" hidden id="sw3">
                         <input type="radio" name="switchbar" hidden id="sw4">
+                        <label for="sw1" class="switch"></label>
+                        <label for="sw2" class="switch"></label>
+                        <label for="sw3" class="switch"></label>
+                        <label for="sw4" class="switch"></label>
                     </div>
                     <div class="sw-img">
                         <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/0d03df40a5e8ef760731a8f4f3f61172.jpg?w=2452&h=920"
