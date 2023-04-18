@@ -20,11 +20,18 @@
     body {
       margin: 0;
       height: 100%;
+      background-color: #F4F2F3;
+    }
+
+    .main {
+      height: 100%;
+      overflow: auto;
     }
 
     .smile {
       width: 300px;
       height: 700px;
+      margin-bottom: 200px;
     }
 
     .smile img {
@@ -35,6 +42,8 @@
     /* 容器公转 */
     .s1 {
       background-color: lightblue;
+      border: 0px solid white;
+      border-radius: 150px;
       margin: auto 20px;
       width: 300px;
       height: 300px;
@@ -56,9 +65,8 @@
       transform: rotate(-360deg);
     }
 
-    /* 第二种方案,旋转+位移+反向旋转 */
+    /* 第二种方案,transform旋转+位移+反向旋转 */
     .s2 {
-      background-color: lightblue;
       display: inline-block;
       width: 300px;
       height: 300px;
@@ -71,20 +79,225 @@
       transform: rotate(360deg) translate(100px) rotate(calc(-1 * 360deg));
     }
 
+    /*  */
+    /*  */
+    /* 居中练习容器 */
+    .center-practice {
+      width: 1000px;
+      height: 1500px;
+      margin-left: 50px;
+    }
+
+    .center-practice>div {
+      margin-bottom: 50px;
+    }
+
+    .center-practice::before {
+      content: attr(desc);
+      font-size: 22px;
+    }
+
+    /* 1.定位 */
+    .d1 {
+      position: relative;
+      width: 200px;
+      height: 120px;
+      /* width: 100%; */
+      /* height: 100%; */
+      box-sizing: border-box;
+      background-color: lightblue;
+    }
+
+    .d1.d1::after {
+      content: attr(desc);
+      display: inline-block;
+      margin: 10px;
+      width: 500px;
+      margin-left: 300px;
+    }
+
+    .d1 div {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 150px;
+      height: 50px;
+      margin: auto;
+      background-color: orange;
+    }
+
+    /* 2.定位+2D动画位移 */
+    .d2 {
+      position: relative;
+      background-color: lightblue;
+    }
+
+    .d2::after {
+      content: attr(desc);
+      display: inline-block;
+      width: 300px;
+      margin: 10px;
+    }
+
+    .d2 div {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: orange;
+    }
+
+    /* 3.inline-block */
+    .d3 {
+      width: 300px;
+      height: 100px;
+      line-height: 100px;
+      font-size: 0;
+      text-align: center;
+      background-color: lightblue;
+    }
+
+    .d3::after {
+      content: attr(desc);
+      display: inline-block;
+      width: 300px;
+      margin: 10px;
+      line-height: normal;
+      font-size: 16px;
+      float: right;
+      margin-right: -310px;
+    }
+
+    .d3 div {
+      display: inline-block;
+      line-height: normal;
+      font-size: 16px;
+      background-color: orange;
+    }
+
+    /* 4.table */
+    .d4 {
+      display: table-cell;
+      width: 300px;
+      height: 100px;
+      vertical-align: middle;
+      text-align: center;
+      background-color: lightblue;
+      margin-left: 500px;
+    }
+
+    .d4 div {
+      width: 150px;
+      height: 50px;
+      margin: auto;
+      background-color: orange;
+    }
+
+    .desc4 {
+      width: 500px;
+    }
+
+    /* 5.flex */
+    .d5 {
+      width: 300px;
+      height: 100px;
+      display: flex;
+      background-color: lightblue;
+    }
+
+    .d5::after {
+      content: attr(desc);
+      display: inline-block;
+      width: 500px;
+      margin: 10px;
+      margin-right: -510px;
+    }
+
+    .d5 div {
+      margin: auto;
+      background-color: orange;
+    }
+
+    /* 6.grid */
+    .d6 {
+      width: 300px;
+      height: 100px;
+      display: grid;
+      background-color: lightblue;
+    }
+
+    .d6 div {
+      margin: auto;
+      background-color: orange;
+    }
+
   </style>
 
 <body>
-  <div class="smile">
-    <div class="s1">
-      <img src="https://pngimg.com/uploads/smiley/smiley_PNG43.png" alt="">
+  <div class="main">
+    <div class="smile">
+      <div class="s1">
+        <img src="https://pngimg.com/uploads/smiley/smiley_PNG43.png" alt="">
+      </div>
+      <div class="s2">
+        <img src="https://pngimg.com/uploads/smiley/smiley_PNG43.png" alt="">
+      </div>
     </div>
-    <div class="s2">
-      <img src="https://pngimg.com/uploads/smiley/smiley_PNG43.png" alt="">
+
+    <div class="center-practice" desc="居中总结：">
+
+      <div class="d1" desc="使用定位，父容器relative。
+    子元素absoulte，四个方向调为0，margin:auto。
+    父子元素必须设置具体宽高（父子元素不定宽高时宽高都默认为auto。
+    此时宽度auto不等于100%也不等于0，元素的borderbox等于设定了具体数值的最近祖先的contentbox；
+    元素高auto不等于100%也不等于0，由内容高度撑起）">
+        <div>1.定位(父子定宽高,子margin:auto)</div>
+      </div>
+
+      <div class="d2" desc="【常用】先用定位使子元素左上角的点与父容器中心点重合，
+      然后transform:translate(-50% , -50%)，使子元素相对于自身位移50%，
+      此时父子元素中心点重合，实现绝对居中。
+      ●父子无需定宽高。
+      ●子元素可以比父容器大。
+      ●transform里的百分比是子元素自身宽高的百分比。">
+        <div>2.定位+2D动画位移</div>
+      </div>
+
+      <div class="d3" desc="子元素使用inline-block，使用vertical-align:middle垂直居中。
+      然后父容器使用text-align:center令子元素水平居中。
+      ●常规流 ●里面不能放其他元素，里面元素比外面元素小">
+        <div>3.inline-block,vertical-align:middle</div>
+      </div>
+
+      <div class="d4">
+        <div>4.table,vertical-align:middle</div>
+      </div>
+      <div class="desc4">
+        <p>父元素display:table-cell，宽高随意，
+          使用vertical-align:middle垂直居中。
+          ●子元素若是块级元素则定宽，设置margin:auto水平居中。
+          ●子元素若是行内元素则对父元素设置text-align:center水平居中。</p>
+      </div>
+
+      <div class="d5" desc="弹性盒模型，父容器定宽高，display:flex。以下二选一：
+      1.使用justify-content:center水平居中，
+      使用align-items:center垂直居中。●常规流●只需要设置父容器●里面可比外面大
+      2.子元素margin:auto。">
+        <div>5.flex,margin:auto</div>
+      </div>
+
+      <div class="d6">
+        <div>6.grid,margin:auto</div>
+      </div>
+      <div class="desc6">
+        <p> grid布局居中与flex类似,父元素定宽高，display:grid，
+          子元素margin:auto。（不定宽高则需根据上下文考虑auto对应哪个值）
+        </p>
+      </div>
     </div>
   </div>
-
-
-
 </body>
 
 </html>
