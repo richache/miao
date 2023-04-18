@@ -12,7 +12,7 @@
   <style>
     * {
       margin: 0;
-      /* border: 1px solid red; */
+      border: 0.3px dashed red;
       background-color: rgba(0, 0, 0, 0.08);
     }
 
@@ -23,33 +23,34 @@
       min-height: 1000px;
     }
 
-    /* grid父容器，定宽定高，1X4，
-    设置最小行高和repeat：repeat(auto-fit)（如果auto-fill则容器剩余留白不分配） */
+    /* 解决方案：grid套grid。
+    div作为grid父容器，定宽定高，1Xn，
+    设置最小行高和repeat：repeat(auto-fit)（如果auto-fill则容器剩余留白不分配）
     div {
       overflow: auto;
       height: 100%;
       width: 100%;
 
       display: grid;
-      grid-template-rows: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 10px;
-    }
-
-    /* grid父容器，
+      grid-template-rows: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 20px;
+    } */
+    /* items的dl作为grid父容器，
     设置最小列宽和repeat：repeat(auto-fill)
     设置最小行高和repeat：repeat(auto-fill)
     不用fit以免items与容器内容相互入侵
     */
     dl {
+      overflow: auto;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-      grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
-      gap: 10px;
+      column-gap: 10px;
     }
 
     /* 设置dt占据每个dl的第一列 */
     dt {
-      grid-row: 1 / span all;
+      grid-row: auto / span 999;
+      grid-column: 1 / auto;
       place-self: start center;
     }
 
@@ -73,56 +74,110 @@
 </head>
 
 <body>
-  <div>
-    <dl>
-      <dt>导演：</dt>
-      <dd>法外狂徒张三</dd>
-      <dd>李四</dd>
-      <dd>王五</dd>
-    </dl>
 
-    <dl>
-      <dt>演员：</dt>
-      <dd>龙</dd>
-      <dd>孙</dd>
-      <dd>睿</dd>
-      <dd>真</dd>
-      <dd>鸡</dd>
-      <dd>雷</dd>
-      <dd>刀</dd>
-    </dl>
+  <dl>
+    <dt>导演：</dt>
+    <dd>法外狂徒张三</dd>
+    <dd>李四</dd>
+    <dd>王五</dd>
 
-    <dl>
-      <dt>客串：</dt>
-      <dd>1</dd>
-      <dd>2</dd>
-      <dd>3</dd>
-      <dd>4</dd>
-      <dd>5</dd>
-      <dd>6</dd>
-      <dd>7</dd>
-      <dd>8</dd>
-    </dl>
+    <dt>演员：</dt>
+    <dd>龙</dd>
+    <dd>孙</dd>
+    <dd>睿</dd>
+    <dd>真</dd>
+    <dd>鸡</dd>
+    <dd>雷</dd>
+    <dd>刀</dd>
 
-    <dl>
-      <dt>场务：</dt>
-      <dd>1</dd>
-      <dd>2</dd>
-      <dd>3</dd>
-      <dd>4</dd>
-      <dd>5</dd>
-      <dd>6</dd>
-      <dd>7</dd>
-      <dd>8</dd>
-      <dd>9</dd>
-      <dd>10</dd>
-      <dd>11</dd>
-      <dd>12</dd>
-      <dd>13</dd>
-      <dd>14</dd>
-      <dd>15</dd>
-    </dl>
-  </div>
+    <dt>客串：</dt>
+    <dd>1</dd>
+    <dd>2</dd>
+    <dd>3</dd>
+    <dd>4</dd>
+    <dd>5</dd>
+    <dd>6</dd>
+    <dd>7</dd>
+    <dd>8</dd>
+
+    <dt>场务：</dt>
+    <dd>1</dd>
+    <dd>2</dd>
+    <dd>3</dd>
+    <dd>4</dd>
+    <dd>5</dd>
+    <dd>6</dd>
+    <dd>7</dd>
+    <dd>8</dd>
+    <dd>9</dd>
+    <dd>10</dd>
+    <dd>11</dd>
+    <dd>12</dd>
+    <dd>13</dd>
+    <dd>14</dd>
+    <dd>15</dd>
+    <dd>1</dd>
+    <dd>2</dd>
+    <dd>3</dd>
+    <dd>4</dd>
+    <dd>5</dd>
+    <dd>6</dd>
+    <dd>7</dd>
+    <dd>8</dd>
+    <dd>9</dd>
+    <dd>10</dd>
+    <dd>11</dd>
+    <dd>12</dd>
+    <dd>13</dd>
+    <dd>14</dd>
+    <dd>15</dd>
+    <dd>1</dd>
+    <dd>2</dd>
+    <dd>3</dd>
+    <dd>4</dd>
+    <dd>5</dd>
+    <dd>6</dd>
+    <dd>7</dd>
+    <dd>8</dd>
+    <dd>9</dd>
+    <dd>10</dd>
+    <dd>11</dd>
+    <dd>12</dd>
+    <dd>13</dd>
+    <dd>14</dd>
+    <dd>15</dd>
+    <dd>1</dd>
+    <dd>2</dd>
+    <dd>3</dd>
+    <dd>4</dd>
+    <dd>5</dd>
+    <dd>6</dd>
+    <dd>7</dd>
+    <dd>8</dd>
+    <dd>9</dd>
+    <dd>10</dd>
+    <dd>11</dd>
+    <dd>12</dd>
+    <dd>13</dd>
+    <dd>14</dd>
+    <dd>15</dd>
+    <dd>1</dd>
+    <dd>2</dd>
+    <dd>3</dd>
+    <dd>4</dd>
+    <dd>5</dd>
+    <dd>6</dd>
+    <dd>7</dd>
+    <dd>8</dd>
+    <dd>9</dd>
+    <dd>10</dd>
+    <dd>11</dd>
+    <dd>12</dd>
+    <dd>13</dd>
+    <dd>14</dd>
+    <dd>15</dd>
+  </dl>
+
 </body>
 
 </html>
