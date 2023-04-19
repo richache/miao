@@ -304,6 +304,9 @@
         /*  */
         /*  */
         /* 轮播图，左侧级联菜单 */
+        /* Layout：左侧菜单 和 图右下位置指示条 要一直显示，z-index最高，次级菜单次之，轮播图层最底层（左右切换控件包含在内）*/
+        /* 实现： 1. 级联菜单容器ul绝对定位，flex布局li。次级菜单ul绝对定位，grid布局li */
+        /* 实现： 2. 轮播图浮动，定宽高。控件采用input:radius并label重构样式，绝对定位控件位置。图层绝对定位，通过透明度及z-index的缓动切换图层  */
         .showbar{
             position: relative;
             width: 1230px;
@@ -323,14 +326,14 @@
                 flex-flow:column nowrap;
 
                 &>li{
-                flex: 1 0 0;
-                padding: 0 10px;
-                display: flex;
-                cursor: pointer;
-                /* 菜单字体居中 */
-	            align-items: center;
-                justify-content: space-between;
-
+                    flex: 1 0 0;
+                    padding: 0 20px;
+                    font-size: 14px;
+                    display: flex;
+                    cursor: pointer;
+                    /* 菜单字体居中 */
+	                align-items: center;
+                    justify-content: space-between;
                     &:hover{
                         background-color: rgb(255,103,0);
                         ul{
@@ -343,9 +346,10 @@
                         height: 460px;
                         left: 100%;
                         top: 0;
+                        max-width:995px;
                         display: none;
-                        grid-template-rows:repeat(6,1fr) ;
-                        grid-auto-columns:265px;
+                        grid-template-rows:repeat(6,1fr);
+                        grid-auto-columns:250px;
                         grid-auto-flow: column;
                         z-index: 110;
                         background-color: white;
@@ -354,6 +358,7 @@
                             a{
                                 line-height:40px;
                                 padding:20px;
+                                font-size:14px;
                                 display: block;
                                 text-align:center;
                                 vertical-align: middle;
@@ -373,27 +378,27 @@
             }
             /* 轮播图 */
             .showmain{
-                position: absolute;
-                right: 0;
+                float: right;
                 width: 990px;
                 height: 100%;
 
-                #sw1:checked ~ label:nth-child(5),
-                #sw2:checked ~ label:nth-child(6),
-                #sw3:checked ~ label:nth-child(7),
-                #sw4:checked ~ label:nth-child(8){
-                    background-color:rgb(255, 147, 237);
+                /* 位置指示条动作 */
+                #sw1:checked ~ div>label:nth-child(1),
+                #sw2:checked ~ div>label:nth-child(2),
+                #sw3:checked ~ div>label:nth-child(3),
+                #sw4:checked ~ div>label:nth-child(4){
+                    background-color:rgb(255, 255, 255);
                 }
+
                 /* 轮播位置指示条（input的label所在的div） */
                 .switchbar {
                     position: absolute;
-                    right: 10px;
-                    bottom: 0;
+                    right: 30px;
+                    bottom: 30px;
                     text-align: center;
                     padding: 2px;
                     width: 90px;
                     height: 16px;
-                    background-color: rgba(128, 128, 128, 0.3);
                     border-radius: 10px;
                     z-index: 100;
 
@@ -403,7 +408,7 @@
                     width: 10px;
                     height: 10px;
                     border: 2px solid gray;
-                    background-color:initial;
+                    background-color: rgba(128, 128, 128,0.8);
                     border-radius: 10px;
                     cursor: pointer;
                     white-space: nowrap;
@@ -414,20 +419,45 @@
                     }
                 }
 
-                /* 轮播图图层堆叠 */
-                .sw-img>img {
+                /* 轮播图图层堆叠,左右切换控件 */
+                .sw-img>div {
                     position: absolute;
                     margin-left: -240px;
                     height: 460px;
                     width: 1230px;
                     opacity: 0;
+                    z-index: 98;
+                    img{
+                        width: 100%;
+                    }
+                    .SLR{
+                        position: absolute;
+                        top:45%;
+                        right:0;
+                        text-align:center;
+                        line-height:50px;
+                        height: 50px;
+                        width:20px;
+                        zoom:1.3;
+                        color: gray;
+                        background-color:rgba(0,0,0,0);
+                        &:hover{
+                            background-color:lightgray;
+                            color:white;
+                        }
+                    }
+                    .SL{
+                        right: auto;
+                        left:200px;
+                    }
                 }
                 /* 图层切换动作 */
-                div:has(#sw1:checked)+div>img:nth-child(1),
-                div:has(#sw2:checked)+div>img:nth-child(2),
-                div:has(#sw3:checked)+div>img:nth-child(3),
-                div:has(#sw4:checked)+div>img:nth-child(4){
+                div:has(#sw1:checked)~div>.img-1,
+                div:has(#sw2:checked)~div>.img-2,
+                div:has(#sw3:checked)~div>.img-3,
+                div:has(#sw4:checked)~div>.img-4{
                     opacity: 1;
+                    z-index: 99;
                     transition: 1s ease-out;
                 }
             }
@@ -468,7 +498,7 @@
                         }
                         img{
                             display: block;
-                            margin:10px auto;
+                            margin:20px auto;
                             width: 24px;
                             height: 24px;
                         }
@@ -634,7 +664,13 @@
         /* 父容器:卡片区2 , 使用定位实现卡片布局 */
         .main2{
             width: 100%;
-            &>div{
+            height: 686px;
+            .card{
+                width: 100%;
+                height: 615px;
+                position: relative;
+            }
+            .title{
                 display: inline-block;
                 height: 58px;
                 width: 100%;
@@ -657,8 +693,219 @@
                     }
                 }
             }
+            .headset{
+                position: absolute;
+                width: 100%;
+                height: 615px;
+                z-index: 1;
+                .l1{
+                    position: absolute;
+                    width: 234px;
+                    height: 614px;
+                }
+                .l2{
+                    position: absolute;
+                    left: 234px;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 0 15px 15px;
+                }
+                .l3{
+                    position: absolute;
+                    left: 483px;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 0 15px 15px;
+                }
+                .l4{
+                    position: absolute;
+                    right: 249px;;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 0 15px 15px;
+                }
+                .l5{
+                    position: absolute;
+                    right: 0;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 0 15px 15px;
+                }
+                .l6{
+                    position: absolute;
+                    bottom: 0;
+                    left:234px;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 15px;
+                }
+                .l7{
+                    position: absolute;
+                    bottom: 0;
+                    left:483px;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 15px;
+                }
+                .l8{
+                    position: absolute;
+                    bottom: 0;
+                    right:234px;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 15px;
+                }
+                div{
+                    position: absolute;
+                    bottom: 0px;
+                    right:0;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 ;
+
+                    .l9,.l10{
+                        width: 234px;
+                        height: 142px;
+                        margin-bottom:15px;
+                    }
+                }
+            }
+            .wear{
+                position: absolute;
+                width: 100%;
+                height: 615px;
+                z-index: 0;
+                .l1{
+                    position: absolute;
+                    width: 234px;
+                    height: 614px;
+                }
+                .l2{
+                    position: absolute;
+                    left: 234px;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 0 15px 15px;
+                }
+                .l3{
+                    position: absolute;
+                    left: 483px;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 0 15px 15px;
+                }
+                .l4{
+                    position: absolute;
+                    right: 249px;;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 0 15px 15px;
+                }
+                .l5{
+                    position: absolute;
+                    right: 0;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 0 15px 15px;
+                }
+                .l6{
+                    position: absolute;
+                    bottom: 0;
+                    left:234px;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 15px;
+                }
+                .l7{
+                    position: absolute;
+                    bottom: 0;
+                    left:483px;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 15px;
+                }
+                .l8{
+                    position: absolute;
+                    bottom: 0;
+                    right:234px;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 15px;
+                }
+                div{
+                    position: absolute;
+                    bottom: 0px;
+                    right:0;
+                    width: 234px;
+                    height: 300px;
+                    margin:0 ;
+
+                    .l9,.l10{
+                        width: 234px;
+                        height: 142px;
+                        margin-bottom:15px;
+                    }
+                }
+            }
+
+            /* div:has(#wear:hover)~ul.wear,
+            div:has(#headset:hover)~ul.headset{
+                z-index: 10;
+            } */
+            div:has(#headset:hover)~div .headset,
+            div:has(#wear:hover)~div .wear{
+                z-index: 10;
+            }
         }
 
+        /* 右侧工具栏 */
+        .tool-bar{
+            position: fixed;
+            background-color: white;
+            right: 0;
+            bottom: 10%;
+            display: flex;
+            flex-flow: column nowrap;
+            a{
+                position:relative;
+                display: block;
+                width: 50px;
+                height: 50px;
+                font-size:12px;
+                line-height:70px;
+                text-align:center;
+                text-decoration:none;
+                color:gray;
+                .img{
+                    position: absolute;
+                    left:25%;
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    opacity: 1;
+                }
+                .img-h {
+                    position: absolute;
+                    left:25%;
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    opacity: 0;
+                }
+                &:hover{
+                    color:rgb(255,153,0);
+                    .img-h{
+                        opacity: 2;
+                    }
+                }
+            }
+            .backtotop{
+                display: none;
+                width: 50px;
+                height: 50px;
+            }
+
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/less"></script>
 
@@ -1084,36 +1331,267 @@
                                 </a></li>
                         </ul>
                     </li>
-                    <li>电视<span class="icon iconfont-right-s"></li>
-                    <li>家电<span class="icon iconfont-right-s"></li>
-                    <li>笔记本 平板<span class="icon iconfont-right-s"></li>
-                    <li>出行 穿戴<span class="icon iconfont-right-s"></li>
-                    <li>耳机 音箱<span class="icon iconfont-right-s"></li>
-                    <li>健康 儿童<span class="icon iconfont-right-s"></li>
-                    <li>生活 箱包<span class="icon iconfont-right-s"></li>
-                    <li>智能 路由器<span class="icon iconfont-right-s"></li>
-                    <li>电源 配件<span class="icon iconfont-right-s"></li>
+                    <li>电视<span class="icon iconfont-right-s">
+                            <ul>
+                                <li>1</li>
+                                <li>2</li>
+                                <li>3</li>
+                                <li>4</li>
+                                <li>5</li>
+                                <li>6</li>
+                                <li>7</li>
+                                <li>8</li>
+                                <li>9</li>
+                                <li>10</li>
+                                <li>11</li>
+                                <li>12</li>
+                                <li>13</li>
+                                <li>14</li>
+                                <li>15</li>
+                                <li>16</li>
+                                <li>17</li>
+                                <li>18</li>
+                                <li>19</li>
+                                <li>20</li>
+                                <li>21</li>
+                                <li>22</li>
+                                <li>23</li>
+                                <li>24</li>
+                            </ul>
+                    </li>
+                    <li>家电<span class="icon iconfont-right-s">
+                            <ul>
+                                <li>1</li>
+                                <li>2</li>
+                                <li>3</li>
+                                <li>4</li>
+                                <li>5</li>
+                                <li>6</li>
+                                <li>7</li>
+                                <li>8</li>
+                                <li>9</li>
+                                <li>10</li>
+                                <li>11</li>
+                                <li>12</li>
+                                <li>13</li>
+                                <li>14</li>
+                                <li>15</li>
+                                <li>16</li>
+                                <li>17</li>
+                                <li>18</li>
+                                <li>19</li>
+                                <li>20</li>
+                                <li>21</li>
+                                <li>22</li>
+                                <li>23</li>
+                                <li>24</li>
+                            </ul>
+                    </li>
+                    <li>笔记本 平板<span class="icon iconfont-right-s">
+                            <ul>
+                                <li>1</li>
+                                <li>2</li>
+                                <li>3</li>
+                                <li>4</li>
+                                <li>5</li>
+                                <li>6</li>
+                                <li>7</li>
+                                <li>8</li>
+                                <li>9</li>
+                                <li>10</li>
+                                <li>11</li>
+                                <li>12</li>
+                                <li>13</li>
+                                <li>14</li>
+                                <li>15</li>
+                                <li>16</li>
+                                <li>17</li>
+                                <li>18</li>
+                                <li>19</li>
+                                <li>20</li>
+                                <li>21</li>
+                                <li>22</li>
+                                <li>23</li>
+                                <li>24</li>
+                            </ul>
+                    </li>
+                    <li>出行 穿戴<span class="icon iconfont-right-s">
+                            <ul>
+                                <li>1</li>
+                                <li>2</li>
+                                <li>3</li>
+                                <li>4</li>
+                                <li>5</li>
+                                <li>6</li>
+                                <li>7</li>
+                                <li>8</li>
+                                <li>9</li>
+                                <li>10</li>
+                                <li>11</li>
+                                <li>12</li>
+                                <li>13</li>
+                                <li>14</li>
+                                <li>15</li>
+                                <li>16</li>
+                                <li>17</li>
+                                <li>18</li>
+                                <li>19</li>
+                                <li>20</li>
+                                <li>21</li>
+                                <li>22</li>
+                                <li>23</li>
+                                <li>24</li>
+                            </ul>
+                    </li>
+                    <li>耳机 音箱<span class="icon iconfont-right-s">
+                            <ul>
+                                <li>1</li>
+                                <li>2</li>
+                                <li>3</li>
+                                <li>4</li>
+                                <li>5</li>
+                                <li>6</li>
+                                <li>7</li>
+                                <li>8</li>
+                                <li>9</li>
+                                <li>10</li>
+                                <li>11</li>
+                                <li>12</li>
+                                <li>13</li>
+                                <li>14</li>
+                                <li>15</li>
+                                <li>16</li>
+                                <li>17</li>
+                                <li>18</li>
+                                <li>19</li>
+                                <li>20</li>
+                                <li>21</li>
+                                <li>22</li>
+                                <li>23</li>
+                                <li>24</li>
+                            </ul>
+                    </li>
+                    <li>健康 儿童<span class="icon iconfont-right-s">
+                            <ul>
+                                <li>1</li>
+                                <li>2</li>
+                                <li>3</li>
+                                <li>4</li>
+                                <li>5</li>
+                                <li>6</li>
+                                <li>7</li>
+                                <li>8</li>
+                                <li>9</li>
+                                <li>10</li>
+                                <li>11</li>
+                                <li>12</li>
+                                <li>13</li>
+                                <li>14</li>
+                                <li>15</li>
+                                <li>16</li>
+                                <li>17</li>
+                                <li>18</li>
+                            </ul>
+                    </li>
+                    <li>生活 箱包<span class="icon iconfont-right-s">
+                            <ul>
+                                <li>1</li>
+                                <li>2</li>
+                                <li>3</li>
+                                <li>4</li>
+                                <li>5</li>
+                                <li>6</li>
+                                <li>7</li>
+                                <li>8</li>
+                                <li>9</li>
+                                <li>10</li>
+                                <li>11</li>
+                                <li>12</li>
+                                <li>13</li>
+                                <li>14</li>
+                                <li>15</li>
+                                <li>16</li>
+                                <li>17</li>
+                                <li>18</li>
+                            </ul>
+                    </li>
+                    <li>智能 路由器<span class="icon iconfont-right-s">
+                            <ul>
+                                <li>1</li>
+                                <li>2</li>
+                                <li>3</li>
+                                <li>4</li>
+                                <li>5</li>
+                                <li>6</li>
+                                <li>7</li>
+                                <li>8</li>
+                                <li>9</li>
+                                <li>10</li>
+                                <li>11</li>
+                                <li>12</li>
+                            </ul>
+                    </li>
+                    <li>电源 配件<span class="icon iconfont-right-s">
+                            <ul>
+                                <li>1</li>
+                                <li>2</li>
+                                <li>3</li>
+                                <li>4</li>
+                                <li>5</li>
+                                <li>6</li>
+                                <li>7</li>
+                                <li>8</li>
+                                <li>9</li>
+                                <li>10</li>
+                                <li>11</li>
+                                <li>12</li>
+                            </ul>
+                    </li>
                 </ul>
                 <div class="showmain">
+                    <!-- 此处的input同时被图层外的位置指示条label和图层内的label关联 -->
                     <div class="switchbar">
                         <input type="radio" name="switchbar" hidden id="sw1" checked>
                         <input type="radio" name="switchbar" hidden id="sw2">
                         <input type="radio" name="switchbar" hidden id="sw3">
                         <input type="radio" name="switchbar" hidden id="sw4">
-                        <label for="sw1" class="switch"></label>
-                        <label for="sw2" class="switch"></label>
-                        <label for="sw3" class="switch"></label>
-                        <label for="sw4" class="switch"></label>
+
+                        <div>
+                            <!-- 图层外的位置指示条 -->
+                            <label for="sw1" class="switch"></label>
+                            <label for="sw2" class="switch"></label>
+                            <label for="sw3" class="switch"></label>
+                            <label for="sw4" class="switch"></label>
+                        </div>
                     </div>
+
+                    <!-- 图层结构 ：图片 + label控件 -->
                     <div class="sw-img">
-                        <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/0d03df40a5e8ef760731a8f4f3f61172.jpg?w=2452&h=920"
-                            alt="" class="p1">
-                        <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/6494adc68900269b551de5ba96bd10a9.jpg?thumb=1&w=1226&h=460&f=webp&q=90"
-                            alt="" class="p2">
-                        <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d7c21d01bbe93eafc7d07d3796a3c59c.jpg?thumb=1&w=1226&h=460&f=webp&q=90"
-                            alt="" class="p3">
-                        <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/08a9d7eec7b055bac247b5068f817b1d.jpg?thumb=1&w=1226&h=460&f=webp&q=90"
-                            alt="" class="p4">
+                        <div class="img-1">
+                            <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/0d03df40a5e8ef760731a8f4f3f61172.jpg?w=2452&h=920"
+                                alt="">
+                            <label for="sw2" class="SLR SR">&gt;</label>
+                            <label for="sw4" class="SLR SL">&lt;</label>
+                        </div>
+                        <div class="img-2">
+                            <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/6494adc68900269b551de5ba96bd10a9.jpg?thumb=1&w=1226&h=460&f=webp&q=90"
+                                alt="">
+                            <label for="sw3" class="SLR SR">&gt;</label>
+                            <label for="sw1" class="SLR SL">&lt;</label>
+                        </div>
+                        <div class="img-3">
+                            <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d7c21d01bbe93eafc7d07d3796a3c59c.jpg?thumb=1&w=1226&h=460&f=webp&q=90"
+                                alt="">
+                            <label for="sw4" class="SLR SR">&gt;</label>
+                            <label for="sw2" class="SLR SL">&lt;</label>
+                        </div>
+                        <div class="img-4">
+                            <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/08a9d7eec7b055bac247b5068f817b1d.jpg?thumb=1&w=1226&h=460&f=webp&q=90"
+                                alt="">
+                            <label for="sw1" class="SLR SR">&gt;</label>
+                            <label for="sw3" class="SLR SL">&lt;</label>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -1160,8 +1638,12 @@
             <div class="body-main">
                 <div class="main main-topfoot-block">
                     <a href="https://www.mi.com/a/h/28779.html?sign=1a6153cd4077c6918cdd9380ddca218d"><img
+                            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/864aa0927000c3d717eca08955589d62.jpg?thumb=1&w=1226&h=120&f=webp&q=90"
+                            alt="">
+                        <!-- <img
                             src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/8034ed2ad4b10f7f117ac2529b06cfca.jpg?thumb=1&w=817&h=80&f=webp&q=90"
-                            alt=""></a>
+                            alt=""> -->
+                    </a>
                 </div>
                 <div class="main main1">
                     <div>
@@ -1249,23 +1731,41 @@
                     </ul>
                 </div>
                 <div class="main main2">
-                    <div>
+                    <div class="title">
                         <p>智能穿戴</p>
-                        <a href="">穿戴</a>
-                        <a href="">耳机</a>
+                        <a id="wear" href="">耳机</a>
+                        <a id="headset" href="">穿戴</a>
                     </div>
-                    <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                        <li>4</li>
-                        <li>5</li>
-                        <li>6</li>
-                        <li>7</li>
-                        <li>8</li>
-                        <li>9</li>
-                        <li>10</li>
-                    </ul>
+                    <div class="card">
+                        <ul class="headset">
+                            <li class="l1">11</li>
+                            <li class="l2">2</li>
+                            <li class="l3">3</li>
+                            <li class="l4">4</li>
+                            <li class="l5">5</li>
+                            <li class="l6">6</li>
+                            <li class="l7">7</li>
+                            <li class="l8">8</li>
+                            <div>
+                                <li class="l9">9</li>
+                                <li class="l10">10</li>
+                            </div>
+                        </ul>
+                        <ul class="wear">
+                            <li class="l1">1</li>
+                            <li class="l2">22</li>
+                            <li class="l3">3</li>
+                            <li class="l4">4</li>
+                            <li class="l5">5</li>
+                            <li class="l6">6</li>
+                            <li class="l7">7</li>
+                            <li class="l8">8</li>
+                            <div>
+                                <li class="l9">9</li>
+                                <li class="l10">10</li>
+                            </div>
+                        </ul>
+                    </div>
                 </div>
                 <div class="main main3">
                     <div></div>
@@ -1372,7 +1872,32 @@
         <!--  -->
         <!--  -->
     </div>
-    <div class="tool-bar"></div>
+    <div class="tool-bar">
+        <div><a href=""><img src="https://i8.mifile.cn/b2c-mimall-media/98a23aae70f25798192693f21c4d4039.png" alt=""
+                    class="img"><img class="img-h"
+                    src="https://i8.mifile.cn/b2c-mimall-media/74c4fcb4475af8308e9a670db9c01fdf.png" alt="">手机APP</a>
+        </div>
+        <div><a href=""><img src="https://i8.mifile.cn/b2c-mimall-media/55cad219421bee03a801775e7309b920.png" alt=""
+                    class="img"><img class="img-h"
+                    src="https://i8.mifile.cn/b2c-mimall-media/41f858550f42eb1770b97faf219ae215.png" alt="">个人中心</a>
+        </div>
+        <div><a href=""><img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/12eb0965ab33dc8e05870911b90f3f13.png"
+                    alt="" class="img"><img class="img-h"
+                    src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/95fbf0081a06eec7be4d35e277faeca0.png"
+                    alt="">售后服务</a></div>
+        <div><a href=""><img src="https://i8.mifile.cn/b2c-mimall-media/4f036ae4d45002b2a6fb6756cedebf02.png" alt=""
+                    class="img"><img class="img-h"
+                    src="https://i8.mifile.cn/b2c-mimall-media/5e9f2b1b0da09ac3b3961378284ef2d4.png" alt="">人工服务</a>
+        </div>
+        <div><a href=""><img src="https://i8.mifile.cn/b2c-mimall-media/d7db56d1d850113f016c95e289e36efa.png" alt=""
+                    class="img"><img class="img-h"
+                    src="https://i8.mifile.cn/b2c-mimall-media/692a6c3b0a93a24f74a29c0f9d68ec71.png" alt="">购物车</a>
+        </div>
+        <div class="backtotop"><a href=""><img src="https://i1.mifile.cn/f/i/2018/home/totop.png" alt=""
+                    class="img"><img class="img-h" src="https://i1.mifile.cn/f/i/2018/home/totop_hover.png"
+                    alt="">回顶部</a>
+        </div>
+    </div>
 </body>
 
 </html>
