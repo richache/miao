@@ -388,6 +388,7 @@
                 #sw3:checked ~ div>label:nth-child(3),
                 #sw4:checked ~ div>label:nth-child(4){
                     background-color:rgb(255, 255, 255);
+                    transition:.3s;
                 }
 
                 /* 轮播位置指示条（input的label所在的div） */
@@ -412,7 +413,6 @@
                     border-radius: 10px;
                     cursor: pointer;
                     white-space: nowrap;
-                    transition:.3s;
                         &:hover{
                             background-color: rgb(255, 247, 237);
                         }
@@ -538,6 +538,30 @@
                             transition:.2s ease-in;
                             transform: translate(0,-2px);
                         }
+                        /* 描述字体过长用overflow隐藏 */
+                        p{
+                            display: block;
+                            margin: 10px 6px;
+                            text-align:center;
+                            overflow:hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            &.title{
+                                font-size: 16px;
+                            }
+                            &.description{
+                                font-size: 12px;
+                                color: rgb(194, 194, 194);
+                            }
+                            &.price{
+                                color: rgb(255, 103, 0);
+                            }
+                            span{
+                                margin-left:0.5em;
+                                color: rgb(194, 194, 194);
+                                text-decoration: line-through;
+                            }
+                        }
                     }
                 }
             }
@@ -592,8 +616,8 @@
                     height: 100%;
                     display: block;
                 }
-                /* 描述字体过长用overflow隐藏 */
-                p{
+
+                /* p{
                     display: block;
                     margin: 10px 6px;
                     text-align:center;
@@ -601,7 +625,7 @@
                     text-overflow: ellipsis;
                     white-space: nowrap;
                     &.title{
-                        font-size: 20px;
+                        font-size: 16px;
                     }
                     &.description{
                         font-size: 12px;
@@ -615,7 +639,7 @@
                         color: rgb(194, 194, 194);
                         text-decoration: line-through;
                     }
-                }
+                } */
                 &:first-child{
                     width: 234px;
                     height: 614px;
@@ -686,10 +710,12 @@
                     margin:20px 10px;
                     position: relative;
                     left: calc(100% - 250px);
+                    transition:0s 9999s;
                     &:hover{
                         color: rgb(255,153,0);
                         padding-bottom:5px;
                         border-bottom:2px solid rgb(255,153,0);
+                        transition:0s;
                     }
                 }
             }
@@ -697,7 +723,8 @@
                 position: absolute;
                 width: 100%;
                 height: 615px;
-                z-index: 1;
+                z-index: 0;
+                transition:0s 9999s;
                 .l1{
                     position: absolute;
                     width: 234px;
@@ -775,6 +802,7 @@
                 width: 100%;
                 height: 615px;
                 z-index: 0;
+                transition: 0s 9999s;
                 .l1{
                     position: absolute;
                     width: 234px;
@@ -848,10 +876,6 @@
                 }
             }
 
-            /* div:has(#wear:hover)~ul.wear,
-            div:has(#headset:hover)~ul.headset{
-                z-index: 10;
-            } */
             div:has(#headset:hover)~div .headset,
             div:has(#wear:hover)~div .wear{
                 z-index: 10;
@@ -863,33 +887,40 @@
             position: fixed;
             background-color: white;
             right: 0;
-            bottom: 10%;
+            bottom: 50px;
             display: flex;
             flex-flow: column nowrap;
+            z-index: 999;
+            text-align:center;
             a{
                 position:relative;
-                display: block;
-                width: 50px;
-                height: 50px;
+                display: inline-block;
+                margin:auto;
+                width: 80px;
+                height: 100px;
                 font-size:12px;
-                line-height:70px;
+                line-height: 160px;
                 text-align:center;
+                vertical-align: middle;
                 text-decoration:none;
                 color:gray;
+
                 .img{
                     position: absolute;
-                    left:25%;
-                    display: block;
-                    width: 20px;
-                    height: 20px;
+                    inset: 0;
+                    margin: auto;
+                    display:inline-block;
+                    width: 40px;
+                    height: 40px;
                     opacity: 1;
                 }
                 .img-h {
                     position: absolute;
-                    left:25%;
-                    display: block;
-                    width: 20px;
-                    height: 20px;
+                    inset:0;
+                    margin: auto;
+                    display: inline-block;
+                    width: 40px;
+                    height: 40px;
                     opacity: 0;
                 }
                 &:hover{
@@ -900,19 +931,37 @@
                 }
             }
             .backtotop{
-                display: none;
-                width: 50px;
-                height: 50px;
+                width: 80px;
+                height: 100px;
             }
-
         }
+
+        /* 媒体查询，设置不同屏幕宽度下的页面表现 */
+        @media screen and (max-width:1400px){
+                .tool-bar{
+                    transition:.2s;
+                    transform:scale(0.5);
+                    span{
+                        display: none;
+                    }
+                }
+            }
+        @media screen and (max-width:500px){
+                .tool-bar{
+                    transition:.2s;
+                    transform:scale(0.3);
+                    span{
+                        display: none;
+                    }
+                }
+            }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/less"></script>
 
 </head>
 
 <body>
-    <div class="body">
+    <div class="body" id="top">
         <div class="body-header">
             <div class="header-toolbar">
                 <div class="HT">
@@ -1875,27 +1924,32 @@
     <div class="tool-bar">
         <div><a href=""><img src="https://i8.mifile.cn/b2c-mimall-media/98a23aae70f25798192693f21c4d4039.png" alt=""
                     class="img"><img class="img-h"
-                    src="https://i8.mifile.cn/b2c-mimall-media/74c4fcb4475af8308e9a670db9c01fdf.png" alt="">手机APP</a>
+                    src="https://i8.mifile.cn/b2c-mimall-media/74c4fcb4475af8308e9a670db9c01fdf.png"
+                    alt=""><span>手机APP</span></a>
         </div>
         <div><a href=""><img src="https://i8.mifile.cn/b2c-mimall-media/55cad219421bee03a801775e7309b920.png" alt=""
                     class="img"><img class="img-h"
-                    src="https://i8.mifile.cn/b2c-mimall-media/41f858550f42eb1770b97faf219ae215.png" alt="">个人中心</a>
+                    src="https://i8.mifile.cn/b2c-mimall-media/41f858550f42eb1770b97faf219ae215.png"
+                    alt=""><span>个人中心</span></a>
         </div>
         <div><a href=""><img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/12eb0965ab33dc8e05870911b90f3f13.png"
                     alt="" class="img"><img class="img-h"
                     src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/95fbf0081a06eec7be4d35e277faeca0.png"
-                    alt="">售后服务</a></div>
+                    alt=""><span>售后服务</span></a>
+        </div>
         <div><a href=""><img src="https://i8.mifile.cn/b2c-mimall-media/4f036ae4d45002b2a6fb6756cedebf02.png" alt=""
                     class="img"><img class="img-h"
-                    src="https://i8.mifile.cn/b2c-mimall-media/5e9f2b1b0da09ac3b3961378284ef2d4.png" alt="">人工服务</a>
+                    src="https://i8.mifile.cn/b2c-mimall-media/5e9f2b1b0da09ac3b3961378284ef2d4.png"
+                    alt=""><span>人工服务</span></a>
         </div>
         <div><a href=""><img src="https://i8.mifile.cn/b2c-mimall-media/d7db56d1d850113f016c95e289e36efa.png" alt=""
                     class="img"><img class="img-h"
-                    src="https://i8.mifile.cn/b2c-mimall-media/692a6c3b0a93a24f74a29c0f9d68ec71.png" alt="">购物车</a>
+                    src="https://i8.mifile.cn/b2c-mimall-media/692a6c3b0a93a24f74a29c0f9d68ec71.png"
+                    alt=""><span>购物车</span></a>
         </div>
-        <div class="backtotop"><a href=""><img src="https://i1.mifile.cn/f/i/2018/home/totop.png" alt=""
+        <div class="backtotop"><a href="#top"><img src="https://i1.mifile.cn/f/i/2018/home/totop.png" alt=""
                     class="img"><img class="img-h" src="https://i1.mifile.cn/f/i/2018/home/totop_hover.png"
-                    alt="">回顶部</a>
+                    alt=""><span>回顶部</span></a>
         </div>
     </div>
 </body>
