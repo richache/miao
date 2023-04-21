@@ -685,18 +685,15 @@
         }
         /*  */
         /*  */
-        /* 父容器:卡片区2 , 使用定位实现卡片布局 */
+        /* 父容器:卡片区2 , 使用定位实现 */
         .main2{
             width: 100%;
-            height: 686px;
-            .card{
-                width: 100%;
-                height: 615px;
-                position: relative;
-            }
+            height: 690px;
+            &:hover a{transition:0s 9999s;}
+
             .title{
                 display: inline-block;
-                height: 58px;
+                height: 60px;
                 width: 100%;
                 margin-bottom:20px;
                 p{
@@ -704,13 +701,13 @@
                     margin:20px 10px;
                     font-size:22px;
                 }
-                /* 卡片切换入口，定位到右侧 */
-                a{
+                /* 卡片导航，定位到右侧 */
+                &>div{
                     display: inline-block;
                     margin:20px 10px;
                     position: relative;
                     left: calc(100% - 250px);
-                    transition:0s 9999s;
+                    /* transition:0s; */
                     &:hover{
                         color: rgb(255,153,0);
                         padding-bottom:5px;
@@ -719,12 +716,17 @@
                     }
                 }
             }
+            /* 卡片区2页，绝对定位叠一起，继续定位排布li */
+            .card{
+                width: 100%;
+                height: 615px;
+                position: relative;
+            }
             .headset{
                 position: absolute;
                 width: 100%;
                 height: 615px;
                 z-index: 0;
-                transition:0s 9999s;
                 .l1{
                     position: absolute;
                     width: 234px;
@@ -802,7 +804,6 @@
                 width: 100%;
                 height: 615px;
                 z-index: 0;
-                transition: 0s 9999s;
                 .l1{
                     position: absolute;
                     width: 234px;
@@ -881,7 +882,129 @@
                 z-index: 10;
             }
         }
+        /*  */
+        /*  */
+         /* 父容器:卡片区3 , 使用浮动实现 */
+        .main3{
+            position: relative;
+            display: flow-root;
+            width: 1230px;
+            .title{
+                line-height: 22px;
+                width:100%;
+                &>div:first-child{
+                    float: left;
+                    margin: 20px;
+                    font-size: 22px;
+                }
+                &>div:last-child{
+                    float: right;
+                    display: inline-block;
+                    margin: 20px 20px 0 0;
+                    padding-bottom:5px;
+                    box-sizing: border-box;
+                    &:hover{
+                        transition: .3s;
+                        color: rgb(255,153,0);
+                        border-bottom: 2px solid rgb(255,153,0);
+                    }
+                }
+            }
+            /* 合并浮动，ul被挤到第二行，继续浮动排布li */
+            &>ul{
+                float: left;
+                clear: both;
+                &>li{
+                    float:left;
+                    margin-top: 15px;
+                }
+                &>li:first-child{
+                    width: 234px;
+                    height:614px;
+                }
+                &>li:nth-child(n+2):nth-child(-n+8){
+                    width: 234px;
+                    height: 300px;
+                    margin-left:15px;
+                }
+                &>li:nth-child(9),
+                &>li:nth-child(10){
+                    display: inline-block;
+                    width: 234px;
+                    height: 143px;
+                    margin-left:15px;
+                }
+            }
+        }
 
+        /* 父容器:卡片区4 , 使用flex实现 */
+        .main4{
+            display: flex;
+            flex-flow: column nowrap;
+            gap: 15px;
+            .title{
+                display: flex;
+                flex-flow:row nowrap;
+                gap:15px;
+                align-items: center;
+
+                &>div:first-child{
+                    height: 60px;
+                    line-height: 60px;
+                    font-size: 22px;
+                    flex: 1 0 auto;
+                    margin-left: 20px;
+                }
+                /* 切换导航 */
+                &>div:nth-child(2),&>div:nth-child(3){
+                    display: inline-block;
+                    text-align: center;
+                    line-height:30px;
+                    cursor: pointer;
+                    box-sizing: border-box;
+                    border-bottom: 2px solid rgba(255,153,0,0);
+                    padding-bottom: 5px;
+                    &:hover{
+                        transition: .3s;
+                        color:rgb(255,153,0);
+                        border-bottom: 2px solid rgb(255,153,0);
+                    }
+                }
+            }
+            /* 卡片区2页，绝对定位叠一起，继续flex排布li */
+            .card{
+                position: relative;
+                width: 100%;
+                height:615px;
+                &>ul{
+                    position: absolute;
+                    display: flex;
+                    flex-flow:column wrap;
+                    gap:15px;
+                    width: 100%;
+                    height: 100%;
+                    z-index:1;
+                    &>li{
+                        width: 234px;
+                        height: 300px;
+                    }
+                    &>li:nth-child(n+10){
+                        width: 234px;
+                        height: 142.5px;
+                    }
+                }
+            }
+
+            div:has(.card-nav1:hover)~div .hot,
+            div:has(.card-nav2:hover)~div .TV{
+                z-index:10;
+            }
+        }
+
+        /* 父容器:卡片区5 , 使用 */
+        .main5{
+
+        }
         /* 右侧工具栏 */
         .tool-bar{
             position: fixed;
@@ -1694,6 +1817,7 @@
                             alt=""> -->
                     </a>
                 </div>
+
                 <div class="main main1">
                     <div>
                         <p>手机</p><a href="https://www.mi.com/p/1915.html">查看更多<span
@@ -1779,19 +1903,20 @@
                             </a></li>
                     </ul>
                 </div>
+
                 <div class="main main2">
                     <div class="title">
                         <p>智能穿戴</p>
-                        <a id="wear" href="">耳机</a>
-                        <a id="headset" href="">穿戴</a>
+                        <div id="wear">耳机</div>
+                        <div id="headset">穿戴</div>
                     </div>
                     <div class="card">
                         <ul class="headset">
-                            <li class="l1">11</li>
+                            <li class="l1">1</li>
                             <li class="l2">2</li>
                             <li class="l3">3</li>
                             <li class="l4">4</li>
-                            <li class="l5">5</li>
+                            <li class="l5">穿戴</li>
                             <li class="l6">6</li>
                             <li class="l7">7</li>
                             <li class="l8">8</li>
@@ -1802,10 +1927,10 @@
                         </ul>
                         <ul class="wear">
                             <li class="l1">1</li>
-                            <li class="l2">22</li>
+                            <li class="l2">2</li>
                             <li class="l3">3</li>
                             <li class="l4">4</li>
-                            <li class="l5">5</li>
+                            <li class="l5">耳机</li>
                             <li class="l6">6</li>
                             <li class="l7">7</li>
                             <li class="l8">8</li>
@@ -1816,8 +1941,12 @@
                         </ul>
                     </div>
                 </div>
+
                 <div class="main main3">
-                    <div></div>
+                    <div class="title">
+                        <div>笔记本 | 平板</div>
+                        <div class="card-nav">热门</div>
+                    </div>
                     <ul>
                         <li>1</li>
                         <li>2</li>
@@ -1831,21 +1960,42 @@
                         <li>10</li>
                     </ul>
                 </div>
+
                 <div class="main main4">
-                    <div></div>
-                    <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                        <li>4</li>
-                        <li>5</li>
-                        <li>6</li>
-                        <li>7</li>
-                        <li>8</li>
-                        <li>9</li>
-                        <li>10</li>
-                    </ul>
+                    <div class="title">
+                        <div>家电</div>
+                        <div class="card-nav1">热门</div>
+                        <div class="card-nav2">电视影音</div>
+                    </div>
+                    <div class="card">
+                        <ul class="hot">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>热门</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                        <ul class="TV">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>电视</li>
+                            <li>10</li>
+                        </ul>
+                    </div>
                 </div>
+
                 <div class="main main5">
                     <div></div>
                     <ul>
