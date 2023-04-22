@@ -689,8 +689,11 @@
         .main2{
             width: 100%;
             height: 690px;
-            &:hover a{transition:0s 9999s;}
-
+            /* 此处结构不支持visibity，导航与卡片页并不是父子关系，故直接使用:has选中非己元素修改（见.main2选择器的最后） */
+            /* .title:hover div{
+                color:black;
+                transition:none;
+            } */
             .title{
                 display: inline-block;
                 height: 60px;
@@ -707,7 +710,7 @@
                     margin:20px 10px;
                     position: relative;
                     left: calc(100% - 250px);
-                    /* transition:0s; */
+                    transition:0s 9999s;
                     &:hover{
                         color: rgb(255,153,0);
                         padding-bottom:5px;
@@ -727,6 +730,7 @@
                 width: 100%;
                 height: 615px;
                 z-index: 0;
+                transition: 0s 99999s;
                 .l1{
                     position: absolute;
                     width: 234px;
@@ -804,6 +808,7 @@
                 width: 100%;
                 height: 615px;
                 z-index: 0;
+                transition:0s 99999s;
                 .l1{
                     position: absolute;
                     width: 234px;
@@ -877,9 +882,21 @@
                 }
             }
 
+            /* 直接粗暴使用:has直观修改切页时的变化，包括缓动，颜色等 */
+            div:has(#headset:hover) #wear,
+            div:has(#wear:hover) #headset{
+                color: black;
+                transition: none;
+            }
+
             div:has(#headset:hover)~div .headset,
             div:has(#wear:hover)~div .wear{
                 z-index: 10;
+                transition: 0s;
+            }
+            div:has(#headset:hover)~div .wear,
+            div:has(#wear:hover)~div .headset{
+                transition: none;
             }
         }
         /*  */
@@ -941,7 +958,6 @@
         .main4{
             display: flex;
             flex-flow: column nowrap;
-            gap: 15px;
             .title{
                 display: flex;
                 flex-flow:row nowrap;
@@ -963,7 +979,9 @@
                     cursor: pointer;
                     box-sizing: border-box;
                     border-bottom: 2px solid rgba(255,153,0,0);
+                    margin-right: 10px;
                     padding-bottom: 5px;
+                    transition: 0s 99999s;
                     &:hover{
                         transition: .3s;
                         color:rgb(255,153,0);
@@ -984,6 +1002,7 @@
                     width: 100%;
                     height: 100%;
                     z-index:1;
+                    transition:0s 99999s;
                     &>li{
                         width: 234px;
                         height: 300px;
@@ -995,16 +1014,326 @@
                 }
             }
 
+            /* 导航颜色切换，卡片图层切换，缓动调整 */
             div:has(.card-nav1:hover)~div .hot,
             div:has(.card-nav2:hover)~div .TV{
                 z-index:10;
+                transition: 0s;
+            }
+            div:has(.card-nav1:hover)~div .TV,
+            div:has(.card-nav2:hover)~div .hot{
+                transition: none;
+            }
+            div:has(.card-nav1:hover) .card-nav2,
+            div:has(.card-nav2:hover) .card-nav1{
+                color: black;
+                transition: none;
             }
         }
 
-        /* 父容器:卡片区5 , 使用 */
+        /* 父容器:卡片区5 , 使用grid实现 */
         .main5{
+            .title{
+                display: flex;
+                flex-flow:row nowrap;
+                gap:15px;
+                align-items: center;
 
+                &>div:first-child{
+                    height: 60px;
+                    line-height: 60px;
+                    font-size: 22px;
+                    flex: 1 0 auto;
+                    margin-left: 20px;
+                }
+                /* 切换导航 */
+                &>div:not(:first-child){
+                    display: inline-block;
+                    text-align: center;
+                    line-height:30px;
+                    cursor: pointer;
+                    box-sizing: border-box;
+                    border-bottom: 2px solid rgba(255,153,0,0);
+                    padding-bottom: 5px;
+                    margin-right: 10px;
+                    transition: 0s 99999s;
+                    &:hover{
+                        transition: .3s;
+                        color:rgb(255,153,0);
+                        border-bottom: 2px solid rgb(255,153,0);
+                    }
+                }
+            }
+            /* 卡片区4页，绝对定位叠一起，继续grid排布li */
+            .card{
+                position: relative;
+                width: 100%;
+                height:615px;
+                &>ul{
+                    position: absolute;
+                    display: grid;
+                    grid-template-columns:repeat(5,234px);
+                    grid-template-rows:repeat(4,142.5px);
+                    gap:15px;
+                    z-index:1;
+                    transition:0s 99999s;
+                    &>li{
+                        grid-row: span 2;
+                    }
+                    &>li:nth-child(n+10){
+                        grid-row: span 1;
+                    }
+                }
+            }
+            /* 导航颜色切换，卡片图层切换，缓动调整 */
+            div:has(.card-nav1:hover)~div .warm,
+            div:has(.card-nav2:hover)~div .sweeper,
+            div:has(.card-nav3:hover)~div .Air,
+            div:has(.card-nav4:hover)~div .clean,{
+                z-index:10;
+                transition: 0s;
+            }
+            div:has(.card-nav1:hover)~div>:not(.warm),
+            div:has(.card-nav2:hover)~div>:not(.sweeper),
+            div:has(.card-nav3:hover)~div>:not(.Air),
+            div:has(.card-nav4:hover)~div>:not(.clean){
+                transition: none;
+            }
+            div:has(.card-nav1:hover) :not(.card-nav1),
+            div:has(.card-nav2:hover) :not(.card-nav2),
+            div:has(.card-nav3:hover) :not(.card-nav3),
+            div:has(.card-nav4:hover) :not(.card-nav4),{
+                color: black;
+                transition: none;
+            }
         }
+
+        .main6{
+            .title{
+                display: flex;
+                flex-flow:row nowrap;
+                gap:15px;
+                align-items: center;
+
+                &>div:first-child{
+                    height: 60px;
+                    line-height: 60px;
+                    font-size: 22px;
+                    flex: 1 0 auto;
+                    margin-left: 20px;
+                }
+                /* 切换导航 */
+                &>div:not(:first-child){
+                    display: inline-block;
+                    text-align: center;
+                    line-height:30px;
+                    cursor: pointer;
+                    box-sizing: border-box;
+                    border-bottom: 2px solid rgba(255,153,0,0);
+                    padding-bottom: 5px;
+                    margin-right: 10px;
+                    transition: 0s 99999s;
+                    &:hover{
+                        transition: .3s;
+                        color:rgb(255,153,0);
+                        border-bottom: 2px solid rgb(255,153,0);
+                    }
+                }
+            }
+            /* 卡片区4页，绝对定位叠一起，继续grid排布li */
+            .card{
+                position: relative;
+                width: 100%;
+                height:615px;
+                &>ul{
+                    position: absolute;
+                    display: grid;
+                    grid-template-columns:repeat(5,234px);
+                    grid-template-rows:repeat(4,142.5px);
+                    gap:15px;
+                    z-index:1;
+                    transition:0s 99999s;
+                    &>li{
+                        grid-row: span 2;
+                    }
+                    &>li:nth-child(n+10){
+                        grid-row: span 1;
+                    }
+                }
+            }
+            /* 导航颜色切换，卡片图层切换，缓动调整 */
+            div:has(.card-nav1:hover)~div .warm,
+            div:has(.card-nav2:hover)~div .sweeper,
+            div:has(.card-nav3:hover)~div .Air,
+            div:has(.card-nav4:hover)~div .clean,{
+                z-index:10;
+                transition: 0s;
+            }
+            div:has(.card-nav1:hover)~div>:not(.warm),
+            div:has(.card-nav2:hover)~div>:not(.sweeper),
+            div:has(.card-nav3:hover)~div>:not(.Air),
+            div:has(.card-nav4:hover)~div>:not(.clean){
+                transition: none;
+            }
+            div:has(.card-nav1:hover) :not(.card-nav1),
+            div:has(.card-nav2:hover) :not(.card-nav2),
+            div:has(.card-nav3:hover) :not(.card-nav3),
+            div:has(.card-nav4:hover) :not(.card-nav4),{
+                color: black;
+                transition: none;
+            }
+        }
+        .main7{
+            .title{
+                display: flex;
+                flex-flow:row nowrap;
+                gap:15px;
+                align-items: center;
+
+                &>div:first-child{
+                    height: 60px;
+                    line-height: 60px;
+                    font-size: 22px;
+                    flex: 1 0 auto;
+                    margin-left: 20px;
+                }
+                /* 切换导航 */
+                &>div:not(:first-child){
+                    display: inline-block;
+                    text-align: center;
+                    line-height:30px;
+                    cursor: pointer;
+                    box-sizing: border-box;
+                    border-bottom: 2px solid rgba(255,153,0,0);
+                    padding-bottom: 5px;
+                    margin-right: 10px;
+                    transition: 0s 99999s;
+                    &:hover{
+                        transition: .3s;
+                        color:rgb(255,153,0);
+                        border-bottom: 2px solid rgb(255,153,0);
+                    }
+                }
+            }
+            /* 卡片区4页，绝对定位叠一起，继续grid排布li */
+            .card{
+                position: relative;
+                width: 100%;
+                height:615px;
+                &>ul{
+                    position: absolute;
+                    display: grid;
+                    grid-template-columns:repeat(5,234px);
+                    grid-template-rows:repeat(4,142.5px);
+                    gap:15px;
+                    z-index:1;
+                    transition:0s 99999s;
+                    &>li{
+                        grid-row: span 2;
+                    }
+                    &>li:nth-child(n+10){
+                        grid-row: span 1;
+                    }
+                }
+            }
+            /* 导航颜色切换，卡片图层切换，缓动调整 */
+            div:has(.card-nav1:hover)~div .warm,
+            div:has(.card-nav2:hover)~div .sweeper,
+            div:has(.card-nav3:hover)~div .Air,
+            div:has(.card-nav4:hover)~div .clean,{
+                z-index:10;
+                transition: 0s;
+            }
+            div:has(.card-nav1:hover)~div>:not(.warm),
+            div:has(.card-nav2:hover)~div>:not(.sweeper),
+            div:has(.card-nav3:hover)~div>:not(.Air),
+            div:has(.card-nav4:hover)~div>:not(.clean){
+                transition: none;
+            }
+            div:has(.card-nav1:hover) :not(.card-nav1),
+            div:has(.card-nav2:hover) :not(.card-nav2),
+            div:has(.card-nav3:hover) :not(.card-nav3),
+            div:has(.card-nav4:hover) :not(.card-nav4),{
+                color: black;
+                transition: none;
+            }
+        }
+        .main8{
+            .title{
+                display: flex;
+                flex-flow:row nowrap;
+                gap:15px;
+                align-items: center;
+
+                &>div:first-child{
+                    height: 60px;
+                    line-height: 60px;
+                    font-size: 22px;
+                    flex: 1 0 auto;
+                    margin-left: 20px;
+                }
+                /* 切换导航 */
+                &>div:not(:first-child){
+                    display: inline-block;
+                    text-align: center;
+                    line-height:30px;
+                    cursor: pointer;
+                    box-sizing: border-box;
+                    border-bottom: 2px solid rgba(255,153,0,0);
+                    padding-bottom: 5px;
+                    margin-right: 10px;
+                    transition: 0s 99999s;
+                    &:hover{
+                        transition: .3s;
+                        color:rgb(255,153,0);
+                        border-bottom: 2px solid rgb(255,153,0);
+                    }
+                }
+            }
+            /* 卡片区4页，绝对定位叠一起，继续grid排布li */
+            .card{
+                position: relative;
+                width: 100%;
+                height:615px;
+                &>ul{
+                    position: absolute;
+                    display: grid;
+                    grid-template-columns:repeat(5,234px);
+                    grid-template-rows:repeat(4,142.5px);
+                    gap:15px;
+                    z-index:1;
+                    transition:0s 99999s;
+                    &>li{
+                        grid-row: span 2;
+                    }
+                    &>li:nth-child(n+10){
+                        grid-row: span 1;
+                    }
+                }
+            }
+            /* 导航颜色切换，卡片图层切换，缓动调整 */
+            div:has(.card-nav1:hover)~div .warm,
+            div:has(.card-nav2:hover)~div .sweeper,
+            div:has(.card-nav3:hover)~div .Air,
+            div:has(.card-nav4:hover)~div .clean,{
+                z-index:10;
+                transition: 0s;
+            }
+            div:has(.card-nav1:hover)~div>:not(.warm),
+            div:has(.card-nav2:hover)~div>:not(.sweeper),
+            div:has(.card-nav3:hover)~div>:not(.Air),
+            div:has(.card-nav4:hover)~div>:not(.clean){
+                transition: none;
+            }
+            div:has(.card-nav1:hover) :not(.card-nav1),
+            div:has(.card-nav2:hover) :not(.card-nav2),
+            div:has(.card-nav3:hover) :not(.card-nav3),
+            div:has(.card-nav4:hover) :not(.card-nav4),{
+                color: black;
+                transition: none;
+            }
+        }
+
         /* 右侧工具栏 */
         .tool-bar{
             position: fixed;
@@ -1997,65 +2326,261 @@
                 </div>
 
                 <div class="main main5">
-                    <div></div>
-                    <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                        <li>4</li>
-                        <li>5</li>
-                        <li>6</li>
-                        <li>7</li>
-                        <li>8</li>
-                        <li>9</li>
-                        <li>10</li>
-                    </ul>
+                    <div class="title">
+                        <div>生活电器</div>
+                        <div class="card-nav1">电暖器</div>
+                        <div class="card-nav2">扫地机</div>
+                        <div class="card-nav3">空净</div>
+                        <div class="card-nav4">清洁</div>
+                    </div>
+                    <div class="card">
+                        <ul class="warm">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>电暖器</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                        <ul class="sweeper">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>扫地机</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                        <ul class="Air">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>空净</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                        <ul class="clean">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>清洁</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                    </div>
                 </div>
+
                 <div class="main main6">
-                    <div></div>
-                    <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                        <li>4</li>
-                        <li>5</li>
-                        <li>6</li>
-                        <li>7</li>
-                        <li>8</li>
-                        <li>9</li>
-                        <li>10</li>
-                    </ul>
+                    <div class="title">
+                        <div>厨房电器</div>
+                        <div class="card-nav1">净水器</div>
+                        <div class="card-nav2">烟灶</div>
+                        <div class="card-nav3">电饭煲</div>
+                        <div class="card-nav4">微蒸烤</div>
+                    </div>
+                    <div class="card">
+                        <ul class="warm">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>净水器</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                        <ul class="sweeper">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>烟灶</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                        <ul class="Air">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>电饭煲</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                        <ul class="clean">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>微蒸烤</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                    </div>
                 </div>
+
                 <div class="main main7">
-                    <div></div>
-                    <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                        <li>4</li>
-                        <li>5</li>
-                        <li>6</li>
-                        <li>7</li>
-                        <li>8</li>
-                        <li>9</li>
-                        <li>10</li>
-                    </ul>
+                    <div class="title">
+                        <div>智能家居</div>
+                        <div class="card-nav1">小爱音箱</div>
+                        <div class="card-nav2">门锁门铃</div>
+                        <div class="card-nav3">路由器</div>
+                        <div class="card-nav4">智能设备</div>
+                    </div>
+                    <div class="card">
+                        <ul class="warm">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>小爱音箱</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                        <ul class="sweeper">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>门锁门铃</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                        <ul class="Air">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>路由器</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                        <ul class="clean">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>智能设备</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                    </div>
                 </div>
+
                 <div class="main main8">
-                    <div></div>
-                    <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                        <li>4</li>
-                        <li>5</li>
-                        <li>6</li>
-                        <li>7</li>
-                        <li>8</li>
-                        <li>9</li>
-                        <li>10</li>
-                    </ul>
+                    <div class="title">
+                        <div>运动出行</div>
+                        <div class="card-nav1">平衡车/滑板车</div>
+                        <div class="card-nav2">运动健身</div>
+                        <div class="card-nav3">箱包配饰</div>
+                        <div class="card-nav4">出行工具</div>
+                    </div>
+                    <div class="card">
+                        <ul class="warm">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>电暖器</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                        <ul class="sweeper">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>扫地机</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                        <ul class="Air">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>空净</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                        <ul class="clean">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>清洁</li>
+                            <li>10</li>
+                            <li>11</li>
+                        </ul>
+                    </div>
                 </div>
+
                 <div class="main main-topfoot-block">
                     <a href="https://www.mi.com/shop/buy?product_id=9836"><img
                             src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/88e35cffc82cd98cd53172460067af17.jpg?thumb=1&w=817&h=80&f=webp&q=90"
@@ -2063,13 +2588,14 @@
                 </div>
             </div>
         </div>
-        <!--  -->
-        <!--  -->
-        <!--  -->
-        <div class="body-footer"></div>
-        <!--  -->
-        <!--  -->
-        <!--  -->
+    </div>
+    <!--  -->
+    <!--  -->
+    <!--  -->
+    <div class="body-footer"></div>
+    <!--  -->
+    <!--  -->
+    <!--  -->
     </div>
     <div class="tool-bar">
         <div><a href=""><img src="https://i8.mifile.cn/b2c-mimall-media/98a23aae70f25798192693f21c4d4039.png" alt=""
