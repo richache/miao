@@ -13,3 +13,27 @@
         {
             content:"\E623";
         }
+        .iconfont-tool::before
+        {
+            content:"\E634";
+        }
+        .iconfont-seven::before
+        {
+            content:"\E635";
+        }
+        .iconfont-fifteen::before
+        {
+            content:"\E636";
+        }
+        .iconfont-gift::before
+        {
+            content:"\E638";
+        }
+        .iconfont-local::before
+        {
+            content:"\E637";
+        }
+        .iconfont-message::before
+        {
+            content:"\E600";
+        }
