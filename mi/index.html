@@ -710,6 +710,7 @@
                     margin:20px 10px;
                     position: relative;
                     left: calc(100% - 250px);
+                    border-bottom: 2px solid rgba(255,153,0,0);
                     transition:0s 9999s;
                     &:hover{
                         color: rgb(255,153,0);
@@ -725,7 +726,7 @@
                 height: 615px;
                 position: relative;
             }
-            .headset{
+            .wear{
                 position: absolute;
                 width: 100%;
                 height: 615px;
@@ -803,7 +804,7 @@
                     }
                 }
             }
-            .wear{
+            .headset{
                 position: absolute;
                 width: 100%;
                 height: 615px;
@@ -883,20 +884,21 @@
             }
 
             /* 直接粗暴使用:has直观修改切页时的变化，包括缓动，颜色等 */
-            div:has(#headset:hover) #wear,
-            div:has(#wear:hover) #headset{
+            div:has(.card-nav1:hover) .card-nav2,
+            div:has(.card-nav2:hover) .card-nav1{
                 color: black;
                 transition: none;
             }
 
-            div:has(#headset:hover)~div .headset,
-            div:has(#wear:hover)~div .wear{
+            div:has(.card-nav1:hover)~div .wear,
+            div:has(.card-nav2:hover)~div .headset{
                 z-index: 10;
                 transition: 0s;
             }
-            div:has(#headset:hover)~div .wear,
-            div:has(#wear:hover)~div .headset{
+            div:has(.card-nav1:hover)~div .headset,
+            div:has(.card-nav2:hover)~div .wear{
                 transition: none;
+                z-index:-1;
             }
         }
         /*  */
@@ -953,7 +955,8 @@
                 }
             }
         }
-
+        /*  */
+        /*  */
         /* 父容器:卡片区4 , 使用flex实现 */
         .main4{
             display: flex;
@@ -995,6 +998,7 @@
                 width: 100%;
                 height:615px;
                 &>ul{
+                    visibility: visible;
                     position: absolute;
                     display: flex;
                     flex-flow:column wrap;
@@ -1023,6 +1027,7 @@
             div:has(.card-nav1:hover)~div .TV,
             div:has(.card-nav2:hover)~div .hot{
                 transition: none;
+                z-index: -1;
             }
             div:has(.card-nav1:hover) .card-nav2,
             div:has(.card-nav2:hover) .card-nav1{
@@ -1030,7 +1035,8 @@
                 transition: none;
             }
         }
-
+        /*  */
+        /*  */
         /* 父容器:卡片区5 , 使用grid实现 */
         .main5{
             .title{
@@ -1047,7 +1053,7 @@
                     margin-left: 20px;
                 }
                 /* 切换导航 */
-                &>div:not(:first-child){
+                .card-nav1,.card-nav2,.card-nav3,.card-nav4{
                     display: inline-block;
                     text-align: center;
                     line-height:30px;
@@ -1098,6 +1104,7 @@
             div:has(.card-nav3:hover)~div>:not(.Air),
             div:has(.card-nav4:hover)~div>:not(.clean){
                 transition: none;
+                z-index:-1;
             }
             div:has(.card-nav1:hover) :not(.card-nav1),
             div:has(.card-nav2:hover) :not(.card-nav2),
@@ -1107,7 +1114,8 @@
                 transition: none;
             }
         }
-
+        /*  */
+        /*  */
         .main6{
             .title{
                 display: flex;
@@ -1174,6 +1182,7 @@
             div:has(.card-nav3:hover)~div>:not(.Air),
             div:has(.card-nav4:hover)~div>:not(.clean){
                 transition: none;
+                z-index:-1;
             }
             div:has(.card-nav1:hover) :not(.card-nav1),
             div:has(.card-nav2:hover) :not(.card-nav2),
@@ -1183,6 +1192,8 @@
                 transition: none;
             }
         }
+        /*  */
+        /*  */
         .main7{
             .title{
                 display: flex;
@@ -1249,6 +1260,7 @@
             div:has(.card-nav3:hover)~div>:not(.Air),
             div:has(.card-nav4:hover)~div>:not(.clean){
                 transition: none;
+                z-index:-1;
             }
             div:has(.card-nav1:hover) :not(.card-nav1),
             div:has(.card-nav2:hover) :not(.card-nav2),
@@ -1258,6 +1270,8 @@
                 transition: none;
             }
         }
+        /*  */
+        /*  */
         .main8{
             .title{
                 display: flex;
@@ -1324,6 +1338,7 @@
             div:has(.card-nav3:hover)~div>:not(.Air),
             div:has(.card-nav4:hover)~div>:not(.clean){
                 transition: none;
+                z-index:-1;
             }
             div:has(.card-nav1:hover) :not(.card-nav1),
             div:has(.card-nav2:hover) :not(.card-nav2),
@@ -1333,7 +1348,154 @@
                 transition: none;
             }
         }
+        /*  */
+        /*  */
+        /* 页脚栏 */
+        .footer{
+            width: 1230px;
+            height:400px;
+            margin: auto;
+            .f-top{
+                overflow: hidden;
+                width:100% ;
+                border-bottom:1px solid gray;
+                ul{
+                    display: flex;
+                    flex-wrap:nowrap;
+                    li{
+                        flex-grow:1;
+                        height: 50px;
+                        font-size:0;
+                        text-align: center;
+                        a{
+                            text-decoration: none;
+                            color:black;
+                            font-size: 16px;
+                            display: block;
+                            margin:auto;
+                            &:hover{
+                                color: rgb(255,153,0);
+                            }
+                        }
+                    }
+                    li+li a{
+                        border-left: 2px solid gray;
+                    }
+                }
+            }
+            .f-left{
+                margin-top:20px ;
+                float: left;
+                display: grid;
+                grid-template-columns: repeat(6,160px);
+                gap:10px;
+                dl{
+                    font-size: 12px;
+                    display:flex;
+                    flex-flow:column nowrap;
+                    gap:15px;
+                    dt{
+                        font-size: 16px;
+                        margin-bottom: 10px;
+                    }
+                    dd a{
+                        text-decoration: none;
+                        color: #757575;
+                        &:hover{
+                            color:rgb(255,153,0);
+                        }
+                    }
+                }
+            }
+            .f-right{
+               float: left;
+               margin:20px 0;
+               padding-left:20px;
+               border-left: 2px solid gray;
+               p+p{
+                   line-height:30px;
+                   margin-top: 10px;
+                   text-align:center;
+               }
+               p:first-child{
+                   font-size:26px;
+                   color:rgb(255,103,0);
+               }
+               p:nth-child(2){
+                   font-size:12px;
+                   color:#757575;
+               }
+               p:last-child{
+                   font-size:16px;
+                   color: rgb(255,103,0);
+                   border:1px solid rgb(255,103,0);
+                   transition:.5s;
+                   &:hover{
+                       color: white;
+                       background-color:rgb(255,103,0);
+                   }
+               }
+            }
+        }
+        .info{
+            width: 1230px;
+            margin:auto;
+            overflow: hidden;
+             a{
+                line-height: 20px;
+                font-size: 12px;
+                color: initial;
+                text-decoration:none;
+                &:hover{
+                    color:rgb(255,105,0);
+                }
+               }
+            }
+            .info1{
+                float: left;
+                width: 60px;
+                height: 60px;
+                background: url(https://cdn.cnbj1.fds.api.mi-img.com/mi.com-assets/shop/img/logo-mi2.png) no-repeat;
+                background-size:60px;
+                margin:10px;
+            }
+            .info-r{
+                float: left;
+                margin-top: 20px;
+                width: 1020px;
+            }
 
+            .info3{
+                color:gray;
+                a{color:gray;}
+            }
+
+            .info4{
+                margin:20px;
+                    img{
+                    line-height:20px;
+                    width: 50px;
+                    height: 20px;
+                }
+            }
+
+
+
+
+        /*  */
+        /*  */
+        /* 发烧图 */
+        .egg{
+            width: 100%;
+            height:40px;
+            img{
+                display: block;
+                height: 20px;
+                margin:20px auto;
+            }
+        }
+        /*  */
+        /*  */
         /* 右侧工具栏 */
         .tool-bar{
             position: fixed;
@@ -2236,8 +2398,8 @@
                 <div class="main main2">
                     <div class="title">
                         <p>智能穿戴</p>
-                        <div id="wear">耳机</div>
-                        <div id="headset">穿戴</div>
+                        <div class="card-nav1">耳机</div>
+                        <div class="card-nav2">穿戴</div>
                     </div>
                     <div class="card">
                         <ul class="headset">
@@ -2535,7 +2697,7 @@
                             <li>6</li>
                             <li>7</li>
                             <li>8</li>
-                            <li>电暖器</li>
+                            <li>平衡车/滑板车</li>
                             <li>10</li>
                             <li>11</li>
                         </ul>
@@ -2548,7 +2710,7 @@
                             <li>6</li>
                             <li>7</li>
                             <li>8</li>
-                            <li>扫地机</li>
+                            <li>运动健身</li>
                             <li>10</li>
                             <li>11</li>
                         </ul>
@@ -2561,7 +2723,7 @@
                             <li>6</li>
                             <li>7</li>
                             <li>8</li>
-                            <li>空净</li>
+                            <li>箱包配饰</li>
                             <li>10</li>
                             <li>11</li>
                         </ul>
@@ -2574,7 +2736,7 @@
                             <li>6</li>
                             <li>7</li>
                             <li>8</li>
-                            <li>清洁</li>
+                            <li>出行工具</li>
                             <li>10</li>
                             <li>11</li>
                         </ul>
@@ -2592,11 +2754,170 @@
     <!--  -->
     <!--  -->
     <!--  -->
-    <div class="body-footer"></div>
-    <!--  -->
-    <!--  -->
-    <!--  -->
+    <div class="body-footer">
+        <div class="footer">
+            <div class="f-top">
+                <ul>
+                    <li><a href="https://www.mi.com/service/aftersale/front"><span
+                                class="icon iconfont-tool"></span>预约维修服务</a></li>
+                    <li><a href="https://www.mi.com/service/exchange#back"><span
+                                class="icon iconfont-seven"></span>7天无理由退货</a></li>
+                    <li><a href="https://www.mi.com/service/exchange#back"><span
+                                class="icon iconfont-fifteen"></span>15天免费换货</a></li>
+                    <li><a href="https://www.mi.com/service/buy/Postal%20policy"><span
+                                class="icon iconfont-gift"></span>满69元包邮</a></li>
+                    <li><a href="https://www.mi.com/service/sitelist"><span
+                                class="icon iconfont-local"></span>1100余家售后网点</a></li>
+                </ul>
+            </div>
+            <div class="f-left">
+                <dl></dl>
+                <dl>
+                    <dt>选购指南</dt>
+                    <dd><a href="">手机</a></dd>
+                    <dd><a href="">电视</a></dd>
+                    <dd><a href="">笔记本</a></dd>
+                    <dd><a href="">平板</a></dd>
+                    <dd><a href="">穿戴</a></dd>
+                    <dd><a href="">耳机</a></dd>
+                    <dd><a href="">家电</a></dd>
+                    <dd><a href="">路由器</a></dd>
+                    <dd><a href="">音箱</a></dd>
+                    <dd><a href="">配件</a></dd>
+                </dl>
+
+                <dl>
+                    <dt>服务中心</dt>
+                    <dd><a href="">申请售后</a></dd>
+                    <dd><a href="">售后政策</a></dd>
+                    <dd><a href="">维修服务价格</a></dd>
+                    <dd><a href="">订单查询</a></dd>
+                    <dd><a href="">以旧换新</a></dd>
+                    <dd><a href="">保障服务</a></dd>
+                    <dd><a href="">防伪查询</a></dd>
+                    <dd><a href="">F码通道</a></dd>
+                </dl>
+                <dl>
+                    <dt>线下门店</dt>
+                    <dd><a href="">小米之家</a></dd>
+                    <dd><a href="">服务网点</a></dd>
+                    <dd><a href="">授权体验店/专区</a></dd>
+                </dl>
+                <dl>
+                    <dt>关于小米</dt>
+                    <dd><a href="">了解小米</a></dd>
+                    <dd><a href="">加入小米</a></dd>
+                    <dd><a href="">投资者关系</a></dd>
+                    <dd><a href="">环境，社会及管治</a></dd>
+                    <dd><a href="">廉洁举报</a></dd>
+                </dl>
+                <dl>
+                    <dt>关注我们</dt>
+                    <dd><a href="">新浪微博</a></dd>
+                    <dd><a href="">官方微信</a></dd>
+                    <dd><a href="">联系我们</a></dd>
+                    <dd><a href="">公益基金会</a></dd>
+                </dl>
+
+            </div>
+            <div class="f-right">
+                <p>400-100-5678</p>
+                <p>8:00-18:00（仅收市话费）</p>
+                <p><span class="icon iconfont-message"></span> 人工客服</p>
+            </div>
+        </div>
+        <div class="info">
+            <div class="info1"></div>
+            <div class="info-r">
+                <div class="info2">
+                    <a href="">
+                        小米商城 |
+                    </a><a href="">
+                        MIUI |
+                    </a><a href="">
+                        米家 |
+                    </a><a href="">
+                        米聊 |
+                    </a><a href="">
+                        多看 |
+                    </a><a href="">
+                        游戏 |
+                    </a><a href="">
+                        音乐 |
+                    </a><a href="">
+                        政企服务 |
+                    </a><a href="">
+                        小米天猫店 |
+                    </a><a href="">
+                        小米集团隐私政策 |
+                    </a><a href="">
+                        小米公司儿童信息保护规则 |
+                    </a><a href="">
+                        小米商城隐私政策 |
+                    </a><a href="">
+                        小米商城用户协议 |
+                    </a><a href="">
+                        问题反馈 |
+                    </a><a href="">
+                        Select Location
+                    </a><a href="">
+                        北京互联网法院法律服务工作站 |
+                    </a><a href="">
+                        中国消费者协会 |
+                    </a><a href="">北京市消费者协会</a>
+                </div>
+
+                <div class="info3">
+                    <a href="" title="mi.com">©mi.com</a>
+                    京ICP证110507号
+                    <a href="http://beian.miit.gov.cn/" target="_blank">京ICP备10046444号</a>
+                    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802020134"
+                        target="_blank">京公网安备11010802020134号</a>
+                    <a href="//www.mi.com/culture-license/" target="_blank">京网文[2023]0169-004号</a>
+                    <br>
+                    <a href="//www.mi.com/medical/record/" target="_blank">（京）网械平台备字（2018）第00005号</a>
+                    <a href="//www.mi.com/medical/qualification/" target="_blank">互联网药品信息服务资格证 (京)-非经营性-2014-0090</a>
+                    <a href="//www.mi.com/business-license/" target="_blank">营业执照</a>
+                    <a href="//www.mi.com/medical/list/" target="_blank">医疗器械质量公告</a>
+                    <br>
+                    <a href="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/746c494423d9a2bcd15437e624dcbc4b.png"
+                        target="_blank">增值电信业务许可证</a>&nbsp;网络食品经营备案 京食药网食备202010048 &nbsp;
+                    <a href="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c6859168166651511897f54fa1047fe3.png"
+                        target="_blank">食品经营许可证</a>
+                    <br>
+                    违法和不良信息举报电话：171-5104-4404&nbsp;
+                    <a href="https://www.mi.com/intellectual"
+                        target="_blank">知识产权侵权投诉</a>&nbsp;本网站所列数据，除特殊说明，所有数据均出自我司实验室测试
+                </div>
+
+                <div class="info4">
+                    <a href="//privacy.truste.com/privacy-seal/validation?rid=4fc28a8c-6822-4980-9c4b-9fdc69b94eb8&amp;lang=zh-cn"
+                        target="_blank">
+                        <img src="//i1.mifile.cn/f/i/17/site/truste.png"></a>
+                    <a href="//search.szfw.org/cert/l/CX20120926001783002010" target="_blank">
+                        <img src="//s01.mifile.cn/i/v-logo-2.png"></a>
+                    <a id="_xinchacharenzheng_cert_vip_kexinweb"
+                        href="//xyt.xinchacha.com/pcinfo?sn=523009637759455232&amp;certType=6" target="_blank">
+                        <img src="//xyt.xinchacha.com/img/icon/icon3.png"></a>
+                    <a href="//www.mi.com/service/buy/commitment/" target="_blank">
+                        <img src="//i8.mifile.cn/b2c-mimall-media/ba10428a4f9495ac310fd0b5e0cf8370.png"></a>
+                    <a href="https://webcert.cnmstl.net/cert/grade?sn=3af21034e35011eab3ea00163e068ceb"><img src=""><img
+                            src=""></a>
+                </div>
+
+            </div>
+        </div>
     </div>
+
+    <div class="egg">
+        <img src="https://cdn.cnbj1.fds.api.mi-img.com/staticsfile/global/slogan2020.png" alt="">
+    </div>
+
+
+    <!--  -->
+    <!--  -->
+    <!--  -->
+
     <div class="tool-bar">
         <div><a href=""><img src="https://i8.mifile.cn/b2c-mimall-media/98a23aae70f25798192693f21c4d4039.png" alt=""
                     class="img"><img class="img-h"
