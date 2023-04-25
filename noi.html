@@ -1,0 +1,151 @@
+<script id="ch0301/01">
+  var a = +prompt()
+  var b = +prompt()
+  console.log(a + b)
+</script>
+
+<script id="ch0301/02">
+  var a = +prompt()
+  var b = +prompt()
+  var c = +prompt()
+  console.log((a + b) * c)
+</script>
+
+<script id="ch0301/03">
+  var a = +prompt()
+  var b = +prompt()
+  var c = +prompt()
+  console.log((a + b) / c)
+</script>
+
+<script id="ch0301/04">
+  var a = +prompt()
+  var b = +prompt()
+  console.log(Math.floor(a / b))
+  console.log(a % b)
+</script>
+
+<script id="ch0301/05">
+  var a = +prompt()
+  var b = +prompt()
+  console.log((a / b).toFixed(9))
+</script>
+
+<script id="ch0301/06">
+  var a = +prompt()
+  var b = +prompt()
+  console.log((b / a * 100).toFixed(3) + "%")
+</script>
+
+<script id="ch0301/07">
+  var a = +prompt()
+  var b = +prompt()
+  var c = +prompt()
+  var d = +prompt()
+  var x = +prompt()
+  console.log((a * (x ** 3) + b * (x ** 2) + c * x + d).toFixed(7))
+</script>
+
+<script id="ch0301/08">
+  var f = +prompt()
+  var c = 5 * (f - 32) / 9
+  console.log(c.toFixed(5))
+</script>
+
+<script id="ch0301/09">
+  var r = +prompt()
+  var pi = 3.14159
+  var d = (2 * r).toFixed(4)
+  var c = (2 * pi * r).toFixed(4)
+  var m = (pi * r * r).toFixed(4)
+  console.log(d, c, m)
+</script>
+
+<script id="ch0301/10">
+  var r1 = +prompt()
+  var r2 = +prompt()
+  var R = (1 / (1 / r1 + 1 / r2)).toFixed(2)
+  console.log(R)
+</script>
+
+<script id="ch0301/11">
+  var a = +prompt()
+  var b = +prompt()
+  var r = (a % b).toFixed(4)
+  console.log(r)
+</script>
+
+<script id="ch0301/12">
+  var r = +prompt()
+  var pi = 3.14
+  var V = (4 / 3 * pi * (r ** 3)).toFixed(2)
+  console.log(V)
+</script>
+
+<script id="ch0301/13">
+  var n = +prompt()
+  var a = n % 10
+  var b = (n % 100 - n % 10) / 10
+  var c = (n % 1000 - n % 100) / 100
+  console.log("" + a + b + c)
+</script>
+
+<script id="ch0301/14">
+  var h = +prompt()
+  var r = +prompt()
+  var pi = 3.14159
+  var v = pi * r * r * h / 1000
+  var V = Math.ceil(20 % v)
+  console.log(V)
+</script>
+
+<script id="ch0301/15">
+  var n = +prompt()
+  var x = +prompt()
+  var y = +prompt()
+  var a = n - Math.ceil(y / x)
+  console.log(a)
+</script>
+
+<script id="ch0301/16">
+  var xa = +prompt()
+  var ya = +prompt()
+  var xb = +prompt()
+  var yb = +prompt()
+  var a = ((xa - xb) ** 2) + ((ya - yb) ** 2)
+  console.log(Math.sqrt(a).toFixed(3))
+</script>
+
+<script id="ch0301/17">
+  var xa = +prompt()
+  var ya = +prompt()
+  var xb = +prompt()
+  var yb = +prompt()
+  var xc = +prompt()
+  var yc = +prompt()
+  var a = Math.sqrt(((xa - xb) ** 2) + ((ya - yb) ** 2))
+  var b = Math.sqrt(((xa - xc) ** 2) + ((ya - yc) ** 2))
+  var c = Math.sqrt(((xc - xb) ** 2) + ((yc - yb) ** 2))
+  var m = (Math.sqrt((a + b + c) * (a + b - c) * (a + c - b) * (b + c - a))) / 4
+  console.log(m.toFixed(2))
+</script>
+
+<script id="ch0301/18">
+  var a1 = +prompt()
+  var a2 = +prompt()
+  var n = +prompt()
+  var an = a1 + (n - 1) * (a2 - a1)
+  console.log(an)
+</script>
+
+<script id="ch0301/19">
+  var a = +prompt()
+  var b = +prompt()
+  console.log(a * b)
+</script>
+
+<script id="ch0301/20">
+  var n = +prompt()
+  var a = 2 ** n
+  console.log(a)
+</script>
