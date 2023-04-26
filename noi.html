@@ -1,3 +1,5 @@
+<!-- 1.3 -->
+
 <script id="ch0103/01" type="OK">
   var a = +prompt()
   var b = +prompt()
@@ -152,7 +154,7 @@
 </script>
 
 <!--  -->
-<!--  -->
+<!-- 1.4 -->
 <!--  -->
 
 <script id="ch0104/01" type="OK">
@@ -196,7 +198,7 @@
   var x = +prompt()
   var y = +prompt()
   if (x > y) {
-    console.log(" type="OK">")
+    console.log(">")
   } else if (x < y) {
     console.log("<")
   } else {
@@ -236,7 +238,7 @@
   }
 </script>
 
-<script id="ch0104/09" type="OK">
+<!-- <script id="ch0104/09" type="OK">
   var x = +prompt()
   if ((x % 3 == 0) && (x % 5 == 0) && (x % 7 == 0)) {
     console.log("3 5 7")
@@ -256,8 +258,31 @@
     console.log("n")
   }
 </script>
+下面是更便捷做法，使用一个变量储存二元状态（是否已满足任一条件：整除3或5或7）
+-->
 
-<script id="ch0104/10" type="OK">
+<script id="ch0104/09" type="OK">
+  var x = +prompt()
+  var check = false
+  if (x % 3 == 0) {
+    console.log("3")
+    var check = true
+  }
+  if (x % 5 == 0) {
+    console.log("5")
+    var check = true
+  }
+  if (x % 7 == 0) {
+    console.log("7")
+    var check = true
+  }
+  if (check == false) {
+    console.log("n")
+  }
+
+</script>
+
+<!-- <script id="ch0104/10" type="OK">
   var x = +prompt()
   var y = +prompt()
   if ((x < 60) && (y < 60)) {
@@ -269,6 +294,25 @@
   } else {
     console.log(0)
   }
+</script>
+以下为更便捷做法，使用变量记录入围次数，对该次数作判断-->
+
+<script id="ch0104/10" type="OK">
+  var x = +prompt()
+  var y = +prompt()
+  var check = 0
+  if (x < 60) {
+    check = check + 1
+  }
+  if (y < 60) {
+    check = check + 1
+  }
+  if (check == 1) {
+    console.log(1)
+  } else {
+    console.log(0)
+  }
+
 </script>
 
 <script id="ch0104/11" type="OK">
@@ -430,7 +474,7 @@
   } else {
     var t = ((0 - b) / (2 * a)).toFixed(5)
     var f = (Math.sqrt(4 * a * c - b * b) / (2 * a)).toFixed(5)
-    console.log("x1=" + t + "+" + f + "i", "x2=" + t + "-" + f + "i")
+    console.log("x1=" + t + "+" + f + "i"+";"+"x2=" + t + "-" + f + "i")
   }
 </script>
 
@@ -451,3 +495,54 @@
     console.log(z)
   }
 </script>
+
+<!--  -->
+<!-- 1.5 -->
+<!--  -->
+
+<script id="ch0105/01">
+</script>
+<script id="ch0105/02"></script>
+<script id="ch0105/03"></script>
+<script id="ch0105/04"></script>
+<script id="ch0105/05"></script>
+<script id="ch0105/06"></script>
+<script id="ch0105/07"></script>
+<script id="ch0105/08"></script>
+<script id="ch0105/09"></script>
+<script id="ch0105/10"></script>
+<script id="ch0105/11"></script>
+<script id="ch0105/12"></script>
+<script id="ch0105/13"></script>
+<script id="ch0105/14"></script>
+<script id="ch0105/15"></script>
+<script id="ch0105/16"></script>
+<script id="ch0105/17"></script>
+<script id="ch0105/18"></script>
+<script id="ch0105/19"></script>
+<script id="ch0105/20"></script>
+<script id="ch0105/21"></script>
+<script id="ch0105/22"></script>
+<script id="ch0105/23"></script>
+<script id="ch0105/24"></script>
+<script id="ch0105/25"></script>
+<script id="ch0105/26"></script>
+<script id="ch0105/27"></script>
+<script id="ch0105/28"></script>
+<script id="ch0105/29"></script>
+<script id="ch0105/30"></script>
+<script id="ch0105/31"></script>
+<script id="ch0105/32"></script>
+<script id="ch0105/33"></script>
+<script id="ch0105/34"></script>
+<script id="ch0105/35"></script>
+<script id="ch0105/36"></script>
+<script id="ch0105/37"></script>
+<script id="ch0105/38"></script>
+<script id="ch0105/39"></script>
+<script id="ch0105/40"></script>
+<script id="ch0105/41"></script>
+<script id="ch0105/42"></script>
+<script id="ch0105/43"></script>
+<script id="ch0105/44"></script>
+<script id="ch0105/45"></script>
