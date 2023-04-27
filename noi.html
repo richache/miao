@@ -420,7 +420,7 @@
   if (max < y) {
     max = y
     }
-  if (max <z)
+  if (max <z){
     max = z
   }
   console.log(max)
@@ -566,7 +566,7 @@
     var num = +prompt("请输入样本：")
     sum = sum + num
   }
-  console.log((sum).toFixed(5), (sum / n).toFixed(5))
+  console.log(sum, (sum / n).toFixed(5))
 </script>
 
 <script id="ch0105/05" type="OK">
@@ -682,9 +682,9 @@
     }
   }
   console.log(num)
-</script> type="OK"
+</script>
 
-<!-- <script id="ch0105/13">
+<!-- <script id="ch0105/13" type="OK">
   var a = +prompt("a:")
   var n = +prompt("n:")
   var count = 0, base = a
@@ -726,23 +726,28 @@
   console.log(Math.floor(M))
 </script>
 
-<script id="ch0105/16">
+<script id="ch0105/16">debugger
   var N = +prompt("请输入年薪：")
   var K = +prompt("请输入房价增长率：")
-  var grow = 200, sum = 0, year = 0
+  var grow = 200, sum = 0, year = 1
   do {
     grow = grow * (1 + K / 100)
     sum = N * year
     year++
+    if (sum >= grow) {
+      if (year <= 20) {
+        // console.log("最早在第"+year+"年能买下这套房子")
+        console.log(year)
+      } else {
+        console.log("Impossible")
+      }
+      break;
+    }
   } while (sum < grow)
-  if (year <= 20) {
-    // console.log("最早在第"+year+"年能买下这套房子")
-    console.log(year)
-  } else {
-    console.log("Impossible")
-  }
+
 </script>
-<script id="ch0105/17">debugger
+<script id="ch0105/17">
+
 </script>
 <script id="ch0105/18"></script>
 <script id="ch0105/19"></script>
