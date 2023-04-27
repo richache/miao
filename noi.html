@@ -726,12 +726,11 @@
   console.log(Math.floor(M))
 </script>
 
-<script id="ch0105/16">debugger
+<script id="ch0105/16" type="OK">
   var N = +prompt("请输入年薪：")
   var K = +prompt("请输入房价增长率：")
   var grow = 200, sum = 0
-  for (var year = 0; sum < grow; year++) {
-    grow = grow * (1 + K / 100)
+  for (var year = 1; sum < grow; year++) {
     sum = sum + N
     if (sum >= grow && year <= 20) {
       // console.log("最早在第"+year+"年能买下这套房子")
@@ -742,17 +741,95 @@
       console.log("Impossible")
       break
     }
+    grow = grow * (1 + K / 100)
+
   }
+</script>
+
+<script id="ch0105/17" type="OK">
+  var k = +prompt("请输入k值：")
+  var count = 1, a = 1, b = 1, sum = 1
+  while (count <= k) {
+    if (count > 2) {
+      sum = a + b
+      a = b
+      b = sum
+    }
+    count++
+  }
+  console.log(sum)
+</script>
+
+<script id="ch0105/18" type="OK">
+  var n = +prompt("请输入样本总数：")
+  var a = +prompt("请输入基准样本病例数：")
+  var b = +prompt("请输入基准疗效有效病例数：")
+  var x = b / a
+  var y = 0
+  for (var count = 1; count < n; count++) {
+    var a = +prompt("请输入对比样本病例数：")
+    var b = +prompt("请输入对比疗效有效病例数：")
+    y = b / a
+    if ((x - y) > 0.05) {
+      console.log("worse")
+    } else if ((y - x) > 0.05) {
+      console.log("better")
+    } else {
+      console.log("same")
+    }
+  }
+</script>
+
+<script id="ch0105/19" type="OK">
+  var n = +prompt("请输入屋顶总数：")
+  var count = 1, s = 0, t = 0, sum = 0
+  while (count <= n) {
+    var a = +prompt("请输入坐标x：")
+    var b = +prompt("请输入坐标y：")
+    var p = +prompt("请输入人数：")
+    s = Math.sqrt(a * a + b * b)
+    t = (s / 50) * 2 + (1 + 0.5) * p
+    sum = sum + t
+    count++
+  }
+  console.log(Math.ceil(sum))
+</script>
+
+<script id="ch0105/20" type="OK">
+  var h = +prompt("请输入球的初始高度：")
+  var count = 1, s = 0, sum = 0
+  while (count <= 10) {
+    s = h + h / 2
+    h = h / 2
+    sum = sum + s
+    count++
+  }
+  console.log((sum - h).toFixed(4), h.toFixed(7))
+</script>
+
+<script id="ch0105/21" type="OK">
+  var N = +prompt("请输入任意一个正整数：")
+  var count = 0, x = 0, y = 0, calc = N
+  while (count <= N) {
+    if (calc == 1) {
+      console.log("End")
+    } else if (calc % 2 == 1) {
+      x = calc * 3 + 1
+      console.log(calc + "*3+1=" + x)
+      calc = x
+    } else if (calc % 2 == 0) {
+      y = calc / 2
+      console.log(calc + "/2=" + y)
+      calc = y
+    }
+    count++
+  }
+</script>
+
+<script id="ch0105/22">debugger
 
 </script>
-<script id="ch0105/17">
 
-</script>
-<script id="ch0105/18"></script>
-<script id="ch0105/19"></script>
-<script id="ch0105/20"></script>
-<script id="ch0105/21"></script>
-<script id="ch0105/22"></script>
 <script id="ch0105/23"></script>
 <script id="ch0105/24"></script>
 <script id="ch0105/25"></script>
