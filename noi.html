@@ -342,18 +342,17 @@
   if (N >= 0 && N < 20) {
     if (N < 5) {
       var y = 0 - N + 2.5
-      console.log(y.toFixed(3))
     } else if (N < 10) {
       var y = 2 - 1.5 * (N - 3) * (N - 3)
-      console.log(y.toFixed(3))
     } else {
       var y = N / 2 - 1.5
-      console.log(y.toFixed(3))
     }
+    <!-- 由于条件只有其中一个触发输出语句，所以console.log可以提到最后而无需每一个条件都写 -->
+    console.log(y.toFixed(3))
   }
 </script>
 
-<script id="ch0104/14" type="OK">
+<!-- <script id="ch0104/14" type="OK">
   var x = +prompt()
   var y = prompt()
   if (y == "n") {
@@ -376,8 +375,24 @@
     console.log("请重新选择是否加急，输入y或n")
   }
 </script>
+以下为优化:
+-->
 
-<script id="ch0104/15" type="OK">
+<script id="ch0104/14" type="OK">
+  var x = +prompt()
+  var y = prompt()
+  if (x <= 1000) {
+    var z = 8
+  } else {
+    var z = Math.ceil((x - 1000) / 500) * 4 + 8
+  }
+  if (y == "y") {
+    z = z+5
+  }
+  console.log(z)
+</script>
+
+<!-- <script id="ch0104/15" type="OK">
   var x = +prompt()
   var y = +prompt()
   var z = +prompt()
@@ -394,6 +409,21 @@
   } else {
     console.log(z)
   }
+</script>
+使用以下方法简化
+-->
+<script id="ch0104/15" type="OK">
+  var x = +prompt()
+  var y = +prompt()
+  var z = +prompt()
+  var max = x
+  if (max < y) {
+    max = y
+    }
+  if (max <z)
+    max = z
+  }
+  console.log(max)
 </script>
 
 <script id="ch0104/16" type="OK">
@@ -469,10 +499,10 @@
   } else if ((b ** 2) > (4 * a * c)) {
     var x = Math.sqrt(b * b - 4 * a * c)
     var y = ((x - b) / (2 * a)).toFixed(5)
-    var z = ((0 - x - b) / (2 * a)).toFixed(5)
+    var z = ((- x - b) / (2 * a)).toFixed(5)
     console.log("x1=" + y, "x2=" + z)
   } else {
-    var t = ((0 - b) / (2 * a)).toFixed(5)
+    var t = ( (- b) / (2 * a)).toFixed(5)
     var f = (Math.sqrt(4 * a * c - b * b) / (2 * a)).toFixed(5)
     console.log("x1=" + t + "+" + f + "i"+";"+"x2=" + t + "-" + f + "i")
   }
@@ -536,7 +566,7 @@
     var num = +prompt("请输入样本：")
     sum = sum + num
   }
-  console.log(sum.toFixed(5), (sum / n).toFixed(5))
+  console.log((sum).toFixed(5), (sum / n).toFixed(5))
 </script>
 
 <script id="ch0105/05" type="OK">
@@ -566,11 +596,9 @@
   }
   console.log(max - min)
 </script>
+
 <script id="ch0105/07" type="OK">
-  var sumGold = 0
-  var sumSil = 0
-  var sumBro = 0
-  var sum = 0
+  var sumGold = 0, sumSil = 0, sumBro = 0, sum = 0
   var n = +prompt("请输入比赛天数：")
   for (var count = 0; count < n; count++) {
     var g = +prompt("请输入金牌数：")
@@ -584,19 +612,138 @@
   console.log(sumGold, sumSil, sumBro, sum)
 </script>
 
-<script id="ch0105/08">debugger
-
-
+<script id="ch0105/08" type="OK">
+  var n = +prompt("请输入多边形有多少边：")
+  var all = (n - 2) * 180
+  var sum = 0
+  for (count = 1; count < n; count++) {
+    var angel = +prompt("请逐一输入已知内角度数：")
+    sum = sum + angel
+  }
+  console.log(all - sum)
 </script>
-<script id="ch0105/09"></script>
-<script id="ch0105/10"></script>
-<script id="ch0105/11"></script>
-<script id="ch0105/12"></script>
-<script id="ch0105/13"></script>
-<script id="ch0105/14"></script>
-<script id="ch0105/15"></script>
-<script id="ch0105/16"></script>
-<script id="ch0105/17"></script>
+
+<script id="ch0105/09" type="OK">
+  var m = +prompt("请输入m值：")
+  var n = +prompt("请输入n值：")
+  var sum = 0
+  if (m % 2 == 0) {
+    m = m + 1
+  }
+  while (m <= n) {
+    sum = sum + m
+    m = m + 2
+  }
+  console.log(sum)
+</script>
+
+<script id="ch0105/10" type="OK">
+  var m = +prompt("请输入m值：")
+  var n = +prompt("请输入n值：")
+  var sum = 0
+  if (m % 17 != 0) {
+    do {
+      m = m + 1
+    } while (m % 17 != 0)
+  }
+  while (m <= n) {
+    sum = sum + m
+    m = m + 17
+  }
+  console.log(sum)
+</script>
+
+<script id="ch0105/11" type="OK">
+  var k = +prompt("请输入多少个数：")
+  var c1 = 0, c5 = 0, c10 = 0
+  for (var count = 0; count < k; count++) {
+    var num = +prompt("请输入具体数值：")
+    if (num == 1) {
+      c1++
+    }
+    if (num == 5) {
+      c5++
+    }
+    if (num == 10) {
+      c10++
+    }
+  }
+  console.log(c1, c5, c10)
+</script>
+
+<script id="ch0105/12" type="OK">
+  var N = +prompt("请输入样本容量：")
+  var m = +prompt("请输入要找的一个数字：")
+  var num = 0
+  for (count = 0; count < N; count++) {
+    var input = +prompt("请逐个输入样本数字：")
+    if (input == m) {
+      num++
+    }
+  }
+  console.log(num)
+</script> type="OK"
+
+<!-- <script id="ch0105/13">
+  var a = +prompt("a:")
+  var n = +prompt("n:")
+  var count = 0, base = a
+  while (count < n) {
+    a = a * base
+    count++
+  }
+  console.log(a)
+</script>
+使用循环显然不如使用函数高效
+-->
+
+<script id="ch0105/13" type="OK">
+  var a = +prompt("a:")
+  var n = +prompt("n:")
+  console.log(a ** n)
+</script>
+
+<script id="ch0105/14" type="OK">
+  var x = +prompt("请输入人口基数：")
+  var n = +prompt("请输入经过了多少年：")
+  var count = 0
+  do {
+    x = x * (1 + 0.001)
+    count++
+  } while (count < n)
+  console.log(x.toFixed(4))
+</script>
+
+<script id="ch0105/15" type="OK">
+  var R = +prompt("请输入复合年利率：")
+  var M = +prompt("请输入本金：")
+  var Y = +prompt("请输入投资年份：")
+  var count = 0
+  while (count < Y) {
+    M = M * (1 + R / 100)
+    count++
+  }
+  console.log(Math.floor(M))
+</script>
+
+<script id="ch0105/16">
+  var N = +prompt("请输入年薪：")
+  var K = +prompt("请输入房价增长率：")
+  var grow = 200, sum = 0, year = 0
+  do {
+    grow = grow * (1 + K / 100)
+    sum = N * year
+    year++
+  } while (sum < grow)
+  if (year <= 20) {
+    // console.log("最早在第"+year+"年能买下这套房子")
+    console.log(year)
+  } else {
+    console.log("Impossible")
+  }
+</script>
+<script id="ch0105/17">debugger
+</script>
 <script id="ch0105/18"></script>
 <script id="ch0105/19"></script>
 <script id="ch0105/20"></script>
