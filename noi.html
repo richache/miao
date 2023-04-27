@@ -826,13 +826,65 @@
   }
 </script>
 
-<script id="ch0105/22">debugger
+<script id="ch0105/22" type="OK">
+  var count = 1, sum = 0, calc = 0, save = 0
+  while (count <= 12) {
+    var p = +prompt("请输入预算：")
+    calc = calc + 300 - p
+    if (calc < 0) {
+      console.log(-count)
+      break
+    }
+    if (calc / 100 >= 1) {
+      save = 100 * (Math.floor(calc / 100))
+      calc = calc - save
+      sum = sum + save
+    }
+    if (count == 12) {
+      sum = sum * (1 + 0.2) + calc
+      console.log(sum)
+      break
+    }
+    count++
+  }
 
 </script>
 
-<script id="ch0105/23"></script>
-<script id="ch0105/24"></script>
-<script id="ch0105/25"></script>
+<script id="ch0105/23" type="OK">
+  var m = +prompt("请输入药品总量：")
+  var n = +prompt("请输入取药人数：")
+  var count = 1, calc = 0
+  while (count <= n) {
+    var x = +prompt("请输入每人希望取到的药数：")
+    m = m - x
+    if (m <= 0) {
+      m = m + x
+      calc++
+    }
+    count++
+  }
+  console.log(calc)
+</script>
+
+<script id="ch0105/24" type="OK">
+  var n = +prompt("请输入检测小时数：")
+  var count = 1, calc = 0
+  while (count <= n) {
+    var x = +prompt("请输入收缩压：")
+    var y = +prompt("请输入舒张压：")
+    if ((x >= 90 && x <= 140) && (y >= 60 && y <= 90)) {
+      calc++
+    } else {
+      calc = 0
+    }
+    count++
+  }
+  console.log(calc)
+</script>
+
+<script id="ch0105/25">debugger
+
+</script>
 <script id="ch0105/26"></script>
 <script id="ch0105/27"></script>
 <script id="ch0105/28"></script>
