@@ -500,15 +500,94 @@
 <!-- 1.5 -->
 <!--  -->
 
-<script id="ch0105/01">
+<script id="ch0105/01" type="OK">
+  var num = +prompt("输入学生数量：")
+  var sum = 0
+  for (var count = 0; count < num; count++) {
+    var age = +prompt("输入年龄：")
+    sum = sum + age
+  }
+  console.log((sum / num).toFixed(2))
 </script>
-<script id="ch0105/02"></script>
-<script id="ch0105/03"></script>
-<script id="ch0105/04"></script>
-<script id="ch0105/05"></script>
-<script id="ch0105/06"></script>
-<script id="ch0105/07"></script>
-<script id="ch0105/08"></script>
+
+<script id="ch0105/02" type="OK">
+  var sum = 0
+  for (var count = 0; count < 12; count++) {
+    var money = +prompt("请输入月末结余数值：")
+    sum = sum + money
+  }
+  console.log("$" + (sum / 12).toFixed(2))
+</script>
+
+<script id="ch0105/03" type="OK">
+  var n = +prompt("输入样本容量：")
+  var sum = 0
+  for (var count = 0; count < n; count++) {
+    var num = +prompt("输入样本：")
+    sum = sum + num
+  }
+  console.log((sum / n).toFixed(4))
+</script>
+
+<script id="ch0105/04" type="OK">
+  var sum = 0
+  var n = +prompt("输入样本容量：")
+  for (count = 0; count < n; count++) {
+    var num = +prompt("请输入样本：")
+    sum = sum + num
+  }
+  console.log(sum.toFixed(5), (sum / n).toFixed(5))
+</script>
+
+<script id="ch0105/05" type="OK">
+  var max = 0
+  var n = +prompt("请输入人数：")
+  for (count = 0; count < n; count++) {
+    var a = +prompt("请输入成绩：")
+    if (max < a) {
+      max = a
+    }
+  }
+  console.log(max)
+</script>
+
+<script id="ch0105/06" type="OK">
+  var min = 1001
+  var max = 0
+  var n = +prompt("请输入有多少个数：")
+  for (count = 0; count < n; count++) {
+    var num = +prompt("请逐个输入具体数值：")
+    if (num > max) {
+      max = num
+    }
+    if (num < min) {
+      min = num
+    }
+  }
+  console.log(max - min)
+</script>
+<script id="ch0105/07" type="OK">
+  var sumGold = 0
+  var sumSil = 0
+  var sumBro = 0
+  var sum = 0
+  var n = +prompt("请输入比赛天数：")
+  for (var count = 0; count < n; count++) {
+    var g = +prompt("请输入金牌数：")
+    var s = +prompt("请输入银牌数：")
+    var b = +prompt("请输入铜牌数：")
+    sumGold = sumGold + g
+    sumSil = sumSil + s
+    sumBro = sumBro + b
+  }
+  sum = sumGold + sumSil + sumBro
+  console.log(sumGold, sumSil, sumBro, sum)
+</script>
+
+<script id="ch0105/08">debugger
+
+
+</script>
 <script id="ch0105/09"></script>
 <script id="ch0105/10"></script>
 <script id="ch0105/11"></script>
