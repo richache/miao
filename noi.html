@@ -952,7 +952,6 @@
     console.log(a)
     m = (m - a) / 10
   } while (m > 0)
-
 </script>
 
 <script id="ch0105/29" type="OK">
@@ -960,13 +959,18 @@
   var res = ""
   var a
   var n = m
+  var count = 1
   do {
     if (n < 0) {
       n = -m
     }
     a = n % 10
-    res = res + a
     n = (n - a) / 10
+    if (count == 1 && a == 0) {
+      a = ""
+    }
+    res = res + a
+    count++
   } while (n > 0)
 
   if (m < 0) {
@@ -992,16 +996,12 @@
   if (calc == k) {
     console.log("YES")
   } else {
-    cnsole.log("NO")
+    console.log("NO")
   }
 </script>
 
 <script id="ch0105/31">debugger
-  // var n = +prompt("请输入数字：")
-  // var m = +prompt("请输入数字：")
-  // var light = true
-  // for (var count = 1, count<= m, count++) {
-  // }
+
 
 
 </script>
