@@ -883,7 +883,7 @@
     count++
   }
   console.log(max)
-</script> type="OK"
+</script>
 
 <script id="ch0105/25" type="OK">
   for (var a = 0; a < 7; a++) {
@@ -1000,17 +1000,114 @@
   }
 </script>
 
-<script id="ch0105/31">debugger
+<!-- <script id="ch0105/31">debugger
+  var n = +prompt("请输入灯数：")
+  var m = +prompt("请输入人数：")
+  var calc = 0
+  console.log(1)
+  for (var count = 2; count <= n; count++) {
+    for (var p = 1; p <= count && p <= m; p++) {
+      if (count % p == 0) {
+        calc++
+      }
+      if (calc % 2 != 0) {
+        console.log("," + count)
+      }
+      calc = 0
+    }
+  }
 
+</script> -->
 
+<script id="ch0105/32" type="OK">
+  var n = +prompt("请输入项数：")
+  var p = 1, q = 2
+  var sum = 0
+  var count = 0
+  do {
+    sum = sum + q / p
+    q = q + p
+    p = q - p
+    count++
+  } while (count != n)
+  console.log(sum.toFixed(4))
+</script>
+
+<script id="ch0105/33" type="OK">
+  var n = +prompt("请输入一个数：")
+  var m = 0, sum = 0
+  for (var count = 1; count <= n; count++) {
+    m = ((-1) ** (count - 1)) * 1 / count
+    sum += m
+  }
+  console.log(sum.toFixed(4))
+</script>
+
+<script id="ch0105/34" type="OK">
+  var n = +prompt("请输入一个数：")
+  var count = 1
+  var sum = 0
+  var c = 1
+  var x = 1
+  // 阶乘是从1一直乘到n，给一个循环让结果乘以计数器（x*c）
+  // 阶乘的和是从1!一直加到n!，给一个循环让sum加上每一个"已完成循环的阶乘结果"（sum+x）
+  // 担当计数器的x和c每次阶乘循环结束都要复位
+  while (count <= n) {
+    while (c <= count) {
+      x *= c
+      c++
+    }
+    sum += x
+    x = 1
+    c = 1
+    count++
+  }
+  console.log(sum)
+</script>
+
+<script id="ch0105/35" type="OK">
+  var n = +prompt("请输入一个数：")
+  var count = 1
+  var sum = 1
+  var c = 1
+  var x = 1
+  // 阶乘是从1一直乘到n，给一个循环让结果乘以计数器（x*c）
+  // 担当计数器的x和c每次阶乘循环结束都要复位
+  // 注意sum第一项是1，然后才是1/1!一直加到1/n!
+  while (count <= n) {
+    while (c <= count) {
+      x *= c
+      c++
+    }
+    sum += 1 / x
+    x = 1
+    c = 1
+    count++
+  }
+  console.log(sum.toFixed(10))
 
 </script>
 
-<script id="ch0105/32"></script>
-<script id="ch0105/33"></script>
-<script id="ch0105/34"></script>
-<script id="ch0105/35"></script>
-<script id="ch0105/36"></script>
+<script id="ch0105/36">debugger
+  var m = +prompt("请输入体力最大值：")
+  var n = +prompt("请输入初始战斗力：")
+  var x = +prompt("请输入初始能量元素：")
+  var t = 0
+  // 初始体力0，每次恢复的体力为循环后的n值，每次内循环后耗费的元素是m/n向上取整
+  // 每次内循环后判断：当元素用完且体力不是最大值时，跳出循环，输出此时战斗力
+  while (x > 0) {
+    var d = 1
+    while (d <= m) {
+      t = 0
+      d++
+    }
+    n = n + d - 1
+    x = x - Math.ceil(m / n)
+    t = m
+  }
+  console.log(n)
+</script>
+
 <script id="ch0105/37"></script>
 <script id="ch0105/38"></script>
 <script id="ch0105/39"></script>
