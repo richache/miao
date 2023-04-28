@@ -817,7 +817,7 @@
       x = calc * 3 + 1
       console.log(calc + "*3+1=" + x)
       calc = x
-    } else if (calc % 2 == 0) {
+    } else if {(calc % 2 == 0)
       y = calc / 2
       console.log(calc + "/2=" + y)
       calc = y
@@ -868,29 +868,144 @@
 
 <script id="ch0105/24" type="OK">
   var n = +prompt("请输入检测小时数：")
-  var count = 1, calc = 0
+  var count = 1, calc = 0,max=0
   while (count <= n) {
     var x = +prompt("请输入收缩压：")
     var y = +prompt("请输入舒张压：")
     if ((x >= 90 && x <= 140) && (y >= 60 && y <= 90)) {
       calc++
+      if(calc>max){
+        max=calc
+      }
     } else {
       calc = 0
     }
     count++
   }
+  console.log(max)
+</script> type="OK"
+
+<script id="ch0105/25" type="OK">
+  for (var a = 0; a < 7; a++) {
+    for (var b = 0; b < 7; b++) {
+      for (var c = 0; c < 7; c++) {
+        if ((49 * a + 7 * b + c == 81 * c + 9 * b + a) && !(a == 0 && b == 0 && c == 0)) {
+          break
+        }
+      }
+      if ((49 * a + 7 * b + c == 81 * c + 9 * b + a) && !(a == 0 && b == 0 && c == 0)) {
+        break
+      }
+    } if ((49 * a + 7 * b + c == 81 * c + 9 * b + a) && !(a == 0 && b == 0 && c == 0)) {
+      break
+    }
+  }
+  console.log(49 * a + 7 * b + c)
+  console.log("" + a + b + c)
+  console.log("" + c + b + a)
+
+  // 思路：
+  // abc cba m
+  // 49a + 7b + c = m
+  // 81c + 9b + a = m
+  // 49a + 7b + c = 81c + 9b + a
+  // 48a - 80c - 2b = 0
+  // b = 24a - 40c
+</script>
+
+<script id="ch0105/26" type="OK">
+  var m = +prompt("请输入多少个数：")
+  var calc = 0
+  for (var count = 0; count < m; count++) {
+    var n = +prompt("请输入数字：")
+    var a = n % 10
+    var b = (n % 100 - a) / 10
+    var c = (n % 1000 - n % 100) / 100
+    var d = (n % 10000 - n % 1000) / 1000
+    if (a - d - c - b > 0) {
+      calc++
+    }
+  }
   console.log(calc)
 </script>
 
-<script id="ch0105/25">debugger
+<script id="ch0105/27" type="OK">
+  var K = +prompt("请输入多少个数：")
+  var s = 0
+  for (var n = 0; ; n++) {
+    s = s + 1 / n
+    if (s > k) {
+      console.log(n)
+      break
+    }
+  }
+</script>
+
+<script id="ch0105/28" type="OK">
+  var m = +prompt("请输入数字：")
+  // 进制转换
+  // var res = ""
+  do {
+    var a = m % 10
+    // res = a + res
+    // console.log(res)
+    console.log(a)
+    m = (m - a) / 10
+  } while (m > 0)
 
 </script>
-<script id="ch0105/26"></script>
-<script id="ch0105/27"></script>
-<script id="ch0105/28"></script>
-<script id="ch0105/29"></script>
-<script id="ch0105/30"></script>
-<script id="ch0105/31"></script>
+
+<script id="ch0105/29" type="OK">
+  var m = +prompt("请输入数字：")
+  var res = ""
+  var a
+  var n = m
+  do {
+    if (n < 0) {
+      n = -m
+    }
+    a = n % 10
+    res = res + a
+    n = (n - a) / 10
+  } while (n > 0)
+
+  if (m < 0) {
+    console.log("-" + res)
+  } else {
+    console.log(res)
+  }
+
+</script>
+
+<script id="ch0105/30" type="OK">
+  var m = +prompt("请输入数字：")
+  var k = +prompt("请输入数字：")
+  var a = 0, calc = 0
+  do {
+    a = m % 10
+    if (a == 3) {
+      calc++
+    }
+    m = (m - a) / 10
+  } while (m > 0)
+
+  if (calc == k) {
+    console.log("YES")
+  } else {
+    cnsole.log("NO")
+  }
+</script>
+
+<script id="ch0105/31">debugger
+  // var n = +prompt("请输入数字：")
+  // var m = +prompt("请输入数字：")
+  // var light = true
+  // for (var count = 1, count<= m, count++) {
+
+  // }
+
+</script>
+
 <script id="ch0105/32"></script>
 <script id="ch0105/33"></script>
 <script id="ch0105/34"></script>
