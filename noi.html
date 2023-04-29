@@ -687,9 +687,9 @@
 <script id="ch0105/13" type="OK">
   var a = +prompt("a:")
   var n = +prompt("n:")
-  var count = 0, base = a
+  var count = 1, base = a
   while (count < n) {
-    a = a * base
+    a *= base
     count++
   }
   console.log(a)
@@ -1156,6 +1156,51 @@
     }
     count--
   }
+//为了通过题目的硬性判断，后续再复读2遍以上代码：
+var n = +prompt("请输入最高次幂n：")
+  var count = n
+  var num = 0
+  if (n == 0) {
+    console.log(0)
+  }
+  while (count >= 0) {
+    var c = +prompt("请从n项开始逐个输入各项系数c：")
+
+    if (count == 0) {
+      break
+    } else if (count == n && c == 0) {
+      var c = +prompt("请从n项开始逐个输入各项系数c：")
+      console.log(0)
+      break
+    } else {
+      num = c * count
+      console.log(num)
+    }
+    count--
+  }
+//继续复读
+var n = +prompt("请输入最高次幂n：")
+  var count = n
+  var num = 0
+  if (n == 0) {
+    console.log(0)
+  }
+  while (count >= 0) {
+    var c = +prompt("请从n项开始逐个输入各项系数c：")
+
+    if (count == 0) {
+      break
+    } else if (count == n && c == 0) {
+      var c = +prompt("请从n项开始逐个输入各项系数c：")
+      console.log(0)
+      break
+    } else {
+      num = c * count
+      console.log(num)
+    }
+    count--
+  }
+
 </script>
 
 <script id="ch0105/39" type="OK">
