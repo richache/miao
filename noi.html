@@ -684,7 +684,7 @@
   console.log(num)
 </script>
 
-<!-- <script id="ch0105/13" type="OK">
+<script id="ch0105/13" type="OK">
   var a = +prompt("a:")
   var n = +prompt("n:")
   var count = 0, base = a
@@ -694,14 +694,13 @@
   }
   console.log(a)
 </script>
-使用循环显然不如使用函数高效
--->
 
+<!-- 使用循环显然不如使用函数高效
 <script id="ch0105/13" type="OK">
   var a = +prompt("a:")
   var n = +prompt("n:")
   console.log(a ** n)
-</script>
+</script> -->
 
 <script id="ch0105/14" type="OK">
   var x = +prompt("请输入人口基数：")
@@ -1000,7 +999,7 @@
   }
 </script>
 
-<!-- <script id="ch0105/31">debugger
+<script id="ch0105/31">debugger
   var n = +prompt("请输入灯数：")
   var m = +prompt("请输入人数：")
   var calc = 0
@@ -1017,9 +1016,10 @@
     }
   }
 
-</script> -->
+</script>
 
 <script id="ch0105/32" type="OK">
+  //求分数序列和
   var n = +prompt("请输入项数：")
   var p = 1, q = 2
   var sum = 0
@@ -1034,6 +1034,7 @@
 </script>
 
 <script id="ch0105/33" type="OK">
+  //计算分数加减表达式的值:求 1/1 - 1/2 + 1/3 - 1/4 + 1/5 - 1/6 + 1/7 - 1/8 + ... + (-1)n-1·1/n 的值。
   var n = +prompt("请输入一个数：")
   var m = 0, sum = 0
   for (var count = 1; count <= n; count++) {
@@ -1044,6 +1045,7 @@
 </script>
 
 <script id="ch0105/34" type="OK">
+  //给定正整数n，求不大于n的正整数的阶乘的和（即求1!+2!+3!+...+n!）
   var n = +prompt("请输入一个数：")
   var count = 1
   var sum = 0
@@ -1066,6 +1068,7 @@
 </script>
 
 <script id="ch0105/35" type="OK">
+  //利用公式e = 1 + 1/1! + 1/2! + 1/3! + ... + 1/n! 求e 。
   var n = +prompt("请输入一个数：")
   var count = 1
   var sum = 1
@@ -1085,35 +1088,230 @@
     count++
   }
   console.log(sum.toFixed(10))
-
 </script>
 
-<script id="ch0105/36">debugger
+<script id="ch0105/36" type="OK">
+  // 假定多项式的形式为x**n+x**(n-1)+…+x**2+x+1，请计算给定单精度浮点数x和正整数n值的情况下这个多项式的值。
+  var x = +prompt("请输入项：")
+  var n = +prompt("请输入幂：")
+  var count = 1
+  var sum = 1
+  var a = 1
+  // 计数器count从1开始，遍历完n后结束；
+  //项x值不变，用a存储幂运算结果（特别地，a初始不能是0，所以sum初始为1）；
+  //sum累加a
+  while (count <= n) {
+    a = a * x
+    sum += a
+    count++
+  }
+  console.log(sum.toFixed(2))
+</script> type="OK"
+
+<script id="ch0105/37" type="OK">
   var m = +prompt("请输入体力最大值：")
   var n = +prompt("请输入初始战斗力：")
   var x = +prompt("请输入初始能量元素：")
-  var t = 0
   // 初始体力0，每次恢复的体力为循环后的n值，每次内循环后耗费的元素是m/n向上取整
-  // 每次内循环后判断：当元素用完且体力不是最大值时，跳出循环，输出此时战斗力
-  while (x > 0) {
-    var d = 1
-    while (d <= m) {
-      t = 0
-      d++
-    }
-    n = n + d - 1
-    x = x - Math.ceil(m / n)
-    t = m
+  // 题目有几个干扰因素：初始体力0，当前体力值t，冒险天数d
+  // 精简后：当元素盈余，保持循环；当元素为0，再循环一次跳出；当元素小于0，立即跳出
+  while (x >= 0) {
+    // var d = 0
+    // while (d < m) {
+    //   d++
+    // }
+    // 每次内循环的结果，d总是等于m，所以内循环可以省略，直接用m代表连续作战天数
+    // 战斗力增幅=（连续作战天数/上一循环结束时战斗力）向下取整
+    n += Math.floor(m / n)
+    x -= Math.ceil(m / n)
   }
   console.log(n)
 </script>
 
-<script id="ch0105/37"></script>
-<script id="ch0105/38"></script>
-<script id="ch0105/39"></script>
-<script id="ch0105/40"></script>
-<script id="ch0105/41"></script>
-<script id="ch0105/42"></script>
-<script id="ch0105/43"></script>
-<script id="ch0105/44"></script>
-<script id="ch0105/45"></script>
+<script id="ch0105/38" type="OK">
+  // 计算多项式的导函数
+  // 首先：导函数有且不止有如下特性
+  // 1.(C)' = 0 如果C是常量
+  // 2.（C*x**n)' = C*n* x**(n-1) 如果n >= 1且C是常量
+  // 3.( f1(x) + f2(x) )' = f1'(x) + f2'(x) 【题目写错了f2(x)】
+  // 思路： 俩函数之和的导函数 = 俩函数的导函数之和（此逻辑用不上）；n项的导数 = n-1项的常数（所以当n项常数为0时，后续常数全是0）
+  var n = +prompt("请输入最高次幂n：")
+  var count = n
+  var num = 0
+  if (n == 0) {
+    console.log(0)
+  }
+  while (count >= 0) { //从第n项开始遍历，计数器累减1，直到第0项
+    var c = +prompt("请从n项开始逐个输入各项系数c：")
+    // 当count == 0时是C0项，一定是常数，导数必定是0，所以加一个if条件直接跳出循环
+    if (count == 0) {
+      break
+    } else if (count == n && c == 0) { //当Cn项常数为0，后续常数都是0，跳出循环（加个prompt是为了符合题目要求，无实际意义）
+      var c = +prompt("请从n项开始逐个输入各项系数c：")
+      console.log(0)
+      break
+    } else {
+      num = c * count
+      console.log(num)
+    }
+    count--
+  }
+</script>
+
+<script id="ch0105/39" type="OK">
+  //题干：非7倍数 且 个位，十位，百位不是7.
+  //"符合条件的所有数"各自的平方 求和
+  var n = +prompt("请输入一个数：")
+  var c = 1
+  var x = c % 10
+  var y = (c % 100 - c % 10) / 10
+  var z = (c % 1000 - c % 100) / 100
+  var sum = 0
+  while (c <= n) {
+    if (c % 7 != 0 && (c % 10 != 7 && x != 7 && y != 7 && z != 7)) {
+      sum += c * c
+    }
+    c++
+  }
+  console.log(sum)
+</script>
+
+<script id="ch0105/40" type="OK">
+  // 外循环遍历n，判断语句使用if完成
+  var n = +prompt("请输入n：")
+  var count = 1, calc = 0, c = 0
+  while (count <= n) {
+    c = count
+    var 个位 = c % 10
+    var 十位 = (c % 100 - c % 10) / 10
+    var 百位 = (c % 1000 - c % 100) / 100
+    var 千位 = (c % 10000 - c % 1000) / 1000
+    var 万位 = (c % 100000 - c % 10000) / 10000
+    if (个位 == 1) {
+      calc++
+    }
+    if (十位 == 1) {
+      calc++
+    }
+    if (百位 == 1) {
+      calc++
+    }
+    if (千位 == 1) {
+      calc++
+    }
+    if (万位 == 1) {
+      calc++
+    }
+    count++
+  }
+  console.log(calc)
+</script>
+
+<script id="ch0105/41" type="OK">
+  var L = +prompt("请输入L：")
+  var R = +prompt("请输入R：")
+  var count = L, calc = 0, c = 0
+  while (count <= R) {
+    c = count
+    var 个位 = c % 10
+    var 十位 = (c % 100 - c % 10) / 10
+    var 百位 = (c % 1000 - c % 100) / 100
+    var 千位 = (c % 10000 - c % 1000) / 1000
+    var 万位 = (c % 100000 - c % 10000) / 10000
+    if (个位 == 2) {
+      calc++
+    }
+    if (十位 == 2) {
+      calc++
+    }
+    if (百位 == 2) {
+      calc++
+    }
+    if (千位 == 2) {
+      calc++
+    }
+    if (万位 == 2) {
+      calc++
+    }
+    count++
+  }
+  console.log(calc)
+</script>
+
+<script id="ch0105/42" type="OK">
+  var h = +prompt("高h：")
+  var w = +prompt("宽w：")
+  var s = prompt("符号s：")
+  var o = +prompt("实心1空心0：")
+  var sign = ""
+  if (o == 1) {
+    for (var count = 1; count <= h; count++) {
+      for (var c = 1; c <= w; c++) {
+        sign += s
+      }
+      console.log(sign)
+      sign = ""
+    }
+  } else if (o == 0) {
+    for (var count = 1; count <= h; count++) {
+      for (var c = 1; c <= w; c++) {
+        if (count != 1 && count != h && c != 1 && c != w) {
+          sign += " "
+        } else {
+          sign += s
+        }
+      }
+      console.log(sign)
+      sign = ""
+    }
+  }
+
+</script>
+
+<script id="ch0105/43" type="OK">
+  var n = +prompt("请输入一个数：")
+  var count = 1, p = 0
+  while (count < n) {
+    if (n % count == 0) {
+      p = count
+    }
+    count++
+  }
+  console.log(p)
+</script>
+
+<script id="ch0105/44" type="OK">
+  var n = +prompt("请输入想要得到第几个质数：")
+  var p = 0
+  for (var count = 2; p != n; count++) {
+    var q = true
+    for (var num = 2; num < count; num++) {
+      if (count == 2) {
+        break
+      }
+      if (count % num == 0) {
+        q = false
+        break
+      }
+    }
+    if (q == true) {
+      p++
+    }
+  }
+  console.log(count - 1)
+</script>
+
+<script id="ch0105/45" type="OK">
+  var d = +prompt("请输入天数：")
+  var n = 0, a = 1, sum = 0, c = 1
+  for (var count = 1; count + c <= d; count++) {
+    for (c = 1; c <= a; c++) {
+      sum += a
+      if (count + c == d) {
+        console.log(sum)
+        break
+      }
+    }
+    a++
+  }
+</script>
