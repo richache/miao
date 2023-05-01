@@ -347,7 +347,7 @@
     } else {
       var y = N / 2 - 1.5
     }
-    <!-- 由于条件只有其中一个触发输出语句，所以console.log可以提到最后而无需每一个条件都写 -->
+    // 只有其中一个条件触发输出语句，所以console.log可以提到最后而无需每一个条件都写
     console.log(y.toFixed(3))
   }
 </script>
@@ -375,7 +375,7 @@
     console.log("请重新选择是否加急，输入y或n")
   }
 </script>
-以下为优化:
+以下为优化:默认不加急，计算完再判断是否加急
 -->
 
 <script id="ch0104/14" type="OK">
@@ -410,7 +410,7 @@
     console.log(z)
   }
 </script>
-使用以下方法简化
+使用以下方法简化，默认第一个输入最大，然后逐个对比
 -->
 <script id="ch0104/15" type="OK">
   var x = +prompt()
@@ -695,7 +695,7 @@
   console.log(a)
 </script>
 
-<!-- 使用循环显然不如使用函数高效
+<!-- 以上循环即**运算的逻辑
 <script id="ch0105/13" type="OK">
   var a = +prompt("a:")
   var n = +prompt("n:")
@@ -741,7 +741,7 @@
       break
     }
     grow = grow * (1 + K / 100)
-
+    //该题一定要在涨价前判断条件，否则永远买不起
   }
 </script>
 
@@ -753,6 +753,9 @@
       sum = a + b
       a = b
       b = sum
+      //也可以只用2个变量完成(但遇到最大域值时a+b会溢出，b-a得不到前一项的b，此时函数失真)
+      //b=a+b
+      //a=b-a
     }
     count++
   }
@@ -788,7 +791,7 @@
     var p = +prompt("请输入人数：")
     s = Math.sqrt(a * a + b * b)
     t = (s / 50) * 2 + (1 + 0.5) * p
-    sum = sum + t
+    sum += t
     count++
   }
   console.log(Math.ceil(sum))
@@ -999,23 +1002,30 @@
   }
 </script>
 
-<script id="ch0105/31">debugger
+<script id="ch0105/31" type="OK">
   var n = +prompt("请输入灯数：")
   var m = +prompt("请输入人数：")
   var calc = 0
+  // 通读之后得出2个需求：
+  // 1.第N个人不会改变编号小于N的灯
+  // 2.只输出最终状态为false的灯，无论它改变了多少次
+
+  // 易得：第一个人让所有的灯都改变了一次成为false（不参与循环）
+  // 思路： 外循环——灯编号（从2开始）遍历到n （第一盏灯不参与循环）
+  //       内循环——人编号（从2开始）遍历到m （第一个人不参与循环）
+  // 核心： 循环内，一盏灯被改变状态的次数为偶时，最终状态为false
   console.log(1)
   for (var count = 2; count <= n; count++) {
-    for (var p = 1; p <= count && p <= m; p++) {
+    for (var p = 2; p <= count && p <= m; p++) {
       if (count % p == 0) {
         calc++
       }
-      if (calc % 2 != 0) {
-        console.log("," + count)
-      }
-      calc = 0
     }
+    if (calc % 2 == 0) {
+      console.log("," + count)
+    }
+    calc = 0
   }
-
 </script>
 
 <script id="ch0105/32" type="OK">
@@ -1106,7 +1116,7 @@
     count++
   }
   console.log(sum.toFixed(2))
-</script> type="OK"
+</script>
 
 <script id="ch0105/37" type="OK">
   var m = +prompt("请输入体力最大值：")
