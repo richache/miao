@@ -975,18 +975,16 @@
     count++
   } while (n > 0)
 
-  if (m < 0) {
-    console.log("-" + res)
-  } else {
-    console.log(res)
-  }
+  m < 0 ? console.log("-" + res) : console.log(res)
 
 </script>
 
 <script id="ch0105/30" type="OK">
+  // 判断是否属于“含有特定个3”的数字
+  // 各数位依次求余可计算“3”出现次数
   var m = +prompt("请输入数字：")
   var k = +prompt("请输入数字：")
-  var a = 0, calc = 0
+  var a = 0, calc = 0 ,num = m
   do {
     a = m % 10
     if (a == 3) {
@@ -995,25 +993,22 @@
     m = (m - a) / 10
   } while (m > 0)
 
-  if (calc == k) {
-    console.log("YES")
-  } else {
-    console.log("NO")
-  }
+  (num%19==0) && (calc == k)? console.log("YES") :console.log("NO")
 </script>
-type="OK"
-<script id="ch0105/31">debugger
-  var n = +prompt("请输入灯数：")
-  var m = +prompt("请输入人数：")
-  var calc = 0
+
+<script id="ch0105/31" type="OK">
   // 通读之后得出2个需求：
   // 1.第N个人不会改变编号小于N的灯
   // 2.只输出最终状态为false的灯，无论它改变了多少次
 
-  // 易得：第一个人让所有的灯都改变了一次成为false（不参与循环）
+  // 易得： 第一个人让所有的灯都改变了一次成为false（不参与循环）
   // 思路： 外循环——灯编号（从2开始）遍历到n （第一盏灯不参与循环）
   //       内循环——人编号（从2开始）遍历到m （第一个人不参与循环）
   // 核心： 循环内，一盏灯被改变状态的次数为偶时，最终状态为false
+
+  var n = +prompt("请输入灯数：")
+  var m = +prompt("请输入人数：")
+  var calc = 0
   var output = "1"
   for (var count = 2; count <= n; count++) {
     for (var p = 2; p <= count && p <= m; p++) {
@@ -1120,12 +1115,12 @@ type="OK"
 </script>
 
 <script id="ch0105/37" type="OK">
-  var m = +prompt("请输入体力最大值：")
-  var n = +prompt("请输入初始战斗力：")
-  var x = +prompt("请输入初始能量元素：")
   // 初始体力0，每次恢复的体力为循环后的n值，每次内循环后耗费的元素是m/n向上取整
   // 题目有几个干扰因素：初始体力0，当前体力值t，冒险天数d
   // 精简后：当元素盈余，保持循环；当元素为0，再循环一次跳出；当元素小于0，立即跳出
+  var m = +prompt("请输入体力最大值：")
+  var n = +prompt("请输入初始战斗力：")
+  var x = +prompt("请输入初始能量元素：")
   while (x >= 0) {
     // var d = 0
     // while (d < m) {
@@ -1369,5 +1364,225 @@ var n = +prompt("请输入最高次幂n：")
       }
     }
     a++
+  }
+</script>
+
+<!--  -->
+<!-- Extra -->
+<!--  -->
+<!-- 以下所有“是否”的题目都输出YES/NO
+1.narcissistic: 输入一个数，判断是否是水仙花数
+2.narcissistics: 输出10000以内的水仙花数
+3.palindrom: 输入一个数，判断它数是否是回文数，如1223221
+4.weekday: 输入年份与月份，输出这个月的第一天是周几（视具体设定，周一可以用1或0表示）
+5.complete-number: 输入一个数，判断它是否是完全数（自行查相关概念）
+6.complete-numbers: 输出1000以内的完全数
+7.prime: 输入一个数，判断它是否是素数
+8.primes: 输出100以内的素数
+9.itob: 给定一个整数，将其转换为字符串：不能使用String等现成函数，但可以使用非此功能的其它函数，也不能利用任意运算符的自动类型转换
+10.lcf&lcm: 输入两个数，输出它们的最大公约数和最小公倍数
+11.sqrt: 输入一个数，求它的平方根，精确到小数点后3位，不能使用Math.sqrt
+-->
+
+<script id="narcissistic" type="OK">//判断是否水仙花数
+  var n = +prompt("输入一个数：")
+  var a = n % 10
+  var b = (n % 100 - a) / 10
+  var c = (n % 1000 - n % 100) / 100
+  a * a * a + b * b * b + c * c * c == n ? console.log("YES") : console.log("NO")
+</script>
+
+<script id="narcissistics" type="OK">//列出10000内的水仙花数
+  for (var n = 100; n < 1000; n++) {
+    var a = n % 10
+    var b = (n % 100 - a) / 10
+    var c = (n % 1000 - n % 100) / 100
+    if (a * a * a + b * b * b + c * c * c == n) {
+      console.log(n)
+    }
+  }
+</script>
+
+<script id="palindrom" type="OK">
+  // 判断是否回文数(即类似12521形式的数)
+  // 显然，"只有个位"的数也算, 负数、小数、复数不算
+  // 不管有多少个数位，直接对比反转之后是否与原数字相等
+  var n = +prompt("输入一个数：")
+  var count = 0
+  var x = n
+  var y = ""
+  while (x > 0) {
+    y += x % 10
+    x = Math.floor(x / 10)
+  }
+  y = Number(y)
+  y == n ? console.log("YES") : console.log("NO")
+</script>
+
+<script id="weekday">
+  // 某年某月第一天是周几
+
+</script>
+
+<script id="complete-number" type="OK">
+  // 完全数判断
+  // 完全数的最大质因子不能是自身，所以最多遍历到n/2即可跳出循环
+  var n = +prompt("请输入一个数：")
+  var calc = 0, count = 1
+  while (count <= n / 2) {
+    if (n % count == 0) {
+      calc += count
+    }
+    count++
+  }
+  calc == n ? console.log("YES") : console.log("NO")
+
+
+  /* 扩展：求最大质因数
+  var n = +prompt("请输入一个数：")
+  var i = 2
+  var res = 1
+  while (n > 2) {
+    if (n % i == 0) {
+      n /= i
+      res = i
+    }else{
+      i++
+    }
+  }
+  console.log(res)
+  */
+</script>
+
+<script id="complete-numbers" type="OK">
+  // 输出1000以内的完全数
+  // 外循环遍历1到1000，内循环遍历质因数并累加；外循环条件筛选并输出完全数
+  var n = 1
+  while (n <= 1000) {
+    var calc = 0, count = 1
+    while (count <= n / 2) {
+      if (n % count == 0) {
+        calc += count
+      }
+      count++
+    }
+    if (calc == n) {
+      console.log(calc)
+    }
+    n++
+  }
+</script>
+
+<script id="prime" type="OK">
+  // 判断素数
+  var n = +prompt("请输入一个数：")
+  var m = n
+  var i = 2
+  var res = 2
+  while (m > 2) {
+    if (m % i == 0) {
+      m /= i
+      res = i
+    } else {
+      i++
+    }
+  }
+  res == n ? console.log("YES") : console.log("NO")
+
+</script>
+
+<script id="primes" type="OK">
+  // 输出100内的素数
+  for (var n = 1; n < 100; n++) {
+    var m = n
+    var i = 2
+    var res = 2
+    while (m > 2) {
+      if (m % i == 0) {
+        m /= i
+        res = i
+      } else {
+        i++
+      }
+    }
+    if (res == n) {
+      console.log(res)
+    }
+  }
+</script>
+
+<script id="itob" type="OK">
+  //转换数字为字符串
+  var n = +prompt("请输入一个数：")
+  var num = n
+  var m = 0
+  var word = ""
+
+  if (num < 0) {
+    n = -n
+  }
+  while (n > 0) {
+    m = n % 10
+    n = (n - m) / 10
+    switch (m >= 0) {
+      case m == 0:
+        word = "0" + word
+        break;
+      case m == 1:
+        word = "1" + word
+        break;
+      case m == 2:
+        word = "2" + word
+        break;
+      case m == 3:
+        word = "3" + word
+        break;
+      case m == 4:
+        word = "4" + word
+        break;
+      case m == 5:
+        word = "5" + word
+        break;
+      case m == 6:
+        word = "6" + word
+        break;
+      case m == 7:
+        word = "7" + word
+        break;
+      case m == 8:
+        word = "8" + word
+        break;
+      case m == 9:
+        word = "9" + word
+        break;
+    }
+  }
+  if (num < 0) {
+    console.log("-" + word)
+  } else {
+    console.log(word)
+  }
+</script>
+
+<script id="lcf&lcm">debugger
+
+</script>
+
+<script id="sqrt" type="OK">
+  // 求开方
+  var n = +prompt("请输入一个数:")
+  var R = n, L = 0
+  var num = 0
+  while (R != L) {
+    num = (R + L) / 2
+    if (num * num >= n) {
+      R = num
+    } else {
+      L = num
+    }
+    if (R.toFixed(3) == num.toFixed(3) && L.toFixed(3) == num.toFixed(3)) {
+      console.log(R.toFixed(3))
+      break
+    }
   }
 </script>
