@@ -1001,8 +1001,8 @@
     console.log("NO")
   }
 </script>
-
-<script id="ch0105/31" type="OK">
+type="OK"
+<script id="ch0105/31">debugger
   var n = +prompt("请输入灯数：")
   var m = +prompt("请输入人数：")
   var calc = 0
@@ -1014,7 +1014,7 @@
   // 思路： 外循环——灯编号（从2开始）遍历到n （第一盏灯不参与循环）
   //       内循环——人编号（从2开始）遍历到m （第一个人不参与循环）
   // 核心： 循环内，一盏灯被改变状态的次数为偶时，最终状态为false
-  console.log(1)
+  var output = "1"
   for (var count = 2; count <= n; count++) {
     for (var p = 2; p <= count && p <= m; p++) {
       if (count % p == 0) {
@@ -1022,10 +1022,11 @@
       }
     }
     if (calc % 2 == 0) {
-      console.log("," + count)
+      output += "," + count
     }
     calc = 0
   }
+  console.log(output)
 </script>
 
 <script id="ch0105/32" type="OK">
