@@ -956,7 +956,7 @@
   } while (m > 0)
 </script>
 
-<script id="ch0105/29" type="OK">
+<!-- <script id="ch0105/29" type="OK">
   var m = +prompt("请输入数字：")
   var res = ""
   var a
@@ -978,6 +978,22 @@
   m < 0 ? console.log("-" + res) : console.log(res)
 
 </script>
+不用字符串拼接
+//或者用函数Math.sign()取符号，Math.abs()取绝对值
+-->
+
+<script id="ch0105/29" type="OK">
+  // 无需担心前导零
+  // 负数的求余运算也可使用
+  var m = +prompt("请输入数字：")
+  var result =0
+  while(m!=0){
+    var g = m % 10
+    result = result *10 + g
+    m = (m-g)/10
+  }
+  console.log(result)
+</script>
 
 <script id="ch0105/30" type="OK">
   // 判断是否属于“含有特定个3”的数字
@@ -985,15 +1001,19 @@
   var m = +prompt("请输入数字：")
   var k = +prompt("请输入数字：")
   var a = 0, calc = 0 ,num = m
-  do {
+  while (m > 0){
     a = m % 10
     if (a == 3) {
       calc++
     }
     m = (m - a) / 10
-  } while (m > 0)
+  }
 
-  (num%19==0) && (calc == k)? console.log("YES") :console.log("NO")
+  if(num%19!=0){
+    console.log("NO")
+  } else if(calc == k){
+    console.log("YES")
+  }
 </script>
 
 <script id="ch0105/31" type="OK">
@@ -1008,9 +1028,9 @@
 
   var n = +prompt("请输入灯数：")
   var m = +prompt("请输入人数：")
-  var calc = 0
   var output = "1"
   for (var count = 2; count <= n; count++) {
+    var calc = 0
     for (var p = 2; p <= count && p <= m; p++) {
       if (count % p == 0) {
         calc++
@@ -1019,10 +1039,10 @@
     if (calc % 2 == 0) {
       output += "," + count
     }
-    calc = 0
   }
   console.log(output)
 </script>
+<!-- 当人跟灯的数量相同时，结果是完全平方数，1,4,9,16,25,36,49,64,81等等 -->
 
 <script id="ch0105/32" type="OK">
   //求分数序列和
@@ -1050,7 +1070,7 @@
   console.log(sum.toFixed(4))
 </script>
 
-<script id="ch0105/34" type="OK">
+<!-- <script id="ch0105/34" type="OK">
   //给定正整数n，求不大于n的正整数的阶乘的和（即求1!+2!+3!+...+n!）
   var n = +prompt("请输入一个数：")
   var count = 1
@@ -1072,26 +1092,33 @@
   }
   console.log(sum)
 </script>
+以下为简化
+-->
+
+<script id="ch0105/34" type="OK">
+  // 利用了每层循环结束后的计数器i来算阶乘
+  var n = +prompt("请输入一个数：")
+  var sum=0,f=1
+  for (var i=1;i<=n;i++){
+    f*=i
+    sum+= f
+  }
+  console.log(sum)
+</script>
 
 <script id="ch0105/35" type="OK">
   //利用公式e = 1 + 1/1! + 1/2! + 1/3! + ... + 1/n! 求e 。
   var n = +prompt("请输入一个数：")
-  var count = 1
   var sum = 1
-  var c = 1
-  var x = 1
   // 阶乘是从1一直乘到n，给一个循环让结果乘以计数器（x*c）
   // 担当计数器的x和c每次阶乘循环结束都要复位
   // 注意sum第一项是1，然后才是1/1!一直加到1/n!
-  while (count <= n) {
-    while (c <= count) {
+  for (var count=1;count <= n;count++) {
+    var x = 1
+    for (c=1;c <= count;c++) {
       x *= c
-      c++
     }
     sum += 1 / x
-    x = 1
-    c = 1
-    count++
   }
   console.log(sum.toFixed(10))
 </script>
@@ -1100,16 +1127,14 @@
   // 假定多项式的形式为x**n+x**(n-1)+…+x**2+x+1，请计算给定单精度浮点数x和正整数n值的情况下这个多项式的值。
   var x = +prompt("请输入项：")
   var n = +prompt("请输入幂：")
-  var count = 1
   var sum = 1
   var a = 1
   // 计数器count从1开始，遍历完n后结束；
   //项x值不变，用a存储幂运算结果（特别地，a初始不能是0，所以sum初始为1）；
   //sum累加a
-  while (count <= n) {
+  for (var count = 1;count <= n;count++) {
     a = a * x
     sum += a
-    count++
   }
   console.log(sum.toFixed(2))
 </script>
@@ -1134,14 +1159,7 @@
   console.log(n)
 </script>
 
-<script id="ch0105/38" type="OK">
-  // 计算多项式的导函数
-  // 首先：导函数有且不止有如下特性
-  // 1.(C)' = 0 如果C是常量
-  // 2.（C*x**n)' = C*n* x**(n-1) 如果n >= 1且C是常量
-  // 3.( f1(x) + f2(x) )' = f1'(x) + f2'(x) 【题目写错了f2(x)】
-  // 思路： 俩函数之和的导函数 = 俩函数的导函数之和（此逻辑用不上）；n项的导数 = n-1项的常数（所以当n项常数为0时，后续常数全是0）
-  var n = +prompt("请输入最高次幂n：")
+<!-- var n = +prompt("请输入最高次幂n：")
   var count = n
   var num = 0
   if (n == 0) {
@@ -1205,11 +1223,32 @@ var n = +prompt("请输入最高次幂n：")
       console.log(num)
     }
     count--
-  }
+  } -->
 
-</script>
+<script id="ch0105/38" type="OK">
+    // 计算多项式的导函数
+    // 首先：导函数有且不止有如下特性
+    // 1.(C)' = 0 如果C是常量
+    // 2.（C*x**n)' = C*n* x**(n-1) 如果n >= 1且C是常量
+    // 3.( f1(x) + f2(x) )' = f1'(x) + f2'(x) 【题目写错了f2(x)】
+    // 思路： 俩函数之和的导函数 = 俩函数的导函数之和（此逻辑用不上）；n项的导数 = n-1项的常数（所以当n项常数为0时，后续常数全是0）
+    // 核心：从第n项开始遍历到第0项，逐项乘以输入的常量
 
-<script id="ch0105/39" type="OK">
+    var t = +prompt("请输入样本总数：")
+    for(var i=0;i<t;i++){
+      var n = +prompt("请输入最高次幂n：")
+      var count=n
+      for(var j=0;j<=n;j++){
+        var c = +prompt("请从n项开始逐个输入各项系数c：")
+        if(j!=n||n==0){
+          console.log(count*c)
+        }
+        count--
+      }
+    }
+  </script>
+
+<!-- <script id="ch0105/39" type="OK">
   //题干：非7倍数 且 个位，十位，百位不是7.
   //"符合条件的所有数"各自的平方 求和
   var n = +prompt("请输入一个数：")
@@ -1226,8 +1265,35 @@ var n = +prompt("请输入最高次幂n：")
   }
   console.log(sum)
 </script>
+使用函数化简如下：
+-->
 
-<script id="ch0105/40" type="OK">
+<script id="ch0105/39" type="OK">
+  var has7 = function (n) {
+    if (n % 7 == 0) {
+      return true
+    }
+    while (n > 0) {
+      var g = n % 10
+      if (g == 7) {
+        return true
+      }
+      n = (n - g) / 10
+    }
+    return false
+  }
+
+  var n = +prompt()
+  var sum = 0
+  for (var i = 1; i <= n; i++) {
+    if (!has7(i)) {
+      sum += i * i
+    }
+  }
+  console.log(sum)
+</script>
+
+<!-- <script id="ch0105/40" type="OK">
   // 外循环遍历n，判断语句使用if完成
   var n = +prompt("请输入n：")
   var count = 1, calc = 0, c = 0
@@ -1256,6 +1322,29 @@ var n = +prompt("请输入最高次幂n：")
     count++
   }
   console.log(calc)
+</script>
+使用函数化简如下：
+-->
+
+<script id="ch0105/40" type="OK">
+  var count1 = function (n) {
+    var calc = 0
+    while (n > 0) {
+      var g = n % 10
+      if (g == 1) {
+        calc++
+      }
+      n = (n - g) / 10
+    }
+    return calc
+  }
+
+  var n = +prompt()
+  var sum = 0
+  for (var i = 1; i <= n; i++) {
+    sum = sum + count1(i)
+  }
+  console.log(sum)
 </script>
 
 <script id="ch0105/41" type="OK">
@@ -1293,9 +1382,9 @@ var n = +prompt("请输入最高次幂n：")
   var h = +prompt("高h：")
   var w = +prompt("宽w：")
   var s = prompt("符号s：")
-  var o = +prompt("实心1空心0：")
+  var f = +prompt("实心1空心0：")
   var sign = ""
-  if (o == 1) {
+  if (f == 1) {
     for (var count = 1; count <= h; count++) {
       for (var c = 1; c <= w; c++) {
         sign += s
@@ -1303,7 +1392,7 @@ var n = +prompt("请输入最高次幂n：")
       console.log(sign)
       sign = ""
     }
-  } else if (o == 0) {
+  } else if (f == 0) {
     for (var count = 1; count <= h; count++) {
       for (var c = 1; c <= w; c++) {
         if (count != 1 && count != h && c != 1 && c != w) {
@@ -1564,8 +1653,20 @@ var n = +prompt("请输入最高次幂n：")
   }
 </script>
 
-<script id="lcf&lcm">debugger
-
+<script id="lcf&lcm" type="OK">
+  var m = +prompt("请输入一个数：")
+  var n = +prompt("请输入另一个数：")
+  var lcf = 1, lcm = 1
+  for (var c = 2; c <= m && c <= n; c++) {
+    if (m % c == 0 && n % c == 0) {
+      lcf *= c
+    }
+  }
+  console.log(lcf)
+  for (var count = 2; lcm % m != 0 || lcm % n != 0; count++) {
+    lcm = lcf * count
+  }
+  console.log(lcm)
 </script>
 
 <script id="sqrt" type="OK">
