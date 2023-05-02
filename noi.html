@@ -1342,12 +1342,12 @@ var n = +prompt("请输入最高次幂n：")
   var n = +prompt()
   var sum = 0
   for (var i = 1; i <= n; i++) {
-    sum = sum + count1(i)
+    sum += count1(i)
   }
   console.log(sum)
 </script>
 
-<script id="ch0105/41" type="OK">
+<!-- <script id="ch0105/41" type="OK">
   var L = +prompt("请输入L：")
   var R = +prompt("请输入R：")
   var count = L, calc = 0, c = 0
@@ -1376,6 +1376,30 @@ var n = +prompt("请输入最高次幂n：")
     count++
   }
   console.log(calc)
+</script>
+使用函数优化如下：
+-->
+
+<script id="ch0105/41" type="OK">
+  var count2 = function (n) {
+    var calc = 0
+    while (n > 0) {
+      var g = n % 10
+      if (g == 2) {
+        calc++
+      }
+      n = (n - g) / 10
+    }
+    return calc
+  }
+
+  var L = +prompt("输入左阈值：")
+  var R = +prompt("输入右阈值：")
+  var sum = 0
+  for (var i = L; i <= R; i++) {
+    sum +=  count2(i)
+  }
+  console.log(sum)
 </script>
 
 <script id="ch0105/42" type="OK">
@@ -1409,6 +1433,8 @@ var n = +prompt("请输入最高次幂n：")
 </script>
 
 <script id="ch0105/43" type="OK">
+  // 取n的最大质子
+  // 数字过大时计算量大
   var n = +prompt("请输入一个数：")
   var count = 1, p = 0
   while (count < n) {
@@ -1420,7 +1446,7 @@ var n = +prompt("请输入最高次幂n：")
   console.log(p)
 </script>
 
-<script id="ch0105/44" type="OK">
+<!-- <script id="ch0105/44" type="OK">
   var n = +prompt("请输入想要得到第几个质数：")
   var p = 0
   for (var count = 2; p != n; count++) {
@@ -1440,10 +1466,40 @@ var n = +prompt("请输入最高次幂n：")
   }
   console.log(count - 1)
 </script>
+使用函数优化如下：
+-->
+
+<script id="ch0105/44" type="OK">
+  // isPrime函数使用条件与循环剔除所有合数，剩余就是质数，不是质数则返回false，否则返回true
+  function isPrime(x) {
+    var sqrt_x = Math.sqrt(x)
+    if (x == 1) {
+      return false
+    }
+    for (g = 2; g <= sqrt_x; g++) {
+      if (x % g == 0) {
+        return false
+      }
+    }
+    return true
+  }
+
+  var n = +prompt("请输入想要得到第几个质数：")
+  var p = 0
+  for (var i = 1; p != n; i++) {
+    if (isPrime(i)) {
+      p++
+    }
+    if (p == n) {
+      console.log(i)
+    }
+  }
+</script>
 
 <script id="ch0105/45" type="OK">
+  // a为金币增量,初始为1；sum是初始工资，为0；c记录某个金币增量持续了多少天
   var d = +prompt("请输入天数：")
-  var n = 0, a = 1, sum = 0, c = 1
+  var a = 1, sum = 0, c = 1
   for (var count = 1; count + c <= d; count++) {
     for (c = 1; c <= a; c++) {
       sum += a
@@ -1525,7 +1581,6 @@ var n = +prompt("请输入最高次幂n：")
     count++
   }
   calc == n ? console.log("YES") : console.log("NO")
-
 
   /* 扩展：求最大质因数
   var n = +prompt("请输入一个数：")
