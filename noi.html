@@ -1564,8 +1564,26 @@ var n = +prompt("请输入最高次幂n：")
   y == n ? console.log("YES") : console.log("NO")
 </script>
 
-<script id="weekday">
+<script id="weekday">debugger
   // 某年某月第一天是周几
+  // 使用Zeller公式求某年某月某日是周几
+  // 仅适用于1582年10月15日之后的星期
+  var year = +prompt("请输入年份：")
+  var month = +prompt("请输入月份：")
+  var day = 1
+  var century, y, week
+  if (month == 1 || month == 2) {
+    year--
+    month += 12
+  }
+  century = Math.trunc(year / 100)
+  y = year - century * 100
+  week = y + Math.trunc(y / 4) + Math.trunc(century / 4) - 2 * century + Math.trunc(26 * (month + 1) / 10) + day - 1
+  while (week < 0 || week > 7) {
+    week += 7
+    week %= 7
+  }
+  console.log(week)
 
 </script>
 
