@@ -15,7 +15,7 @@
 </head>
 
 <body>
-  <canvas width="1000" height="700"></canvas>
+  <canvas width="1000" height="800"></canvas>
 </body>
 <script>
   var canvas = document.querySelector('canvas')
@@ -100,7 +100,7 @@
     }
   }
   // 或者：
-  var y4 = 30
+  var y4 = 35
   for (x4 = 100; x4 <= 400; x4 += 2) {
     dot(x4, y4)
   }
@@ -129,7 +129,7 @@
   //或者：
   for (var x6 = 100; x6 <= 400; x6++) {
     if (x6 % 5 < 3) {
-      dot(x6, 60)
+      dot(x6, 55)
     }
   }
 
@@ -161,7 +161,7 @@
 
   // 画一条跨越画布左上角和右下角的对角线
   var x10 = 0, y10 = 0
-  while (x10 <= 500) {
+  while (x10 <= 1000) {
     dot(x10, y10)
     y10 += 4 / 5
     x10++
@@ -255,12 +255,48 @@
   //          rotation，旋转变换
   for (var x17 = 0; x17 <= 256; x17++) {
     for (var y17 = 0; y17 <= 256; y17++) {
-      var x171 = x17
-      var y171 = y17 + 0.27 * x17
-      dot(x171 + 550, y171 + 200, "rgb(" + x171 + "," + y171 + ",255)")
+      var x171 = x17 * 2
+      var y171 = y17 * 2
+      dot(x171 + 50, y171 + 500, "rgb(" + x171 + "," + y171 + ",255)")
     }
   }
+  for (var x17 = 0; x17 <= 256; x17++) {
+    for (var y17 = 0; y17 <= 256; y17++) {
+      var x171 = x17 * 0.5
+      var y171 = y17 * 0.5
+      dot(x171 + 50, y171 + 500, "rgb(" + x171 + "," + y171 + ",255)")
+    }
+  }
+  // 缩放转换(2为放大，0.5为缩小)
 
+  for (var x17 = 0; x17 <= 256; x17++) {
+    for (var y17 = 0; y17 <= 256; y17++) {
+      var x172 = x17
+      var y172 = y17 + 0.27 * x17
+      dot(x172 + 650, y172 + 450, "rgb(" + x172 + "," + y172 + ",255)")
+    }
+  }// 剪切转换（y轴被拉伸）
+
+  for (var x17 = 0; x17 <= 256; x17++) {
+    for (var y17 = 0; y17 <= 256; y17++) {
+      var x173 = x17 * 0.5 + y17 * 0.87
+      var y173 = -0.87 * x17 + 0.5 * y17
+      dot(x173 + 600, y173 + 300, "rgb(" + x173 + "," + y173 + ",255)")
+    }
+  }//旋转变换，此时θ为60度，cosθ为0.5，sinθ约为0.87
+
+  function rota(X, Y, θ, color) {
+    for (var x = 0; x <= 256; x++) {
+      for (var y = 0; y <= 256; y++) {
+        var x1 = x * Math.cos(θ) + y * Math.sin(θ)
+        var y1 = -Math.sin(θ) * x + Math.cos(θ) * y
+        dot(x1 + X, y1 + Y, "rgb(" + x1 + "," + y1 + ",255)")
+      }
+    }
+  }
+  rota(500, 200, (3.14 / 180) * 30)
+  // 封装成函数并尝试代入30度
+  // 点镂空问题待解决
 
 </script>
 
