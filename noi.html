@@ -1564,7 +1564,7 @@ var n = +prompt("请输入最高次幂n：")
   y == n ? console.log("YES") : console.log("NO")
 </script>
 
-<script id="weekday">debugger
+<script id="weekday" type="OK">debugger
   // 某年某月第一天是周几
   // 使用Zeller公式求某年某月某日是周几
   // 仅适用于1582年10月15日之后的星期
@@ -1585,6 +1585,59 @@ var n = +prompt("请输入最高次幂n：")
   }
   console.log(week)
 
+</script>
+
+<script type="OK">// 常规思路：求闰年，闰月天数，取模遍历0到6
+function getMonth天数(y, month) {
+  if (month == 2) {
+    if (y % 400 == 0 || y % 100 !== 0 && y % 4 == 0) {
+      return 29
+    } else {
+      return 28
+    }
+  } else {
+    switch (month) {
+      case 1:
+      case 3:
+      case 5:
+      case 7:
+      case 8:
+      case 10:
+      case 12:
+        return 31
+      default:
+        return 30
+    }
+  }
+}
+function weekday(year, month) {
+  var daySum = 0
+  for (var i = 1; i < year; i++) {
+    if (i % 400 == 0 || i % 100 !== 0 && i % 4 == 0) {
+      daySum += 366
+    } else {
+      daySum += 365
+    }
+  }
+
+  for (var m = 1; m < month; m++) {
+    daySum += getMonth天数(year, m)
+  }
+
+  return (daySum + 1) % 7
+}
+
+function weekday2(year, month) {
+  var y = year - 1
+
+  var daySum = y * 365 + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400)
+
+  for (var m = 1; m < month; m++) {
+    daySum += getMonth天数(year, m)
+  }
+
+  return (daySum + 1) % 7
+}
 </script>
 
 <script id="complete-number" type="OK">
@@ -1742,6 +1795,30 @@ var n = +prompt("请输入最高次幂n：")
   console.log(lcm)
 </script>
 
+<script type="OK">// 辗转相除法求最大公约数
+  var m = +prompt("请输入一个数：")
+  var n = +prompt("请输入另一个数：")
+  var c = 1
+  do {
+      c = m % n
+      m = n
+      n = c
+  } while (c != 0)
+  return m
+</script>
+
+<script type="OK">
+  // 辗转相减法求最大公约数
+  while (m != n) {
+    if (m > n) {
+      m -= n
+    } else {
+      n -= m
+    }
+  }
+  return m
+</script>
+
 <script id="sqrt" type="OK">
   // 求开方
   var n = +prompt("请输入一个数:")
@@ -1758,5 +1835,40 @@ var n = +prompt("请输入最高次幂n：")
       console.log(R.toFixed(3))
       break
     }
+  }
+</script>
+
+<script type="OK">// 二分法
+  var n = +prompt("请输入一个数:")
+  var a = n, b = 0
+  while (a - b > 0.00000001) {
+    var mid = (a + b) / 2
+    if (mid * mid > n) {
+      a = mid
+    } else if (mid * mid < n) {
+      b = mid
+    } else {
+      return mid
+    }
+  }
+</script>
+
+<script type="OK">//牛顿法（精度递增）
+  function sqrt(x) {
+    var n = +prompt("请输入一个数:")
+    var x = n
+    while (x * x - n > 0.0000000001) {
+      x = (n / x + x) / 2
+    }
+    return x
+  }
+  // 迭代，精度加倍
+  function sqrtx(x) {
+    var n = +prompt("请输入一个数:")
+    var x = n
+    for (i = 0; i < 30; i++) {
+      x = (n / x + x) / 2
+    }
+    return x
   }
 </script>
