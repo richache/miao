@@ -287,100 +287,214 @@ class MySet {
   }
 }
 
-class ArrayList {
-  constructor() {
-    this._vals = new Array(16)
-    this.count = 0
-  }
+// class ArrayList {
+//   constructor() {
+//     this._vals = new Array(16)
+//     this.count = 0
+//   }
 
-  push(val) {
-    this._vals[this.count] = val
-    this.count++
-    return this.count
-  }
+//   push(val) {
+//     this._vals[this.count] = val
+//     this.count++
+//     return this.count
+//   }
 
+//   pop() {
+//     if (this.count == 0) {
+//       return
+//     } else {
+//       let result = this._vals[this.count - 1]
+//       this._vals[this.count - 1] = null
+//       this.count--
+//       return result
+//     }
+//   }
+
+//   shift() {
+//     if (this.count == 0) {
+//       return
+//     } else {
+//       let result = this._vals[0]
+//       let i = 0
+//       for (; i < this.count; i++) {
+//         this._vals[i - 1] = this._vals[i]
+//       }
+//       this._vals[i - 1] = null
+//     }
+//     this.count--
+//     return result
+//   }
+
+//   unshift(val) {
+//     for (let i = this.count - 1; i >= 0; i--) {
+//       this._vals[i + 1] = this._vals[i]
+//     }
+//     this._vals[0] = val
+//     this.count++
+//     return this
+//   }
+//   at(idx) {
+//     if (idx < this.count && -idx <= this.count) {
+//       if (idx < 0) {
+//         idx = idx + this.count
+//       }
+//       return this._vals[idx]
+//     } else {
+//       return undefined
+//     }
+//   }
+//   find(f) {
+//     for (let i = 0; i < this.count; i++) {
+//       if (f(this._vals[i])) {
+//         return this._vals[i]
+//       }
+//     }
+//   }
+//   findIdx(f) {
+//     for (let i = 0; i < this.count; i++) {
+//       if (f(this._vals[i])) {
+//         return i
+//       }
+//     }
+//     return -1
+//   }
+
+//   get length() {
+//     return this.count
+//   }
+
+//   set length(l) {
+//     if (l < this.count) {//删除l之后元素
+//       for (let i = l; i < this.count; i++) {
+//         this._vals[i] = null
+//       }
+//       this.count = l
+//       return
+//     }
+
+//     if (l > this.count) {//扩容
+//       let oldVals = this._vals
+//       this._vals = new Array(this.count * 2)
+//       for (let i = 0; i < oldVals.length; i++) {
+//         this._vals[i] = oldVals[i]
+//       }
+//       this.count = l
+//       return
+//     }
+//   }
+
+// }
+
+class PriorityQueue {
+  constructor(initials = [], predicate = it => it) {
+    if (typeof predicate !== "function") {
+      throw new TypeError("predicate is not a function,got: predicate")
+    }
+    this.array = []
+    this.predicate = predicate
+    for (let item of initials) {
+      this.push(item)
+    }
+  }
+  // 删除堆中的一个元素并维护堆的性质（完全二叉树，顺序排列）
   pop() {
-    if (this.count == 0) {
-      return
-    } else {
-      let result = this._vals[this.count - 1]
-      this._vals[this.count - 1] = null
-      this.count--
-      return result
+    if (this.array.length == 0) {
+      return undefined
     }
-  }
-
-  shift() {
-    if (this.count == 0) {
-      return
-    } else {
-      let result = this._vals[0]
-      let i = 0
-      for (; i < this.count; i++) {
-        this._vals[i - 1] = this._vals[i]
-      }
-      this._vals[i - 1] = null
+    if (this.array.length == 1) {
+      return this.array.pop()
     }
-    this.count--
+    let result = this.array[0]
+    let last = this.array.pop()
+    this.array[0] = last
+    this.heapDown(0)
     return result
   }
 
-  unshift(val) {
-    for (let i = this.count - 1; i >= 0; i--) {
-      this._vals[i + 1] = this._vals[i]
+  // 从pos位置开始往下调整
+  // pos位置的左右子树都是合法的堆
+  heapDown2(pos) {//递归版
+    let leftPos = 2 * pos + 1
+    let rightPos = 2 * pos + 2
+    let maxIdx = pos
+    if (leftPos < this.array.length && this.predicate(this.array[leftPos]) > this.predicate(this.array[maxIdx])) {
+      maxIdx = leftPos
     }
-    this._vals[0] = val
-    this.count++
+    if (rightPos < this.array.length && this.predicate(this.array[rightPos]) > this.predicate(this.array[maxIdx])) {
+      maxIdx = rightPos
+    }
+    if (maxIdx !== pos) {
+      this.swap(maxIdx, pos)
+      this.heapDown2(maxIdx)
+    }
+  }
+  heapDown(pos) {//循环版
+    for (; ;) {
+      let leftPos = 2 * pos + 1
+      let rightPos = 2 * pos + 2
+      let maxIdx = pos
+      if (leftPos < this.array.length && this.predicate(this.array[leftPos]) > this.predicate(this.array[maxIdx])) {
+        maxIdx = leftPos
+      }
+      if (rightPos < this.array.length && this.predicate(this.array[rightPos]) > this.predicate(this.array[maxIdx])) {
+        maxIdx = rightPos
+      }
+      if (maxIdx !== pos) {
+        this.swap(maxIdx, pos)
+        pos = maxIdx
+      } else {
+        break
+      }
+    }
+  }
+
+  // 往堆里增加一个元素并维护堆的性质
+  push(val) {
+    this.array.push(val)
+    this.heapUp(this.array.length - 1)
     return this
   }
-  at(idx) {
-    if (idx < this.count && -idx <= this.count) {
-      if (idx < 0) {
-        idx = idx + this.count
-      }
-      return this._vals[idx]
-    } else {
-      return undefined
-    }
-  }
-  find(f) {
-    for (let i = 0; i < this.count; i++) {
-      if (f(this._vals[i])) {
-        return this._vals[i]
-      }
-    }
-  }
-  findIdx(f) {
-    for (let i = 0; i < this.count; i++) {
-      if (f(this._vals[i])) {
-        return i
-      }
-    }
-    return -1
-  }
 
-  get length() {
-    return this.count
-  }
-
-  set length(l) {
-    if (l < this.count) {//删除l之后元素
-      for (let i = l; i < this.count; i++) {
-        this._vals[i] = null
-      }
-      this.count = l
+  // 从pos位置开始往上调整
+  heapUp2(pos) { // 递归版
+    if (pos == 0) {
       return
     }
-
-    if (l > this.count) {//扩容
-      let oldVals = this._vals
-      this._vals = new Array(this.count * 2)
-      for (let i = 0; i < oldVals.length; i++) {
-        this._vals[i] = oldVals[i]
-      }
-      this.count = l
+    let parentPos = (pos - 1) >> 1 //计算pos位置的元素的父节点的位置
+    if (this.predicate(this.array[pos]) > this.predicate(this.array[parentPos])) {
+      this.swap(pos, parentPos)
+      this.headUp2(parentPos)
+    }
+  }
+  heapUp(pos) { // 循环版
+    if (pos == 0) {
       return
+    }
+    for (; ;) {
+      let parentPos = (pos - 1) >> 1 //计算pos位置的元素的父节点的位置
+      if (this.predicate(this.array[pos]) > this.predicate(this.array[parentPos])) {
+        this.swap(pos, parentPos)
+        pos = parentPos
+      } else {
+        break
+      }
     }
   }
 
+  // 交换两元素
+  swap(i, j) {
+    let t = this.array[i]
+    this.array[i] = this.array[j]
+    this.array[j] = t
+  }
+
+  // 查看堆顶元素但不改变它
+  peek() {
+    return this.array[0]
+  }
+
+  // 获取堆长
+  get size() {
+    return this.array.length
+  }
 }
