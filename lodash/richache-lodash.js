@@ -25,7 +25,14 @@ var richache = {
     if (n >= array.length) {
       return []
     }
-    return array.slice(array[n - 1])
+    return array.slice(n, array.length)
+  },
+
+  dropRight: function (array, n = 1) {
+    if (n >= array.length) {
+      return []
+    }
+    return array.reverse().slice(n, array.length).reverse()
   },
 
   fill: function (array, value, start = 0, end = array.length) {
@@ -57,4 +64,52 @@ var richache = {
     }
     return arr
   },
+
+  sortedIndex: function (array, value) {
+    if (array.length == 0) {
+      return 0
+    }
+    let left = 0
+    let right = array.length - 1
+    while (right - left > 1) {
+      let mid = (left + right) >> 1
+      if (array[mid] < value) {
+        left = mid
+      } else {
+        right = mid
+      }
+    }
+    if (array[right] >= value) {
+      return right
+    } else {
+      return right + 1
+    }
+  },
+
+  flatten: function (array) {
+    let res = []
+    for (let i of array) {
+      if (typeof i !== "number") {
+        for (let j of i) {
+          res.push(j)
+        }
+      } else {
+        res.push(i)
+      }
+    }
+    return res
+  },
+
+  flattenDeep: function (array) {
+    let res = []
+    for (let i of array) {
+      if (typeof i !== "number") {
+        this.flattenDeep(i)
+      } else {
+        res.push(i)
+      }
+    }
+    return res
+  },
+
 }
