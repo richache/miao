@@ -21,6 +21,19 @@ var richache = {
     return res
   },
 
+  drop: function (array, n = 1) {
+    return array.slice(array[n - 1])
+  },
+
+  fill: function (array, value, start = 0, end = array.length) {
+    for (let i = 0; i < end; i++) {
+      if (i >= start) {
+        array.splice(i, 1, value)
+      }
+    }
+    return array
+  },
+
 
 
 }
