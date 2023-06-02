@@ -22,6 +22,9 @@ var richache = {
   },
 
   drop: function (array, n = 1) {
+    if (n >= array.length) {
+      return []
+    }
     return array.slice(array[n - 1])
   },
 
@@ -34,6 +37,24 @@ var richache = {
     return array
   },
 
+  fromPairs: function (pairs) {
+    let res = {}
+    for (let i = 0; i < pairs.length; i++) {
+      let key = pairs[i][0]
+      res[key] = pairs[i][1]
+    }
+    return res
+  },
 
-
+  toPairs: function (object) {
+    let arr = []
+    let obj = Object.keys(object)
+    for (let i = 0; i < obj.length; i++) {
+      let key = obj[i]
+      arr[i] = []
+      arr[i][0] = key
+      arr[i][1] = (object[key])
+    }
+    return arr
+  },
 }
