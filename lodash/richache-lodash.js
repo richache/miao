@@ -122,10 +122,11 @@ var richache = {
     return array
   },
 
-  difference: function (array, values) {
+  difference: function (array, ...values) {
+    let val = this.flattenDeep(values)
     let res = []
     let map = []
-    for (let num of values) {
+    for (let num of val) {
       if (!map[num]) {
         map[num] = true
       }
@@ -138,12 +139,14 @@ var richache = {
     return res
   },
 
-  differenceBy: function (array, values, iteratee = it => it) {
+  differenceBy: function (array, ...args) {
+    let iteratee = args.pop()
+    let val = this.flattenDeep(args)
     let map = []
     let arr = []
     let res = []
     if (typeof iteratee == "function") {
-      values.forEach(element => map.push(iteratee(element)))
+      val.forEach(element => map.push(iteratee(element)))
       array.forEach(element => arr.push(iteratee(element)))
       let nums = this.difference(arr, map)
       for (let k in arr) {
@@ -156,7 +159,7 @@ var richache = {
     }
 
     if (typeof iteratee == "string") {
-      values.forEach(element => map.push(element[iteratee]))
+      val.forEach(element => map.push(element[iteratee]))
       array.forEach(element => arr.push(element[iteratee]))
       let nums = this.difference(arr, map)
       for (let k of array) {
@@ -177,6 +180,87 @@ var richache = {
     for (let key in collection) {
       iteratee(collection[key], key)
     }
+  },
+
+  indexOf: function (array, value, fromIndex = 0) {
+    if (fromIndex >= 0) {
+      for (let i = fromIndex; i < array.length; i++) {
+        if (array[i] == value) {
+          return i
+        }
+      }
+    } else {
+      for (let i = fromIndex; 0 < array.length + i; i++) {
+        if (array[array.length + i] == value) {
+          return array.length + i
+        }
+      }
+    }
+    return -1
+  },
+
+  head: function (array) {
+    return array[0]
+  },
+
+  initial: function (array) {
+    array.pop()
+    return array
+  },
+
+  join: function (array, separator = ',') {
+    return array.join(separator)
+  },
+
+  last: function (array) {
+    return array.pop()
+  },
+
+  lastIndexOf: function (array, value, fromIndex = array.length - 1) {
+    if (fromIndex >= 0) {
+      if (fromIndex > array.length) {
+        fromIndex = array.length - 1
+      }
+      for (let i = fromIndex; i > 0; i--) {
+        if (array[i] == value) {
+          return i
+        }
+      }
+    }
+    return -1
+  },
+
+  nth: function (array, n = 0) {
+    if (n >= 0) {
+      return array.at(n)
+    } else {
+      return array.at(n + array.length)
+    }
+  },
+
+  pull: function (array, ...values) {
+    let res = []
+    let map = []
+    for (let key of values) {
+      if (!(map[key])) {
+        map[key] = true
+      }
+    }
+    for (let i of array) {
+      if (!(i in map)) {
+        res.push(i)
+      }
+    }
+    return res
+  },
+
+  pullAll: function (array, ...values) {
+    let val = this.flattenDeep(values)
+    let res = array
+    for (let i = 0; i < val.length; i++) {
+      res = this.pull(res, val[i])
+    }
+    return res
   },
 
 }
