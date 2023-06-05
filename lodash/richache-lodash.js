@@ -140,8 +140,11 @@ var richache = {
   },
 
   differenceBy: function (array, ...args) {
+    if (Array.isArray(args.at(-1))) {
+      return this.difference(array, ...args)
+    }
     let iteratee = args.pop()
-    let val = this.flattenDeep(args)
+    let val = this.flatten(args)
     let map = []
     let arr = []
     let res = []
@@ -183,6 +186,9 @@ var richache = {
   },
 
   indexOf: function (array, value, fromIndex = 0) {
+    if (Math.abs(fromIndex) > array.length) {
+      return -1
+    }
     if (fromIndex >= 0) {
       for (let i = fromIndex; i < array.length; i++) {
         if (array[i] == value) {
@@ -196,7 +202,6 @@ var richache = {
         }
       }
     }
-    return -1
   },
 
   head: function (array) {
@@ -231,6 +236,9 @@ var richache = {
   },
 
   nth: function (array, n = 0) {
+    if (Math.abs(n) > array.length) {
+      return undefined
+    }
     if (n >= 0) {
       return array.at(n)
     } else {
@@ -255,12 +263,13 @@ var richache = {
   },
 
   pullAll: function (array, ...values) {
-    let val = this.flattenDeep(values)
+    let val = this.flatten(values)
     let res = array
     for (let i = 0; i < val.length; i++) {
       res = this.pull(res, val[i])
     }
     return res
   },
+
 
 }
