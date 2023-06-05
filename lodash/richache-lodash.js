@@ -104,12 +104,79 @@ var richache = {
     let res = []
     for (let i of array) {
       if (typeof i !== "number") {
-        this.flattenDeep(i)
+        let deep = this.flattenDeep(i)
+        for (let key of deep) {
+          res.push(key)
+        }
       } else {
         res.push(i)
       }
     }
     return res
+  },
+
+  flattenDepth: function (array, depth = 1) {
+    for (let i = 0; i < depth; i++) {
+      array = this.flatten(array)
+    }
+    return array
+  },
+
+  difference: function (array, values) {
+    let res = []
+    let map = []
+    for (let num of values) {
+      if (!map[num]) {
+        map[num] = true
+      }
+    }
+    for (let i of array) {
+      if (!(i in map)) {
+        res.push(i)
+      }
+    }
+    return res
+  },
+
+  differenceBy: function (array, values, iteratee = it => it) {
+    let map = []
+    let arr = []
+    let res = []
+    if (typeof iteratee == "function") {
+      values.forEach(element => map.push(iteratee(element)))
+      array.forEach(element => arr.push(iteratee(element)))
+      let nums = this.difference(arr, map)
+      for (let k in arr) {
+        for (let j in nums) {
+          if (arr[k] == nums[j]) {
+            res.push(array[k])
+          }
+        }
+      }
+    }
+
+    if (typeof iteratee == "string") {
+      values.forEach(element => map.push(element[iteratee]))
+      array.forEach(element => arr.push(element[iteratee]))
+      let nums = this.difference(arr, map)
+      for (let k of array) {
+        for (let j in k) {
+          for (let n in nums) {
+            if (nums[n] == k[j]) {
+              res.push(k)
+            }
+          }
+        }
+      }
+    }
+
+    return res
+  },
+
+  forEach: function (collection, iteratee = it => it) {
+    for (let key in collection) {
+      iteratee(collection[key], key)
+    }
   },
 
 }
