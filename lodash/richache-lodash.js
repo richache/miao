@@ -183,11 +183,15 @@ var richache = {
     for (let key in collection) {
       iteratee(collection[key], key)
     }
+    return collection
   },
 
   indexOf: function (array, value, fromIndex = 0) {
-    if (Math.abs(fromIndex) > array.length) {
+    if (fromIndex > array.length) {
       return -1
+    }
+    if (-fromIndex > array.length) {
+      fromIndex = 0
     }
     if (fromIndex >= 0) {
       for (let i = fromIndex; i < array.length; i++) {
@@ -269,6 +273,61 @@ var richache = {
       res = this.pull(res, val[i])
     }
     return res
+  },
+
+  intersection: function (...arrays) {
+    if (arrays.length <= 1) {
+      return arrays
+    }
+    let map = arrays.shift()
+    let res = map
+    for (let i of arrays) {
+      res = same(res, i)
+    }
+    return res
+
+    function same(arr1, arr2) {
+      let res = []
+      let map = []
+      for (let num of arr2) {
+        if (!map[num]) {
+          map[num] = true
+        }
+      }
+      for (let i of arr1) {
+        if (i in map) {
+          res.push(i)
+        }
+      }
+      return res
+    }
+
+  },
+
+  identity: function (value) {
+    return value
+  },
+
+  union: function (...arrays) {
+    let val = this.flatten(arrays)
+    let arr = Array.from(new Set(val))
+
+    let sortArray = function (nums) {
+      for (let i = 1, j = 0; i < nums.length; i++) {
+        let n = nums[i]
+        for (j = i - 1; j >= 0; j--) {
+          if (nums[j] < n) {
+            nums[j + 1] = nums[j]
+          } else {
+            break
+          }
+        }
+        nums[j + 1] = n
+      }
+      return nums
+    }
+
+    return sortArray(arr)
   },
 
 
