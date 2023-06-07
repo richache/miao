@@ -310,25 +310,11 @@ var richache = {
 
   union: function (...arrays) {
     let val = this.flatten(arrays)
-    let arr = Array.from(new Set(val))
-
-    let sortArray = function (nums) {
-      for (let i = 1, j = 0; i < nums.length; i++) {
-        let n = nums[i]
-        for (j = i - 1; j >= 0; j--) {
-          if (nums[j] < n) {
-            nums[j + 1] = nums[j]
-          } else {
-            break
-          }
-        }
-        nums[j + 1] = n
-      }
-      return nums
-    }
-
-    return sortArray(arr)
+    return Array.from(new Set(val))
   },
 
+  concat: function (...args) {
+    return this.flatten(args)
+  },
 
 }
