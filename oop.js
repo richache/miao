@@ -498,3 +498,137 @@ class PriorityQueue {
     return this.array.length
   }
 }
+
+RegExp.prototype.mytest = function (str) {
+  if (this.exec(str)) {
+    return true
+  } else {
+    return false
+  }
+}
+
+String.prototype.mymatch = function (re) {
+  // re有g选项
+  if (re.global) {
+    re.lastIndex = 0 //String不会更新lastIndex的值，需要手动置零
+    let res = []
+    let match
+    let lastIndex = 0
+    while (match = re.exec(this)) {
+      res.push(match[0])
+    }
+  }
+  return res
+}
+
+String.prototype.mymatchAll = function (re) {
+  if (re instanceof RegExp) {
+    if (!re.global) {
+      throw new TypeError("String.prototype.replaceAll called with a non-global RegExp argument")
+    }
+  }
+  if (typeof re == "string") {
+    re = new RegExp(re, "g")
+  }
+  let match
+  let res = []
+  let lastIndex = 0
+  while (match = re.exec(this)) {
+    res.push(match)
+  }
+  return res
+}
+
+String.prototype.mysearch = function (re) {
+  // 在字符串里找字符串，直接String.indexOf()
+  if (typeof re == "string") {
+    return this.indexOf(re)
+  } else {
+
+    // 如果目标是正则，获取exec的返回值，如果有则返回exec的index属性，没有返回-1
+    let match = re.exec(this)
+    if (match) {
+      return match.index
+    } else {
+      return -1
+    }
+  }
+
+}
+
+String.prototype.myreplace = function (regexp, replacer) {
+  regexp.lastIndex = 0 //手动清零
+  let res = ""
+  let match
+  let exLastIndex = 0
+  while (match = regexp.exec(this)) { //当目标正则的exec存在，进入循环
+    //从左到右依次slice拼接进结果里(  slice(startIndex,endIndex) )
+    res += this.slice(exLastIndex, match.index)
+    if (typeof replacer == "function") {
+      res += replacer(...match, match.index, match.input)
+    } else {//如果
+      //先将replacer的$i换成match[i]，把$&换成match[0]
+      //递归并进入循环里的typeof==函数的分支
+      let replacement = replacer.myreplace(/\$([1-9\&])/g, (_, idx) => {
+        if (idx == "&") {
+          return match[0]
+        } else {
+          return match[idx]
+        }
+      })
+      res += replacement
+    }
+    exLastIndex = regexp.lastIndex
+    if (!regexp.global) {
+      exLastIndex = match.index + match[0].length
+    }
+  }
+  res += this.slice(exLastIndex)
+  return res
+}
+
+String.prototype.myreplaceAll = function (regexp, replacer) {
+  if (!regexp.global) {
+    throw new TypeError("String.prototype.replaceAll called with a non-global RegExp argument")
+  }
+  return this.myreplace(regexp, replacer)
+}
+
+String.prototype.mysplit = function (re) {
+  let res = []
+  let match
+  re.lastIndex = 0 // String的lastIndex手动清零
+  let exLastIndex = 0
+
+  if (typeof re == "string") {
+    let idx = this.indexOf(re)
+    let move = 0
+    while (exLastIndex < this.length) {
+      if (move == -1) {
+        res.push(this.slice(exLastIndex))
+        return res
+      }
+      res.push(this.slice(exLastIndex, idx + move))
+      exLastIndex = idx + move
+
+      while (move == 0) {
+        move = this.slice(exLastIndex).indexOf(re)
+        exLastIndex++
+      }
+    }
+    return res
+  }
+
+  if (!re.global) {// 正则的g选项创建时确定，不能直接修改，可以构造一个实例改变
+    re = new RegExp(re.source, "g" + re.flags)
+  }
+
+  while (match = re.exec(this)) {
+    res.push(this.slice(exLastIndex, match.index))
+    res.push(...match.slice(1))
+    exLastIndex = re.lastIndex
+  }
+
+  res.push(this.slice(exLastIndex))
+  return res
+}
