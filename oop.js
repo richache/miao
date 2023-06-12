@@ -510,21 +510,23 @@ RegExp.prototype.mytest = function (str) {
 String.prototype.mymatch = function (re) {
   // re有g选项
   if (re.global) {
-    re.lastIndex = 0 //String不会更新lastIndex的值，需要手动置零
     let res = []
     let match
-    let lastIndex = 0
+    re.lastIndex = 0 //String不会更新lastIndex的值，需要手动置零
     while (match = re.exec(this)) {
       res.push(match[0])
     }
+    return res
+  } else {
+    return re.exec(this)
   }
-  return res
+
 }
 
 String.prototype.mymatchAll = function (re) {
   if (re instanceof RegExp) {
     if (!re.global) {
-      throw new TypeError("String.prototype.replaceAll called with a non-global RegExp argument")
+      throw new TypeError("String.prototype.mymatchAll called with a non-global RegExp argument")
     }
   }
   if (typeof re == "string") {
@@ -556,17 +558,17 @@ String.prototype.mysearch = function (re) {
 
 }
 
-String.prototype.myreplace = function (regexp, replacer) {
-  regexp.lastIndex = 0 //手动清零
+String.prototype.myreplace = function (re, replacer) {
+  re.lastIndex = 0 //手动清零
   let res = ""
   let match
   let exLastIndex = 0
-  while (match = regexp.exec(this)) { //当目标正则的exec存在，进入循环
+  while (match = re.exec(this)) { //当目标正则的exec存在，进入循环
     //从左到右依次slice拼接进结果里(  slice(startIndex,endIndex) )
     res += this.slice(exLastIndex, match.index)
     if (typeof replacer == "function") {
       res += replacer(...match, match.index, match.input)
-    } else {//如果
+    } else {
       //先将replacer的$i换成match[i]，把$&换成match[0]
       //递归并进入循环里的typeof==函数的分支
       let replacement = replacer.myreplace(/\$([1-9\&])/g, (_, idx) => {
@@ -578,9 +580,10 @@ String.prototype.myreplace = function (regexp, replacer) {
       })
       res += replacement
     }
-    exLastIndex = regexp.lastIndex
-    if (!regexp.global) {
+    exLastIndex = re.lastIndex
+    if (!re.global) {//如果传入的正则没有g选项
       exLastIndex = match.index + match[0].length
+      break
     }
   }
   res += this.slice(exLastIndex)
@@ -589,7 +592,7 @@ String.prototype.myreplace = function (regexp, replacer) {
 
 String.prototype.myreplaceAll = function (regexp, replacer) {
   if (!regexp.global) {
-    throw new TypeError("String.prototype.replaceAll called with a non-global RegExp argument")
+    throw new TypeError("String.prototype.myreplaceAll called with a non-global RegExp argument")
   }
   return this.myreplace(regexp, replacer)
 }
