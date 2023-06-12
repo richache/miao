@@ -317,4 +317,230 @@ var richache = {
     return this.flatten(args)
   },
 
+  sortedIndexBy: function (array, value, iteratee = it => it) {
+    if (typeof iteratee == "function") {
+      for (let i in array) {
+        if (iteratee(array[i]) == iteratee(value)) {
+          return i
+        }
+      }
+    }
+    if (typeof iteratee == "string") {
+      for (let i in array) {
+        if (array[i].iteratee == value.iteratee) {
+          return i
+        }
+      }
+    }
+  },
+
+  sortedIndexOf: function (array, value) {
+    let left = 0
+    let right = array.length - 1
+    while (right - left > 1) {
+      let mid = (left + right) >> 1
+      if (array[mid] < value) {
+        left = mid
+      } else {
+        right = mid
+      }
+    }
+    if (array[left] == value) {
+      return left
+    } else if (array[right] == value) {
+      return right
+    } else {
+      return -1
+    }
+  },
+
+  sortedLastIndex: function (array, value) {
+    for (let i = array.length - 1; i > 0; i--) {
+      if (array[i] <= value) {
+        return i + 1
+      }
+    }
+  },
+
+  sortedLastIndexOf: function (array, value) {
+    for (let i = array.length - 1; i > 0; i--) {
+      if (array[i] == value) {
+        return i
+      }
+    }
+    return -1
+  },
+
+  sortedLastIndexBy(array, value, iteratee = it => it) {
+    if (typeof iteratee == "function") {
+      for (let i = array.length - 1, j = 0; i >= 0; i--, j++) {
+        if (iteratee(array[i]) == iteratee(value)) {
+          return j
+        }
+      }
+    }
+    if (typeof iteratee == "string") {
+      for (let i = array.length - 1, j = 0; i >= 0; i--, j++) {
+        if (array[i][iteratee] == value[iteratee]) {
+          return j
+        }
+      }
+    }
+    return -1
+  },
+
+  uniq: function (array) {
+    let map = {}
+    let res = []
+    for (let i of array) {
+      if (!map[i]) {
+        map[i] = i
+        res.push(i)
+      }
+    }
+    return res
+  },
+
+  sortedUniq: function (array) {
+    let res = []
+    if (array.length == 0) {
+      return res
+    } else if (array.length == 1) {
+      return array
+    }
+    res.push(array[0])
+    for (let i = 0, j = 1; i < array.length - 1; i++, j++) {
+      while (array[i] == array[j]) {
+        i++
+        j++
+      }
+      res.push(array[j])
+    }
+
+
+    if (res.at(-1) == undefined) {
+      res.length--
+    }
+
+    return res
+  },
+
+  parseJSON: function (str) {
+    var i = 0
+    return parseValue()
+
+    function parseValue() {
+      let char = str[i]
+      if (char == '{') {
+        return parseObject()
+      }
+
+      if (char == '"') {
+        return parseString()
+      }
+
+      if (char == '[') {
+        return parseArray()
+      }
+
+      if (char == 't') {
+        let val = str.slice(i, i + 4)
+        if (val == 'true') {
+          i += 4
+          return true
+        } else {
+          throw error = new SyntaxError(`Unexpected value found at str index ${i} .`)
+        }
+      }
+
+      if (char == 'f') {
+        let val = str.slice(i, i + 5)
+        if (val == 'false') {
+          i += 5
+          return false
+        } else {
+          throw error = new SyntaxError(`Unexpected value found at str index ${i} .`)
+        }
+      }
+
+      if (char == 'n') {
+        let val = str.slice(i, i + 4)
+        if (val == 'null') {
+          i += 4
+          return null
+        } else {
+          throw error = new SyntaxError(`Unexpected value found at str index ${i} .`)
+        }
+      }
+
+      return parseNumber()
+    }
+
+    function parseString() {
+      i++
+      let start = i
+      while (str[i] != '"') {
+        i++
+      }
+      let end = i++
+      return str.slice(start, end)
+    }
+
+    function parseArray() {
+      let res = []
+      i++
+      if (str[i] == ']') {
+        i++
+        return res
+      }
+
+      while (true) {
+        let val = parseValue()
+        res.push(val)
+        if (str[i] == ',') {
+          i++
+          continue
+        }
+        if (str[i] == ']') {
+          i++
+          break
+        }
+      }
+      return res
+    }
+
+    function parseObject() {
+      let res = {}
+      i++
+      if (str[i] == '}') {
+        i++
+        return res
+      }
+
+      while (true) {
+        let name = parseString()
+        i++
+        let val = parseValue()
+        res[name] = val
+        if (str[i] == ',') {
+          i++
+          continue
+        }
+        if (str[i] == '}') {
+          i++
+          break
+        }
+      }
+      return res
+    }
+
+    function parseNumber() {
+      let start = i
+      if (str[i] >= '0' && str[i] <= '9') {
+        i++
+      }
+      return Number(str.slice(start, i))
+    }
+  },
+
 }
