@@ -9,7 +9,7 @@
   <meta name="author" content="Richache,richardchen2016@163.com">
   <title>mini-regex101page</title>
   <style>
-    * {
+    body {
       font-family: consolas;
     }
 
@@ -60,7 +60,7 @@
       <input type="text" id="reInput" oninput="run()" value="abc">
       <p> 模式：</p>
       <label><input type="checkbox" onclick="run()" id="checkI">i</label>
-      <label><input type="checkbox" onclick="run()" id="checkG" chechked>g</label>
+      <label><input type="checkbox" onclick="run()" id="checkG" checked>g</label>
       <label><input type="checkbox" onclick="run()" id="checkM">m</label>
       <label><input type="checkbox" onclick="run()" id="checkS">s</label>
       <label><input type="checkbox" onclick="run()" id="checkU">u</label>
@@ -109,7 +109,11 @@
 
       while (match = reg.exec(str)) {
         result += str.slice(exLastIndex, match.index)
-        result += `<b>${match[0]}</b>`
+        if () {
+
+        } else {
+          result += `<b>${match[0]}</b>`
+        }
         exLastIndex = reg.lastIndex
         if (!reg.global) {
           exLastIndex = match.index + match[0].length
@@ -120,6 +124,7 @@
       result += str.slice(exLastIndex)
       reOutput.innerHTML = result
     }
+    run()
   </script>
 </body>
 
