@@ -321,14 +321,14 @@ var richache = {
     if (typeof iteratee == "function") {
       for (let i in array) {
         if (iteratee(array[i]) == iteratee(value)) {
-          return i
+          return Number(i)
         }
       }
     }
     if (typeof iteratee == "string") {
       for (let i in array) {
         if (array[i].iteratee == value.iteratee) {
-          return i
+          return Number(i)
         }
       }
     }
@@ -536,7 +536,7 @@ var richache = {
 
     function parseNumber() {
       let start = i
-      if (str[i] >= '0' && str[i] <= '9') {
+      while (str[i] >= '0' && str[i] <= '9') {
         i++
       }
       return Number(str.slice(start, i))
