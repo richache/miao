@@ -430,7 +430,7 @@ var richache = {
     if (typeof predicate == "function") {
       for (let idx in collection) {
         if (predicate(collection[idx])) {
-          res.push(predicate(collection[idx]))
+          res.push(collection[idx])
         }
       }
     }
