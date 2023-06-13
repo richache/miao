@@ -401,6 +401,33 @@ var richache = {
     return res
   },
 
+  uniqBy: function (array, iteratee = it => it) {
+    let res = []
+    let map = {}
+    if (typeof iteratee == "function") {
+      for (let num of array) {
+        let val = iteratee(num)
+        if (!(val in map)) {
+          map[val] = 1
+          res.push(num)
+        }
+      }
+      return res
+    }
+
+    if (typeof iteratee == "string") {
+      for (let num of array) {
+        let val = num[iteratee]
+        if (!(val in map)) {
+          map[val] = 1
+          res.push(num)
+        }
+      }
+      return res
+    }
+
+  },
+
   sortedUniq: function (array) {
     let res = []
     if (array.length == 0) {
@@ -423,6 +450,10 @@ var richache = {
     }
 
     return res
+  },
+
+  sortedUniqBy: function (array, iteratee = it => it) {
+    return this.uniqBy(array, iteratee)
   },
 
   filter: function (collection, predicate = it => it) {
@@ -461,6 +492,107 @@ var richache = {
         if (collection[idx][predicate] == true) {
           res.push(collection[idx])
         }
+      }
+    }
+    return res
+  },
+
+  every: function (collection, predicate = it => it) {
+    if (typeof predicate == "function") {
+      for (let idx in collection) {
+        if (!predicate(collection[idx])) {
+          return false
+        }
+      }
+      return true
+    }
+    if (typeof predicate == "boolean") {
+      for (let val of collection) {
+        if (val !== predicate) {
+          return false
+        }
+      }
+      return true
+    }
+    if (Array.isArray(predicate)) {
+      for (let idx in collection) {
+        if (collection[idx][predicate[0]] != predicate[1]) {
+          return false
+        }
+      }
+      return true
+    }
+    if (typeof predicate == "object") {
+      for (let val of collection) {
+        for (let key in val) {
+          if (val[key] !== predicate[key]) {
+            return false
+          }
+        }
+        return true
+      }
+    }
+    if (typeof predicate == "string") {
+      for (let idx in collection) {
+        if (collection[idx][predicate] !== true) {
+          return false
+        }
+      }
+      return true
+    }
+  },
+
+  countBy: function (collection, iteratee = it => it) {
+    let res = {}
+    if (typeof iteratee == "function") {
+      for (let val of collection) {
+        let newVal = iteratee(val)
+        if (!res[newVal]) {
+          res[newVal] = 1
+        } else {
+          res[newVal]++
+        }
+      }
+      return res
+    }
+
+    if (typeof iteratee == "string") {
+      for (let val of collection) {
+        let newVal = val[iteratee]
+        if (!res[newVal]) {
+          res[newVal] = 1
+        } else {
+          res[newVal]++
+        }
+      }
+      return res
+    }
+  },
+
+  without: function (array, ...values) {
+    let res = []
+    for (let i of array) {
+      if (!(values.includes(i))) {
+        res.push(i)
+      }
+    }
+    return res
+  },
+
+  xor: function (...arrays) {
+    let res = []
+    let map = {}
+    let arr = this.flatten(arrays)
+    for (let val of arr) {
+      if (!(val in map)) {
+        map[val] = 1
+      } else {
+        map[val]++
+      }
+    }
+    for (let key in map) {
+      if (map[key] == 1) {
+        res.push(+key)
       }
     }
     return res
