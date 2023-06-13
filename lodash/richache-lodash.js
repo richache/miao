@@ -425,6 +425,71 @@ var richache = {
     return res
   },
 
+  filter: function (collection, predicate = it => it) {
+    let res = []
+    if (typeof predicate == "function") {
+      for (let idx in collection) {
+        if (predicate(collection[idx])) {
+          res.push(predicate(collection[idx]))
+        }
+      }
+    }
+
+    if (Array.isArray(predicate)) {
+      for (let idx in collection) {
+        if (collection[idx][predicate[0]] == predicate[1]) {
+          res.push(collection[idx])
+        }
+      }
+    }
+    if (typeof predicate == "object") {
+      for (let idx in collection) {
+        let status = false
+        for (let key in predicate) {
+          if (collection[idx][key] !== predicate[key]) {
+            status = true
+          }
+        }
+        if (!status) {
+          res.push(collection[idx])
+        }
+      }
+    }
+
+    if (typeof predicate == "string") {
+      for (let idx in collection) {
+        if (collection[idx][predicate] == true) {
+          res.push(collection[idx])
+        }
+      }
+    }
+    return res
+  },
+
+  tail: function (array) {
+    return array.slice(1)
+  },
+
+  take: function (array, n = 1) {
+    if (n >= array.length) {
+      return array
+    }
+    if (n <= 0) {
+      return []
+    }
+    return array.slice(0, n)
+  },
+
+  takeRight: function (array, n = 1) {
+    if (n >= array.length) {
+      return array
+    }
+    if (n <= 0) {
+      return []
+    }
+    return array.slice(-n)
+  },
+
   parseJSON: function (str) {
     var i = 0
     return parseValue()
