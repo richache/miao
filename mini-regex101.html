@@ -109,11 +109,9 @@
 
       while (match = reg.exec(str)) {
         result += str.slice(exLastIndex, match.index)
-        if (xxx) {
 
-        } else {
-          result += `<b>${match[0]}</b>`
-        }
+        result += `<b>${match[0]}</b>`
+
         exLastIndex = reg.lastIndex
         if (!reg.global) {
           exLastIndex = match.index + match[0].length
