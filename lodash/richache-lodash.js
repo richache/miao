@@ -25,14 +25,43 @@ var richache = {
     if (n >= array.length) {
       return []
     }
-    return array.slice(n, array.length)
+    return array.slice(n)
+  },
+
+  dropWhile(array, predicate = it => it) {
+    let arr = this.filter(array, predicate)
+    if (arr) {
+      for (let i = 0; i < array.length; i++) {
+        if (array[i] !== arr[i]) {
+          return array.slice(i)
+        }
+      }
+    } else {
+      return array
+    }
   },
 
   dropRight: function (array, n = 1) {
     if (n >= array.length) {
       return []
     }
-    return array.reverse().slice(n, array.length).reverse()
+    while (n > 0) {
+      array.pop()
+      n--
+    }
+    return array
+  },
+
+  dropRightWhile(array, predicate = it => it) {
+    let arr = this.filter(array, predicate)
+    if (arr) {
+      for (let i = array.length - 1; i >= 0; i--) {
+        if (!(arr.includes(array[i]))) {
+          return array.slice(0, i + 1)
+        }
+      }
+    }
+    return array
   },
 
   fill: function (array, value, start = 0, end = array.length) {
@@ -176,6 +205,22 @@ var richache = {
       }
     }
 
+    return res
+  },
+
+  differenceWith(array, values, comparator) {
+    let res = []
+    for (let i in array) {
+      let status = false
+      for (let j in values) {
+        if (comparator(array[i]) == comparator(values[j])) {
+          status = true
+        }
+      }
+      if (!status) {
+        res.push(array[i])
+      }
+    }
     return res
   },
 
@@ -620,6 +665,74 @@ var richache = {
       return []
     }
     return array.slice(-n)
+  },
+
+  find: function (collection, predicate = it => it, fromIndex = 0) {
+    let array = collection.slice(fromIndex)
+    let result = this.filter(array, predicate)
+    if (result) {
+      return result[0]
+    } else {
+      return undefined
+    }
+  },
+
+  findLast: function (collection, predicate = it => it, fromIndex = collection.length - 1) {
+    let array = collection.slice(0, fromIndex).reverse()
+    let result = this.filter(array, predicate)
+    if (result) {
+      return result[0]
+    } else {
+      return undefined
+    }
+  },
+
+  findIndex(collection, predicate = it => it, fromIndex = 0) {
+    let result = this.find(collection, predicate, fromIndex)
+    if (result) {
+      return this.indexOf(collection, result)
+    } else {
+      return -1
+    }
+  },
+
+  findLastIndex(collection, predicate = it => it, fromIndex = collection.length - 1) {
+    let array = collection.slice(0, fromIndex + 1).reverse()
+    let result = this.find(array, predicate)
+    if (result) {
+      return this.indexOf(collection, result)
+    } else {
+      return -1
+    }
+  },
+
+  groupBy(collection, iteratee = it => it) {
+    let res = {}
+    if (typeof iteratee == "function") {
+      for (let val of collection) {
+        let newVal = iteratee(val)
+        if (!res[newVal]) {
+          res[newVal] = []
+          res[newVal].push(val)
+        } else {
+          res[newVal].push(val)
+        }
+      }
+      return res
+    }
+
+    if (typeof iteratee == "string") {
+      for (let val of collection) {
+        let newVal = val[iteratee]
+        if (!res[newVal]) {
+          res[newVal] = []
+          res[newVal].push(val)
+        } else {
+          res[newVal].push(val)
+        }
+      }
+      return res
+    }
   },
 
   parseJSON: function (str) {
