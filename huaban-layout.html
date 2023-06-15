@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
+  <meta name="description" content="JS-DOM实现花瓣网布局仿写">
+  <meta name="author" content="Richache,richardchen2016@163.com">
+  <title>huaban-layout</title>
+  <style>
+    /* * {
+      background-color: rgba(0, 0, 0, 0.1);
+    } */
+
+    html {
+      background-color: #ebc999;
+      overflow-y: scroll;
+    }
+
+    section {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      /* width: 600px; */
+      margin: auto;
+    }
+
+    section div {
+      flex: 1;
+
+    }
+
+    section div img {
+      border: 2px double #31525b;
+    }
+
+  </style>
+</head>
+
+<body>
+  <section>
+  </section>
+
+  <!-- <script>//初版效果（循环对比每一列第一行的div高度，创建img并取最小的一列div，append进去）
+    let cats = [
+      {
+        "url": "photo-103450229.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/photo-103450229.jpg",
+        "width": 675,
+        "height": 900
+      },
+      {
+        "url": "photo-108273877.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/photo-108273877.jpg",
+        "width": 1170,
+        "height": 780
+      },
+      {
+        "url": "photo-115203323.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/photo-115203323.jpg",
+        "width": 1170,
+        "height": 780
+      },
+      {
+        "url": "photo-23583825.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/photo-23583825.jpg",
+        "width": 2048,
+        "height": 1536
+      },
+      {
+        "url": "stock-photo-123942383.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-123942383.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-124559545.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-124559545.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-132046989.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-132046989.jpg",
+        "width": 1170,
+        "height": 780
+      },
+      {
+        "url": "stock-photo-132118343.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-132118343.jpg",
+        "width": 2000,
+        "height": 1339
+      },
+      {
+        "url": "stock-photo-132311221.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-132311221.jpg",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "url": "stock-photo-132586903.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-132586903.jpg",
+        "width": 2000,
+        "height": 1334
+      },
+      {
+        "url": "stock-photo-135203031.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-135203031.jpg",
+        "width": 1000,
+        "height": 668
+      },
+      {
+        "url": "stock-photo-135626379.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-135626379.jpg",
+        "width": 2000,
+        "height": 1500
+      },
+      {
+        "url": "stock-photo-136947953.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-136947953.jpg",
+        "width": 2000,
+        "height": 1348
+      },
+      {
+        "url": "stock-photo-138378295.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-138378295.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-138436811.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-138436811.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-142950305.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-142950305.jpg",
+        "width": 2000,
+        "height": 1125
+      },
+      {
+        "url": "stock-photo-143046061.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-143046061.jpg",
+        "width": 843,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-143181649.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-143181649.jpg",
+        "width": 2000,
+        "height": 1298
+      },
+      {
+        "url": "stock-photo-144530143.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-144530143.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-144730939.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-144730939.jpg",
+        "width": 1000,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-145414771.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-145414771.jpg",
+        "width": 780,
+        "height": 1170
+      },
+      {
+        "url": "stock-photo-146038669.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-146038669.jpg",
+        "width": 2000,
+        "height": 1335
+      },
+      {
+        "url": "stock-photo-146231033.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-146231033.jpg",
+        "width": 2000,
+        "height": 1335
+      },
+      {
+        "url": "stock-photo-146914861.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-146914861.jpg",
+        "width": 843,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-147877407.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-147877407.jpg",
+        "width": 2000,
+        "height": 1334
+      },
+      {
+        "url": "stock-photo-147969173.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-147969173.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-148015373.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-148015373.jpg",
+        "width": 1170,
+        "height": 781
+      },
+      {
+        "url": "stock-photo-148704233.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-148704233.jpg",
+        "width": 1170,
+        "height": 884
+      },
+      {
+        "url": "stock-photo-148928293.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-148928293.jpg",
+        "width": 1170,
+        "height": 781
+      },
+      {
+        "url": "stock-photo-148950715.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-148950715.jpg",
+        "width": 1170,
+        "height": 775
+      },
+      {
+        "url": "stock-photo-21951271.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-21951271.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-21964829.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-21964829.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-22618399.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-22618399.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-31201539.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-31201539.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-34598868.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-34598868.jpg",
+        "width": 542,
+        "height": 768
+      },
+      {
+        "url": "stock-photo-47252094.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-47252094.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-51980510.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-51980510.jpg",
+        "width": 666,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-55601508.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-55601508.jpg",
+        "width": 666,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-65681789.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-65681789.jpg",
+        "width": 1840,
+        "height": 1232
+      },
+      {
+        "url": "stock-photo-70461471.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-70461471.jpg",
+        "width": 1000,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-71801901.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-71801901.jpg",
+        "width": 2000,
+        "height": 1335
+      },
+      {
+        "url": "stock-photo-71913567.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-71913567.jpg",
+        "width": 2000,
+        "height": 1328
+      },
+      {
+        "url": "stock-photo-72223295.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-72223295.jpg",
+        "width": 2000,
+        "height": 1335
+      },
+      {
+        "url": "stock-photo-72620185.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-72620185.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-74402039.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-74402039.jpg",
+        "width": 666,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-75097491.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-75097491.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-75186237.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-75186237.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-79250373.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-79250373.jpg",
+        "width": 2000,
+        "height": 1325
+      },
+      {
+        "url": "stock-photo-79692589.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-79692589.jpg",
+        "width": 670,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-7979718.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-7979718.jpg",
+        "width": 1024,
+        "height": 680
+      },
+      {
+        "url": "stock-photo-7980252.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-7980252.jpg",
+        "width": 1024,
+        "height": 680
+      },
+      {
+        "url": "stock-photo-81390687.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-81390687.jpg",
+        "width": 2000,
+        "height": 1591
+      },
+      {
+        "url": "stock-photo-81988949.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-81988949.jpg",
+        "width": 667,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-83149705.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-83149705.jpg",
+        "width": 775,
+        "height": 1170
+      }
+    ]
+
+    function run() {
+      // 根据视口宽度的变化，计算能够显示多少列
+      let columns = Math.floor((window.innerWidth - 120) / 180)
+
+      //根据列数计算section的尺寸
+      let section = document.getElementsByTagName('section')[0]
+      section.style.width = columns * 180 + (columns - 1) * 10 + 'px'
+      section.innerHTML = ''//先清空section的内容
+
+      // 创建每列所需的div
+      for (let i = 0; i < columns; i++) {
+        section.append(document.createElement('div'))
+      }
+
+      // 获取所有div
+      let divs = [...section.querySelectorAll('div')]
+      //或者let divs = [...document.getElementsByTagName('div')]
+
+      for (let cat of cats) {
+        //reduce对比每列div的高度，取最小值
+        let div = divs.reduce((min, div) => {
+          if (div.offsetHeight < min.offsetHeight) {
+            return div
+          } else {
+            return min
+          }
+        })
+
+        //每次循环创建img标签，放入一张图片
+        let img = document.createElement('img')
+        img.src = cat.fullUrl
+        img.width = div.offsetWidth
+        img.height = div.offsetWidth * cat.height / cat.width
+        img.style.marginBottom = '10px'
+        div.append(img)
+      }
+    }
+
+    //每次打开页面run一次，视口改变时调用run函数一次
+    run()
+    window.onresize = run
+
+  </script> -->
+
+  <script>//减少DOM操作优化加载时长
+    let cats = [
+      {
+        "url": "photo-103450229.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/photo-103450229.jpg",
+        "width": 675,
+        "height": 900
+      },
+      {
+        "url": "photo-108273877.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/photo-108273877.jpg",
+        "width": 1170,
+        "height": 780
+      },
+      {
+        "url": "photo-115203323.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/photo-115203323.jpg",
+        "width": 1170,
+        "height": 780
+      },
+      {
+        "url": "photo-23583825.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/photo-23583825.jpg",
+        "width": 2048,
+        "height": 1536
+      },
+      {
+        "url": "stock-photo-123942383.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-123942383.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-124559545.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-124559545.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-132046989.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-132046989.jpg",
+        "width": 1170,
+        "height": 780
+      },
+      {
+        "url": "stock-photo-132118343.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-132118343.jpg",
+        "width": 2000,
+        "height": 1339
+      },
+      {
+        "url": "stock-photo-132311221.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-132311221.jpg",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "url": "stock-photo-132586903.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-132586903.jpg",
+        "width": 2000,
+        "height": 1334
+      },
+      {
+        "url": "stock-photo-135203031.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-135203031.jpg",
+        "width": 1000,
+        "height": 668
+      },
+      {
+        "url": "stock-photo-135626379.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-135626379.jpg",
+        "width": 2000,
+        "height": 1500
+      },
+      {
+        "url": "stock-photo-136947953.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-136947953.jpg",
+        "width": 2000,
+        "height": 1348
+      },
+      {
+        "url": "stock-photo-138378295.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-138378295.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-138436811.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-138436811.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-142950305.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-142950305.jpg",
+        "width": 2000,
+        "height": 1125
+      },
+      {
+        "url": "stock-photo-143046061.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-143046061.jpg",
+        "width": 843,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-143181649.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-143181649.jpg",
+        "width": 2000,
+        "height": 1298
+      },
+      {
+        "url": "stock-photo-144530143.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-144530143.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-144730939.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-144730939.jpg",
+        "width": 1000,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-145414771.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-145414771.jpg",
+        "width": 780,
+        "height": 1170
+      },
+      {
+        "url": "stock-photo-146038669.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-146038669.jpg",
+        "width": 2000,
+        "height": 1335
+      },
+      {
+        "url": "stock-photo-146231033.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-146231033.jpg",
+        "width": 2000,
+        "height": 1335
+      },
+      {
+        "url": "stock-photo-146914861.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-146914861.jpg",
+        "width": 843,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-147877407.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-147877407.jpg",
+        "width": 2000,
+        "height": 1334
+      },
+      {
+        "url": "stock-photo-147969173.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-147969173.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-148015373.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-148015373.jpg",
+        "width": 1170,
+        "height": 781
+      },
+      {
+        "url": "stock-photo-148704233.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-148704233.jpg",
+        "width": 1170,
+        "height": 884
+      },
+      {
+        "url": "stock-photo-148928293.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-148928293.jpg",
+        "width": 1170,
+        "height": 781
+      },
+      {
+        "url": "stock-photo-148950715.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-148950715.jpg",
+        "width": 1170,
+        "height": 775
+      },
+      {
+        "url": "stock-photo-21951271.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-21951271.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-21964829.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-21964829.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-22618399.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-22618399.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-31201539.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-31201539.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-34598868.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-34598868.jpg",
+        "width": 542,
+        "height": 768
+      },
+      {
+        "url": "stock-photo-47252094.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-47252094.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-51980510.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-51980510.jpg",
+        "width": 666,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-55601508.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-55601508.jpg",
+        "width": 666,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-65681789.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-65681789.jpg",
+        "width": 1840,
+        "height": 1232
+      },
+      {
+        "url": "stock-photo-70461471.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-70461471.jpg",
+        "width": 1000,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-71801901.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-71801901.jpg",
+        "width": 2000,
+        "height": 1335
+      },
+      {
+        "url": "stock-photo-71913567.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-71913567.jpg",
+        "width": 2000,
+        "height": 1328
+      },
+      {
+        "url": "stock-photo-72223295.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-72223295.jpg",
+        "width": 2000,
+        "height": 1335
+      },
+      {
+        "url": "stock-photo-72620185.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-72620185.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-74402039.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-74402039.jpg",
+        "width": 666,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-75097491.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-75097491.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-75186237.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-75186237.jpg",
+        "width": 2000,
+        "height": 1333
+      },
+      {
+        "url": "stock-photo-79250373.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-79250373.jpg",
+        "width": 2000,
+        "height": 1325
+      },
+      {
+        "url": "stock-photo-79692589.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-79692589.jpg",
+        "width": 670,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-7979718.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-7979718.jpg",
+        "width": 1024,
+        "height": 680
+      },
+      {
+        "url": "stock-photo-7980252.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-7980252.jpg",
+        "width": 1024,
+        "height": 680
+      },
+      {
+        "url": "stock-photo-81390687.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-81390687.jpg",
+        "width": 2000,
+        "height": 1591
+      },
+      {
+        "url": "stock-photo-81988949.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-81988949.jpg",
+        "width": 667,
+        "height": 1000
+      },
+      {
+        "url": "stock-photo-83149705.jpg",
+        "fullUrl": "https://xieranmaya.github.io/images/cats/stock-photo-83149705.jpg",
+        "width": 775,
+        "height": 1170
+      }
+    ]
+    cats = [...cats, ...cats]
+    cats = [...cats, ...cats]
+    cats = [...cats, ...cats]
+    cats = [...cats, ...cats]
+    cats = [...cats, ...cats]
+
+    function run() {
+      console.time('layout')
+
+      // 如果视口宽度没变，直接返回
+      let prevWidth = 0
+      if (window.innerWidth == prevWidth) {
+        return
+      } else {
+        prevWidth = window.innerWidth
+      }
+
+      // 根据视口宽度的变化，计算能够显示多少列
+      let columns = Math.floor(window.innerWidth / 180)
+      // let colunmWidth =180
+      // let columns = Math.floor((window.innerWidth - 120) / colunmWidth)
+
+      //根据列数计算section的尺寸
+      let section = document.getElementsByTagName('section')[0]
+      // section.style.width = columns * colunmWidth + (columns - 1) * 10 + 'px'
+      section.innerHTML = ''//先清空section的内容
+
+      // 创建每列所需的div
+      for (let i = 0; i < columns; i++) {
+        section.append(document.createElement('div'))
+      }
+
+      // 获取所有div
+      let divs = [...section.querySelectorAll('div')]
+      let columnWidth = divs[0].offsetWidth
+      let divHeights = Array(columns).fill(0) //记录每个div的高度
+      // 使用一个数组记录每一列div所有的img标签
+      let divImgs = Array(columns).fill(0).map(it => [])
+
+      for (let cat of cats) {
+        //获取最"矮"的div元素
+        let minDivHeight = Math.min(...divHeights)
+        let minIdx = divHeights.indexOf(minDivHeight)
+        let div = divs[minIdx]
+
+        //每次循环创建img标签，放入一张图片
+        let img = document.createElement('img')
+        img.src = cat.fullUrl
+        img.width = div.offsetWidth
+        img.height = div.offsetWidth * cat.height / cat.width
+
+        // 记录对应div的累计高度
+        divHeights[minIdx] += img.height + 10
+
+        divImgs[minIdx].push(img)
+      }
+
+      divImgs.forEach((imgs, idx) => {
+        divs[idx].append(...imgs)
+      })
+
+      console.timeEnd('layout')
+    }
+
+    //每次打开页面run一次，视口改变时调用run函数一次
+    run()
+    window.onresize = run
+
+  </script>
+
+  <script>
+    let section = document.querySelector('section')
+    let z = 1
+    section.onclick = function (event) {
+      if (event.target.matches('img')) {
+        let img = event.target
+        let box = img.getBoundingClientRect()
+        let bx = box.left + box.width / 2
+        let by = box.top + box.height / 2
+        let vx = window.innerWidth / 2
+        let vy = window.innerHeight / 2
+        let xmove = vx - bx
+        let ymove = vy - by
+        let xzoom = window.innerWidth / box.width
+        let yzoom = window.innerHeight / box.height
+
+        img.style.zIdx = z++
+        img.style.position = 'relative'
+        img.style.transition = '0.3s'
+        img.style.transform = `translate(${xmove}px,${ymove}px) scale(${Math.min(xzoom, yzoom)}) `
+      }
+    }
+  </script>
+
+</body>
+
+</html>
