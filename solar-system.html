@@ -46,21 +46,19 @@
       background: center/150% no-repeat url("https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/01/0E/ChMkJ1bKwdSIAh2_AAxuVCpyAUEAALGegHEVbAADG5s395.jpg");
     }
 
-    #sun_img {
+    .sun_img {
       width: 80px;
     }
 
     .earth_img {
-      height: 50px;
       width: 50px;
     }
 
     .moon_img {
-      height: 20px;
       width: 20px;
     }
 
-    #sun_img,
+    .sun_img,
     .earth_img,
     .moon_img {
       position: absolute;
@@ -75,9 +73,12 @@
 
 <body>
   <div class="solar">
-    <img id='sun_img' src="https://cdn.pixabay.com/photo/2012/04/05/00/54/mars-25461_1280.png" alt="">
+    <!-- <img class='sun_img' src="https://cdn.pixabay.com/photo/2012/04/05/00/54/mars-25461_1280.png" alt="">
     <img class='earth_img' src="https://pngimg.com/uploads/earth/earth_PNG23.png" alt="">
-    <img class='moon_img' src="https://cdn.pixabay.com/photo/2020/03/09/21/31/moon-4917183_1280.png" alt="">
+    <img class='moon_img' src="https://cdn.pixabay.com/photo/2020/03/09/21/31/moon-4917183_1280.png" alt=""> -->
+    <img class='sun_img' src="sun.png" alt="">
+    <img class='earth_img' src="earth.png" alt="">
+    <img class='moon_img' src="moon.webp" alt="">
   </div>
   <!-- <script>
     let angle = 0
@@ -97,7 +98,7 @@
 
   </script> -->
   <script>
-    let sun = document.querySelector('#sun_img')
+    let sun = document.querySelector('.sun_img')
     let earth = document.querySelector('.earth_img')
     let moon = document.querySelector('.moon_img')
 
