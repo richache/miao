@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="refresh" content="60;URL=https://github.com/richache"> -->
+  <meta name="description" content="JS实现动画公转星系">
+  <meta name="author" content="Richache,richardchen2016@163.com">
+  <title>solar-system</title>
+  <!-- <style>
+    .bg {
+      height: 1000px;
+      width: 1000px;
+      background: no-repeat url("https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/01/0E/ChMkJ1bKwdSIAh2_AAxuVCpyAUEAALGegHEVbAADG5s395.jpg");
+    }
+
+
+    .solar {
+      text-align: center;
+    }
+
+    .ear_img {
+      position: relative;
+      width: 50px;
+      height: 50px;
+      margin-top: 250px;
+    }
+
+    .moon_img {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      margin-top: 100px;
+    }
+
+  </style> -->
+
+  <style>
+    .solar {
+      position: relative;
+      text-align: center;
+      height: 1080px;
+      width: 1080px;
+      background: center/150% no-repeat url("https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/01/0E/ChMkJ1bKwdSIAh2_AAxuVCpyAUEAALGegHEVbAADG5s395.jpg");
+    }
+
+    #sun_img {
+      width: 80px;
+    }
+
+    .earth_img {
+      height: 50px;
+      width: 50px;
+    }
+
+    .moon_img {
+      height: 20px;
+      width: 20px;
+    }
+
+    #sun_img,
+    .earth_img,
+    .moon_img {
+      position: absolute;
+      display: inline-block;
+      margin-top: 50%;
+      margin-left: 50%;
+    }
+
+  </style>
+
+</head>
+
+<body>
+  <div class="solar">
+    <img id='sun_img' src="https://cdn.pixabay.com/photo/2012/04/05/00/54/mars-25461_1280.png" alt="">
+    <img class='earth_img' src="https://pngimg.com/uploads/earth/earth_PNG23.png" alt="">
+    <img class='moon_img' src="https://cdn.pixabay.com/photo/2020/03/09/21/31/moon-4917183_1280.png" alt="">
+  </div>
+  <!-- <script>
+    let angle = 0
+    let earth = document.querySelector('.ear_img')
+    let moon = document.querySelector('.moon_img')
+
+    function animate(time) {
+      time = Date.now()
+
+      earth.style.top = (Math.sin(time / 1000) * 150) + 'px';
+      earth.style.left = (Math.cos(time / 1000) * 200) + 'px';
+      moon.style.top = (Math.sin(time / 100) * 15) + 'px';
+      moon.style.left = (Math.cos(time / 100) * 20) + 'px';
+      setTimeout(animate, 100);
+    }
+    setTimeout(animate, 100)
+
+  </script> -->
+  <script>
+    let sun = document.querySelector('#sun_img')
+    let earth = document.querySelector('.earth_img')
+    let moon = document.querySelector('.moon_img')
+
+    requestAnimationFrame(function animate(time) {
+      let sunAngle = time / 5000
+      let sunX = (Math.cos(sunAngle) * 30) - sun.offsetWidth / 2 + 'px'
+      let sunY = (Math.sin(sunAngle) * 30) - sun.offsetHeight / 2 + 'px'
+      sun.style.left = sunX
+      sun.style.top = sunY
+
+      let earthAngle = time / 3650
+      let earthX = parseFloat(sunX) + sun.offsetWidth / 2 + Math.cos(earthAngle) * 360 - earth.offsetWidth / 2 + 'px'
+      let earthY = parseFloat(sunY) + sun.offsetWidth / 2 + Math.sin(earthAngle) * 120 - earth.offsetHeight / 2 + 'px'
+      earth.style.left = earthX
+      earth.style.top = earthY
+
+      let moonAngle = time / 365
+      let moonX = parseFloat(earthX) + earth.offsetWidth / 2 + Math.cos(moonAngle) * 60 - moon.offsetWidth / 2 + 'px'
+      let moonY = parseFloat(earthY) + earth.offsetWidth / 2 + Math.sin(moonAngle) * 40 - moon.offsetHeight / 2 + 'px'
+      moon.style.left = moonX
+      moon.style.top = moonY
+
+      requestAnimationFrame(animate)
+    })
+  </script>
+</body>
+
+</html>
