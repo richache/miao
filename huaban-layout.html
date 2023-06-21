@@ -32,8 +32,11 @@
 
     }
 
-    section div img {
-      border: 2px double #31525b;
+    section>div>img {
+      margin-bottom: 10px;
+      border: 1px double #31525b;
+      position: relative;
+      transition: 0.3s;
     }
 
   </style>
@@ -812,28 +815,33 @@
 
   </script>
 
-  <script>
+  <script>//点击图片事件
     let section = document.querySelector('section')
     let z = 1
-    section.onclick = function (event) {
-      if (event.target.matches('img')) {
+    section.addEventListener('click', function (event) {
+      if (event.target.matches('section>div>img')) {
         let img = event.target
-        let box = img.getBoundingClientRect()
-        let bx = box.left + box.width / 2
-        let by = box.top + box.height / 2
-        let vx = window.innerWidth / 2
-        let vy = window.innerHeight / 2
-        let xmove = vx - bx
-        let ymove = vy - by
-        let xzoom = window.innerWidth / box.width
-        let yzoom = window.innerHeight / box.height
 
-        img.style.zIdx = z++
-        img.style.position = 'relative'
-        img.style.transition = '0.3s'
-        img.style.transform = `translate(${xmove}px,${ymove}px) scale(${Math.min(xzoom, yzoom)}) `
+        if (img.style.transform == '') {
+          let box = img.getBoundingClientRect()
+          let bx = box.left + box.width / 2
+          let by = box.top + box.height / 2
+          let vx = window.innerWidth / 2
+          let vy = window.innerHeight / 2
+          let xmove = vx - bx
+          let ymove = vy - by
+          let xzoom = window.innerWidth / box.width
+          let yzoom = window.innerHeight / box.height
+
+          img.style.zIndex = z++
+          img.style.transform = `translate(${xmove}px,${ymove}px) scale(${Math.min(xzoom, yzoom)}) `
+          img.style.boxShadow = '0 0 0 10000px black'
+        } else {
+          img.style.transform = ''
+          img.style.boxShadow = ''
+        }
       }
-    }
+    })
   </script>
 
 </body>
