@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>drag</title>
+
+  <style>
+    .keyEvent span {
+      width: 50px;
+      height: 50px;
+      background-color: lightcoral;
+      border: 5px groove brown;
+      position: fixed;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background-color: blue;
+      border-radius: 999px;
+      position: absolute;
+    }
+
+    .draggableTag div {
+      position: fixed;
+      width: 100px;
+      height: 100px;
+    }
+
+    .draggableTag div h1 {
+      background-color: burlywood;
+      opacity: 0.8;
+      margin: 0;
+      cursor: move;
+      font-size: 16px;
+    }
+
+  </style>
+
+</head>
+
+<body>
+  <label for="笔记">
+    <script>
+      // $0.addEventListener('事件',动作函数)  添加事件
+      // $0.preventDefault()  拦截事件(默认行为)
+      // $0.selectionStart  $0.selectionEnd 光标起始位置，光标结尾位置
+      // $0.clipboardData.getData('文本') 获取剪切板的内容
+      // $0.clipboardData.setData('文本') 将文本置入剪切板
+      // $0.value 标签的value属性
+      // ondrag 把元素往外拽触发
+      // ondrop 拖拽到元素上触发
+      // requestAnimationFrame(动作函数) 下一次重绘前调用函数
+      // window.addEventListener('keydown',f) 按下按键
+      // window.addEventListener('keyup',f) 松开按键
+    </script>
+  </label>
+  <label for="习题-禁止输入QWX的文本框" class="QWX">
+    <fieldset style="max-width:320px;">
+      <legend>
+        <p><b> 注意: </b> 禁止直接键入"QWXqwx"这六个字母;通过拖拽，粘贴，输入法等方法输入的qwx字母将会屏蔽为*</p>
+        <input type="text" placeholder="禁止输入QWX">
+
+        <!-- 不能输入QWX的键盘 -->
+        <!-- 伪代码
+    1.获取目标input文本框标签(也可用document.getElementbyXX())
+    2.通过addEventListener添加事件，考虑以下情况：
+    (1). 当键盘按下"Q""W""X"时;
+    (2). 当用户粘贴时，内容含有"Q""W""X"时;
+    (3). 当用户拖拽时，内容含有"Q""W""X"时;
+    3.正则匹配替换关键字为*，并修改value属性显示出来
+    4.阻止键入默认事件
+    -->
+
+        <script>
+          let input = document.querySelector('.QWX input')
+          var preValue = null
+          var preStart = 0
+          var preEnd = 0
+
+          // 键入
+          input.addEventListener('keypress', e => {
+            if (/[QWXqwx]/.test(e.key)) {
+              e.preventDefault()
+            }
+          })
+
+          // 粘贴
+          input.addEventListener('paste', e => {
+            // 先保存当前value，selectionStart和selectionEnd（以便撤销）
+            preValue = input.value
+            preStart = input.selectionStart
+            preEnd = input.selectionEnd
+
+            //当粘贴内容正则匹配QWX，匹配字符替换成*后输出
+            let text = e.clipboardData.getData('text/plain')
+            text = text.replace(/[QWXqwx]/g, '*')
+            input.value = preValue.slice(0, preStart) + text + preValue.slice(preEnd)
+            input.selectionStart = input.selectionEnd = preStart + text.length
+
+            console.log(preValue, preStart, preEnd, ' had been changed to-> ', input.value, input.selectionStart, input.selectionEnd)
+            e.preventDefault()
+            //enent阻止了剪贴板的原始数据，所以此时撤销无法正常撤销
+            // 需要自行编写撤销事件
+
+            // 这一条只能用在拖拽，控制数据从页面到剪贴板，不能用在粘贴动作（从剪贴板到页面）
+            // e.clipboardData.setData('text/plain', text)
+
+            // 当粘贴内容正则匹配QWX，阻止并弹窗提醒
+            // let text = e.clipboardData.getData('text/plain')
+            // if (/[QWX]/.test(text)) {
+            //   e.preventDefault()
+            //   alert('粘贴内容包含QWX，请重新输入')
+            // }
+          })
+
+          // ctrl + z 撤销
+          input.addEventListener('keydown', e => {
+            if (e.ctrlKey && e.key == ('z' || 'Z')) {
+              //z区分大小写
+              input.value = preValue
+              input.selectionStart = preStart
+              input.selectionEnd = preEnd
+              console.log("canceled")
+            }
+          })
+
+          // 拖拽
+          input.addEventListener('drop', e => {
+            preValue = input.value
+            preStart = input.selectionStart
+            preEnd = input.selectionEnd
+
+            let val = e.dataTransfer.getData('text')
+            if (/[QWXqwx]/.test(val)) {
+              val = val.replace(/[QWXqwx]/g, '*')
+              input.value = preValue.slice(0, preStart) + val + preValue.slice(preEnd)
+              input.selectionStart = input.selectionEnd = preStart + val.length
+              console.log(preValue, preStart, preEnd, ' had been changed to-> ', input.value, input.selectionStart, input.selectionEnd)
+              e.preventDefault()
+            }
+
+            // 下面做法无法查看传入的数据：
+            // let val = e.dataTransfer.files
+            // let item = e.dataTransfer.items[0]
+            // console.log(val)
+            // console.log(item)
+          })
+
+          //输入法跳过keydown的对策
+          input.addEventListener('compositionend', e => {
+            preValue = input.value
+            preStart = input.selectionStart
+            preEnd = input.selectionEnd
+            if (/[QWXqwx]/.test(e.data)) {
+              let text = e.data
+              text = text.replace(/[QWXqwx]/g, '*')
+
+              //这里要注意输入法键入的值不经过keydown就已经存入了input的value里了，需要slice(0,-text.length)把这部分重复的内容覆盖掉
+              input.value = preValue.slice(0, -text.length) + text + preValue.slice(preEnd)
+              input.selectionStart = input.selectionEnd = preStart + text.length
+              e.preventDefault()
+              console.log(preValue, preStart, preEnd, ' had been changed to-> ', input.value, input.selectionStart, input.selectionEnd)
+            }
+          })
+
+        </script>
+
+      </legend>
+    </fieldset>
+  </label>
+
+  <label for="键盘操控游戏人物" class="keyEvent">
+    <span style='top:220px;left:180px;'>按方向键移动</span>
+    <script>
+      let span = document.querySelector('.keyEvent span')
+
+      let speedx = 0
+      let speedy = 0
+      let lastTime = null
+      let leftDown = false
+      let rightDown = false
+      let upDown = false
+      let downDown = false
+      let shift = 1
+
+      requestAnimationFrame(function act(time) {
+        let timeDiff = 0
+        if (lastTime !== null) {
+          timeDiff = time - lastTime
+        }
+        lastTime = time
+        let factor = (speedx !== 0 && speedy !== 0) ? Math.SQRT1_2 : 1
+
+        span.style.left = parseFloat(span.style.left) + shift * factor * speedx * timeDiff + 'px'
+        span.style.top = parseFloat(span.style.top) + shift * factor * speedy * timeDiff + 'px'
+        requestAnimationFrame(act)
+      })
+
+      window.addEventListener('keydown', e => {
+        if (e.key == 'Shift') {
+          shift = 2
+        }
+        if (e.key == 'ArrowLeft') {
+          speedx = -0.2
+          leftDown = true
+          console.log('move to left')
+        }
+        if (e.key == 'ArrowRight') {
+          speedx = 0.2
+          rightDown = true
+          console.log('move to right')
+        }
+        if (e.key == 'ArrowUp') {
+          speedy = -0.2
+          upDown = true
+          console.log('move to up')
+        }
+        if (e.key == 'ArrowDown') {
+          speedy = 0.2
+          downDown = true
+          console.log('move to down')
+        }
+      })
+
+      window.addEventListener('keyup', e => {
+        if (e.key == 'Shift') {
+          shift = 1
+        }
+        if (e.key == 'ArrowLeft') {
+          leftDown = false
+          if (rightDown) {
+            speedx = 0.2
+          } else {
+            speedx = 0
+          }
+          console.log('stop move to left')
+        }
+        if (e.key == 'ArrowRight') {
+          rightDown = false
+          if (leftDown) {
+            speedx = -0.2
+          } else {
+            speedx = 0
+          }
+          console.log('stop move to right')
+        }
+        if (e.key == 'ArrowUp') {
+          upDown = false
+          if (downDown) {
+            speedy = 0.2
+          } else {
+            speedy = 0
+          }
+          console.log('stop move to up')
+        }
+        if (e.key == 'ArrowDown') {
+          downDown = false
+          if (upDown) {
+            speedy = -0.2
+          } else {
+            speedy = 0
+          }
+          console.log('stop move to down')
+        }
+      })
+    </script>
+
+  </label>
+
+  <label for="习题-鼠标三击事件 与 鼠标拖尾特效" class="mouseEvent">
+    <script>
+      window.addEventListener('mousedown', e => {
+        window.addEventListener('mousemove', onMove)
+      })
+
+      function onMove(e) {
+        var dot = document.createElement('span')
+        dot.className = 'dot'
+        dot.style.left = e.clientX - 4 + 'px'
+        dot.style.top = e.clientY - 4 + 'px'
+        document.body.append(dot)
+        setTimeout(() => {
+          document.body.removeChild(dot)
+        }, 16 * 8)
+      }
+
+    </script>
+    <fieldset style="max-width: 320px;">
+      <legend>
+        <p>鼠标双击和三击检测器</p>
+      </legend>
+      <button>点击此键</button>
+      <p id="buttonShow">检测结果显示区</p>
+    </fieldset>
+    <script>
+      let button = document.querySelector('.mouseEvent button')
+
+      let lastClickTime = 0
+      let continousClick = 1
+
+      // button.addEventListener('dbclick', e => {
+      //   console.log('dbclick')
+      // })
+
+      button.addEventListener('click', e => {
+        let thisClickTime = Date.now()
+
+        if (thisClickTime - lastClickTime < 300) {
+          continousClick++
+        } else {
+          continousClick = 1
+        }
+        document.getElementById('buttonShow').innerHTML = 'once click!'
+        if (continousClick == 2) {
+          document.getElementById('buttonShow').innerHTML = 'double click!'
+        }
+        if (continousClick == 3) {
+          document.getElementById('buttonShow').innerHTML = 'triple click!'
+        }
+        lastClickTime = thisClickTime
+      })
+    </script>
+  </label>
+
+  <!-- <label for="习题-Tab标签页切换" class="tagPanel">
+    <fieldset>
+      <legend>
+
+
+      </legend>
+    </fieldset>
+  </label> -->
+
+  <label for="窗口拖拽" class="draggableTag">
+    <div class="draggable" style=" top:400px;left:100px;background-color:red">
+      <h1>窗口R</h1>
+    </div>
+    <div class="draggable" style=" top:400px;left:100px;background-color:green">
+      <h1>窗口G</h1>
+    </div>
+    <div class="draggable" style=" top:400px;left:100px;background-color:blue">
+      <h1>窗口B</h1>
+    </div>
+    <script>
+      let startX = 0
+      let startY = 0
+      let ele = null
+      let eleStartX = 0
+      let eleStartY = 0
+
+
+      window.addEventListener('mousedown', e => {
+        if (e.target.matches('.draggable>h1')) {
+          e.preventDefault()  // 坑点1：mousedown时默认行为拖拽元素内的文字而非元素本身，阻止一下
+          ele = e.target.parentNode
+
+          //记录鼠标按下时，鼠标在视口中的位置
+          startX = e.clientX
+          startY = e.clientY
+          //记录鼠标拖拽开始时，元素自身绝对定位的位置
+          eleStartX = parseFloat(ele.style.left)
+          eleStartY = parseFloat(ele.style.top)
+
+          window.addEventListener('mousemove', onMove)//绑定移动函数
+          console.log('bind')
+
+        }
+      })
+
+      function onMove(e) {
+        // 当鼠标未被按下时(按下的已释放时)，移除事件绑定
+        if (e.which == 0 || e.buttons == 0) { //某些旧浏览器只支持buttons属性(不要拼漏s)
+          window.removeEventListener('mousemove', onMove)//解绑移动函数
+          console.log('unbind')
+        } else {
+          //记录鼠标相对于初始位置的位移距离
+          let moveX = e.clientX - startX
+          let moveY = e.clientY - startY
+
+          // 根据鼠标的位移，计算出元素相对于初始位置的位移
+          let left = eleStartX + moveX
+          let top = eleStartY + moveY
+
+          if (left < 0) {
+            left = 0
+          }
+          if (top < 0) {
+            top = 0
+          }
+          // 坑点2：需要限定元素位移与鼠标位移同步，鼠标移出窗口后的位移不影响窗口内的元素
+          if (left > window.innerWidth - ele.offsetWidth) {
+            left = window.innerWidth - offsetWidth
+          }
+          if (top > window.innerHeight - ele.offsetHeight) {
+            left = window.innerHeight - ele.offsetHeight
+          }
+
+          ele.style.left = left + 'px'
+          ele.style.top = top + 'px'
+
+          lastX = e.clientX
+          lastY = e.clientY
+
+        }
+      }
+
+    </script>
+
+  </label>
+
+</body>
+
+</html>
