@@ -1,4 +1,211 @@
 var richache = {
+  iteratee: function (predicate = this.identity) {
+    let func = predicate
+    if (Array.isArray(predicate)) {
+      func = this.matchesProperty(predicate)
+    } else if (typeof predicate == "object") {
+      func = this.matches(predicate)
+    } else if (typeof predicate == "string") {
+      func = this.property(predicate)
+    }
+    return func
+  },
+
+  // filter: function (collection, predicate = this.identity) {
+  //   let res = []
+  //   if (typeof predicate == "function") {//
+  //     for (let item of collection) {
+  //       if (predicate(item)) {
+  //         res.push(item)
+  //       }
+  //     }
+  //   } else if (Array.isArray(predicate)) {
+  //     for (let item of collection) {
+  //       if (item[predicate[0]] == predicate[1]) {
+  //         res.push(item)
+  //       }
+  //     }
+  //   } else if (typeof predicate == "object") {
+  //     for (let item of collection) {
+  //       let status = false
+  //       for (let key in predicate) {
+  //         if (item[key] !== predicate[key]) {
+  //           status = true
+  //         }
+  //       }
+  //       if (!status) {
+  //         res.push(item)
+  //       }
+  //     }
+  //   } else if (typeof predicate == "string") {
+  //     for (let item of collection) {
+  //       if (item[predicate] == true) {
+  //         res.push(item)
+  //       }
+  //     }
+  //   }
+  //   return res
+  // },
+  // 亦可写成以下形式：
+  // 默认predicate返回一个函数，基于传入的predicate类型，此函数有不同的返回值
+  filter: function (array, predicate) {
+    let func = predicate
+    if (typeof predicate === 'string') {//类型为字符串
+      func = function (it) {
+        return it[predicate]
+      }
+    } else if (Array.isArray(predicate)) {//类型为数组
+      func = function (it) {
+        return it[predicate[0]] === predicate[1]
+      }
+    } else if (typeof predicate === 'object') {//类型为对象
+      func = function (it) {
+        for (let key in predicate) {
+          if (it[key] !== predicate[key]) {
+            return false
+          }
+        }
+        return true
+      }
+    }
+    // 默认predicate为函数时的返回值
+    let result = []
+    for (let item of array) {
+      if (func(item)) {
+        result.push(item)
+      }
+    }
+    return result
+  },
+
+  property: function (path) {
+    return function (obj) {
+      return obj[path]
+      //return get(obj,path)
+    }
+  },
+
+  matchesProperty: function (path, srcValue) {
+    return function (object) {
+      return richache.isMatch(object[path], srcValue)
+    }
+  },
+
+  // 判断传入的两个对象内容是否相同（深度对比）
+  // 如果元素里面还有对象，继续递归对称比，只有递归的每一层的相同，才会进入else
+  isMatch: function (object, src) {
+
+    // 如果考虑object和src传入的都是数字，则直接对比object和src
+    if (typeof object === 'number' && typeof src === 'number') {
+      return object === src
+    }
+
+    for (let key in src) {
+      if (typeof src[key] === 'object') {
+        if (!richache.isMatch(object[key], src[key])) {
+          return false
+        }
+      } else {
+        if (object[key] !== src[key]) {
+          return false
+        }
+      }
+    }
+    return true
+  },
+
+  //绑定第一个参数时的isMatch深度对比
+  matches: function (source) {
+    return function (obj) {
+      return richache.isMatch(obj, source)
+    }
+  },
+
+  //仅传入一个参数
+  unary: function (func) {
+    return function (...args) {
+      return func(...args.slice(0, 1))
+    }
+  },
+
+  // 仅传入前n个参数
+  ary: function (func, n = func.length) {
+    return function (...args) {
+      return func(...args.slice(0, n))
+    }
+  },
+
+  flip: function (func) {
+    return function (...args) {
+      return fucn(...args.reverse())
+    }
+  },
+
+  // 实现...args, 剩余参数折叠
+  rest: function (func, start = func.length - 1) {
+    return function () {
+      let args = Array.from(arguments)
+      let normalArgs = args.slice(0, start)
+      let resArgs = args.slice(start)
+      normalArgs.push(resArgs)
+      return func.apply(this, normalArgs)
+    }
+  },
+
+  spread: function (func) {
+    return function (array) {
+      return func.apply(this, array)
+    }
+  },
+
+  // 记忆函数(使用Map()建立cache映射)
+  // memoize: function (func) {
+  //   let cache = new Map()
+  //   return function (arg) {
+  //     if (cache.has(arg)) {
+  //       return cache.get(arg)
+  //     } else {
+  //       let res = func(arg)
+  //       cache.set(arg, res)
+  //       return res
+  //     }
+  //   }
+  // },
+  // 缓存是一种有时限的映射
+  memoize: function (func, recive = this.identity) {
+    let cache = new Map()
+    return function (...args) {
+      let cacheKey = recive(...args)
+      if (cache.has(cacheKey)) {
+        return cache.get(cacheKey)
+      } else {
+        let res = func.call(this, ...args)
+        cache.set(cacheKey, res)
+        return res
+      }
+    }
+  },
+  // memoize.Cache = Map
+
+  sum: function (array) {
+    return array.reduce((a, b) => a + b)
+  },
+
+  sumBy: function (array, iterator = this.identity) {
+    let res = 0
+    //如果迭代器是字符串
+    if (typeof iterator === "string") {
+      for (let n in array) {
+        res += array[n][iterator]
+      }
+    } else {//如果迭代器是函数
+      for (let i in array) {
+        res += iterator(array[i])
+      }
+    }
+    return res
+  },
+
   chunk: function (array, size = 1) {
     let res = []
     for (let i = 0, j = 0; i < array.length; i += size, j++) {
@@ -28,7 +235,7 @@ var richache = {
     return array.slice(n)
   },
 
-  dropWhile(array, predicate = it => it) {
+  dropWhile(array, predicate = this.identity) {
     let arr = this.filter(array, predicate)
     if (arr) {
       for (let i = 0; i < array.length; i++) {
@@ -52,7 +259,7 @@ var richache = {
     return array
   },
 
-  dropRightWhile(array, predicate = it => it) {
+  dropRightWhile(array, predicate = this.identity) {
     let arr = this.filter(array, predicate)
     if (arr) {
       for (let i = array.length - 1; i >= 0; i--) {
@@ -224,7 +431,7 @@ var richache = {
     return res
   },
 
-  forEach: function (collection, iteratee = it => it) {
+  forEach: function (collection, iteratee = this.identity) {
     for (let key in collection) {
       iteratee(collection[key], key)
     }
@@ -362,7 +569,7 @@ var richache = {
     return this.flatten(args)
   },
 
-  sortedIndexBy: function (array, value, iteratee = it => it) {
+  sortedIndexBy: function (array, value, iteratee = this.identity) {
     if (typeof iteratee == "function") {
       for (let i in array) {
         if (iteratee(array[i]) == iteratee(value)) {
@@ -416,7 +623,7 @@ var richache = {
     return -1
   },
 
-  sortedLastIndexBy(array, value, iteratee = it => it) {
+  sortedLastIndexBy(array, value, iteratee = this.identity) {
     if (typeof iteratee == "function") {
       for (let i = array.length - 1, j = 0; i >= 0; i--, j++) {
         if (iteratee(array[i]) == iteratee(value)) {
@@ -446,7 +653,7 @@ var richache = {
     return res
   },
 
-  uniqBy: function (array, iteratee = it => it) {
+  uniqBy: function (array, iteratee = this.identity) {
     let res = []
     let map = {}
     if (typeof iteratee == "function") {
@@ -473,6 +680,40 @@ var richache = {
 
   },
 
+  uniqWith: function (array, comparator) {
+    let res = []
+    for (let item of array) {
+      let keep = true
+      for (let seen of res) {
+        if (comparator(item, seen)) {
+          keep = false
+        }
+      }
+      if (keep) {
+        res.push(item)
+      }
+    }
+    return res
+  },
+
+  // 深克隆
+  // cloneDeep: function (obj) {
+  //   if (typeof obj == 'object') {
+  //     if (cloneMap.has(obj)) {
+  //       return cloneMap.get(obj)
+  //     }
+  //   }
+  //   let copy = {}
+  //   cloneMap.set(obj, copy)
+  //   for (let key in obj) {
+  //     if (obj.hasOwnProperty(key)) {
+  //       copy[key] = this.cloneDeep(obj[key], cloneMap)
+  //     }
+  //   }
+  //   return copy
+  // },
+
+  //有序集合的去重，单次扫描即可完成
   sortedUniq: function (array) {
     let res = []
     if (array.length == 0) {
@@ -497,52 +738,24 @@ var richache = {
     return res
   },
 
-  sortedUniqBy: function (array, iteratee = it => it) {
-    return this.uniqBy(array, iteratee)
-  },
-
-  filter: function (collection, predicate = it => it) {
-    let res = []
-    if (typeof predicate == "function") {
-      for (let idx in collection) {
-        if (predicate(collection[idx])) {
-          res.push(collection[idx])
-        }
-      }
+  sortedUniqBy: function (array, iterator = this.identity) {
+    if (array.length == 0) {
+      return []
     }
-
-    if (Array.isArray(predicate)) {
-      for (let idx in collection) {
-        if (collection[idx][predicate[0]] == predicate[1]) {
-          res.push(collection[idx])
-        }
-      }
-    }
-    if (typeof predicate == "object") {
-      for (let idx in collection) {
-        let status = false
-        for (let key in predicate) {
-          if (collection[idx][key] !== predicate[key]) {
-            status = true
-          }
-        }
-        if (!status) {
-          res.push(collection[idx])
-        }
-      }
-    }
-
-    if (typeof predicate == "string") {
-      for (let idx in collection) {
-        if (collection[idx][predicate] == true) {
-          res.push(collection[idx])
-        }
+    let res = [array[0]]
+    let seenKey = [iterator(array[0])]
+    for (let i = 0; i < array.length; i++) {
+      let key = iterator(array[i])
+      if (key !== seenKey.at(-1)) {
+        res.push(array[i])
       }
     }
     return res
+
+    //或者 return this.uniqBy(array, iteratee)
   },
 
-  every: function (collection, predicate = it => it) {
+  every: function (collection, predicate = this.identity) {
     if (typeof predicate == "function") {
       for (let idx in collection) {
         if (!predicate(collection[idx])) {
@@ -587,7 +800,7 @@ var richache = {
     }
   },
 
-  countBy: function (collection, iteratee = it => it) {
+  countBy: function (collection, iteratee = this.identity) {
     let res = {}
     if (typeof iteratee == "function") {
       for (let val of collection) {
@@ -667,7 +880,7 @@ var richache = {
     return array.slice(-n)
   },
 
-  find: function (collection, predicate = it => it, fromIndex = 0) {
+  find: function (collection, predicate = this.identity, fromIndex = 0) {
     let array = collection.slice(fromIndex)
     let result = this.filter(array, predicate)
     if (result) {
@@ -677,7 +890,7 @@ var richache = {
     }
   },
 
-  findLast: function (collection, predicate = it => it, fromIndex = collection.length - 1) {
+  findLast: function (collection, predicate = this.identity, fromIndex = collection.length - 1) {
     let array = collection.slice(0, fromIndex).reverse()
     let result = this.filter(array, predicate)
     if (result) {
@@ -687,7 +900,7 @@ var richache = {
     }
   },
 
-  findIndex(collection, predicate = it => it, fromIndex = 0) {
+  findIndex(collection, predicate = this.identity, fromIndex = 0) {
     let result = this.find(collection, predicate, fromIndex)
     if (result) {
       return this.indexOf(collection, result)
@@ -696,7 +909,7 @@ var richache = {
     }
   },
 
-  findLastIndex(collection, predicate = it => it, fromIndex = collection.length - 1) {
+  findLastIndex(collection, predicate = this.identity, fromIndex = collection.length - 1) {
     let array = collection.slice(0, fromIndex + 1).reverse()
     let result = this.find(array, predicate)
     if (result) {
@@ -706,7 +919,7 @@ var richache = {
     }
   },
 
-  groupBy(collection, iteratee = it => it) {
+  groupBy(collection, iteratee = this.identity) {
     let res = {}
     if (typeof iteratee == "function") {
       for (let val of collection) {
