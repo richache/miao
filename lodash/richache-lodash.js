@@ -1,4 +1,7 @@
 var richache = {
+  // 迭代函数，创建一个函数，根据传入的形参判断，如果返回值为true，返回回调函数或者值，否则返回false
+  // 通过这个过程把这个函数塑造为迭代器
+  // iteratee（迭代函数）生成后，使用方法为: 传入调用者的3个参数：(value, index|key, collection).
   iteratee: function (predicate = this.identity) {
     let func = predicate
     if (Array.isArray(predicate)) {
@@ -78,6 +81,42 @@ var richache = {
     return result
   },
 
+  // 创建一个数组，存储迭代函数遍历collection后返回的结果
+  map: function (array, predicate) {
+    let func = this.iteratee(predicate)
+    let res = []
+    for (let key in array) {
+      res.push(func(array[key], key, array))
+      // iteratee（迭代函数）调用3个参数：(value, index|key, collection).
+      // 即使传入的array是一个非数组对象，只要它有key和value（可枚举）,map亦可正常运作
+    }
+    return res
+  },
+
+  // reduce 每一轮的迭代结果是下一轮的初始值，迭代结束返回一个值
+  reduce: function (collection, it = this.identity, accumulator = 0) {
+    let func = this.iteratee(it)
+    let res = accumulator
+    for (let key in collection) {
+      res = func(res, collection[key], key)
+      // iteratee（迭代函数）调用4个参数：(accumulator=collection[0], value, index|key ,collection).
+      // collection只用于枚举，不参与结果赋值
+      // 即使传入的collection是一个非数组对象，只要它有key和value（可枚举）,reduce亦可正常运作
+    }
+    return res
+  },
+
+  // reduce的倒序迭代
+  reduceRight: function (collection, it = this.identity, accumulator = 0) {
+    let func = this.iteratee(it)
+    let res = accumulator
+    for (let key = collection.length - 1; key > -1; key--) {
+      res = func(res, collection[key], key)
+    }
+    return res
+  },
+
+  // 返回函数在指定path下的值
   property: function (path) {
     return function (obj) {
       return obj[path]
@@ -85,6 +124,7 @@ var richache = {
     }
   },
 
+  // 深度对比对象在path属性下的值是否与src的值相同
   matchesProperty: function (path, srcValue) {
     return function (object) {
       return richache.isMatch(object[path], srcValue)
@@ -121,6 +161,25 @@ var richache = {
     }
   },
 
+  // 带跳过功能的函数绑定
+  bind: function (fn, thisArgs, ...fixedArgs) {
+    return function (...args) {
+      let copy = fixedArgs.slice()
+      let i = 0, j = 0
+      for (; i < copy.length; i++) {
+        if (copy[i] == undefined) {
+          copy[i] = args[j++]
+        }
+      }
+      while (j < args.length) {
+        copy.push(args[j++])
+      }
+      return fn.call(thisArgs, ...copy)
+    }
+    //_bind.placeholder = undefined 占位符，可改
+    //使用时传入第一个参数是原函数，第二参数是this（不指定时填null），剩余参数是原函数的形参（第几个形参填啥就绑定啥），如不绑定可用占位符
+  },
+
   //仅传入一个参数
   unary: function (func) {
     return function (...args) {
@@ -135,6 +194,7 @@ var richache = {
     }
   },
 
+  // 反转传入参数
   flip: function (func) {
     return function (...args) {
       return fucn(...args.reverse())
@@ -415,27 +475,31 @@ var richache = {
     return res
   },
 
-  differenceWith(array, values, comparator) {
-    let res = []
-    for (let i in array) {
-      let status = false
-      for (let j in values) {
-        if (comparator(array[i]) == comparator(values[j])) {
-          status = true
-        }
-      }
-      if (!status) {
-        res.push(array[i])
-      }
-    }
-    return res
-  },
+  // differenceWith(array, values, comparator) {
+  //   let res = []
+  //   for (let i in array) {
+  //     let status = false
+  //     for (let j in values) {
+  //       if (comparator(array[i]) == comparator(values[j])) {
+  //         status = true
+  //       }
+  //     }
+  //     if (!status) {
+  //       res.push(array[i])
+  //     }
+  //   }
+  //   return res
+  // },
 
-  forEach: function (collection, iteratee = this.identity) {
+  // 调用迭代函数判断传入的第二个参数（生成迭代器func），然后在循环中使用回调函数(func)计算结果，最后返回一个按序遍历的结果数组
+  // map得到的数组长度小于等于原数组（对象），这取决于迭代器对原数组进行了什么计算（若迭代结果false则无返回）
+  forEach: function (collection, it = this.identity) {
+    let func = this.iteratee(it)
     for (let key in collection) {
-      iteratee(collection[key], key)
+      func(collection[key], key, collection)
+      //此处迭代器调用3个参数：(value, index|key, collection).
     }
-    return collection
+    return func
   },
 
   indexOf: function (array, value, fromIndex = 0) {
@@ -713,7 +777,7 @@ var richache = {
   //   return copy
   // },
 
-  //有序集合的去重，单次扫描即可完成
+  // 有序集合的去重，单次扫描即可完成
   sortedUniq: function (array) {
     let res = []
     if (array.length == 0) {
@@ -738,6 +802,8 @@ var richache = {
     return res
   },
 
+  // 返回一个不重复的数组;几乎等同于uniqBy，但对有序数组效率更高
+  // 使用数组存储字典的方法（类似map映射）
   sortedUniqBy: function (array, iterator = this.identity) {
     if (array.length == 0) {
       return []
@@ -748,6 +814,7 @@ var richache = {
       let key = iterator(array[i])
       if (key !== seenKey.at(-1)) {
         res.push(array[i])
+        seenKey.push(key)
       }
     }
     return res
