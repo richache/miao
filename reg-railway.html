@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=`, initial-scale=1.0">
+  <title>RegExp railway page</title>
+
+  <style>
+    svg {
+      border: 1px solid;
+      margin: auto;
+      display: block;
+    }
+
+    button {
+      border: 2px solid groove;
+      width: 30px;
+      height: 10px;
+    }
+
+  </style>
+
+</head>
+<!-- 实现一个的网站：生成正则铁路图
+  1、文本框输入正则表达式
+  2、展示铁路图
+  3、语法高亮功能
+  4、下载铁路图功能
+
+  核心：通过解析正则表达式的abstract syntax tree（抽象语法树）生成铁路图
+  难点：各种结构的语法解析器（递归下降）；svg绘图
+  着手：分析正则表达式的结构：
+        基层——单个字母或数字Char；
+        组合层——一整串Char的连续组合alternative，也可以是branch
+        运算——计数运算符与被统计的Char或group，称为一个Quantifier
+        关系——多个组合层或基层之间有运算符分割，被分割的每个单元称为branch
+        分支——branch与运算符组合起来的整体，branches
+        组别——被一对括号包裹的任意组合，称为一个group
+
+  语法树节点：
+  要把解析后的语法树画出来，就必须对语法树的独立单元进行标签操作，所以需要创建node对象
+  每一个结构有共同的属性，也有专属属性
+  node = {
+    type: Quantifier/CaptureGroup/Character/CharcterClass/Branch
+  }
+  CaptureGroup = {
+    type: 'CaptureGroup', //语法类型
+    start: 2, //语法起点
+    end: 5,  //语法终点
+    raw: '(aaa|bbb)' //起点与终点之间的字符串内容
+    groupIndex: 2, //全局组别
+    branches: []  //所属分支
+  }
+
+  Branch = {
+    type: 'Branch',
+    parts: [Character, CaptureGroup, Quantifier]
+  }
+-->
+
+<body>
+  <h1>正则表达式可视化</h1>
+  <i>Toute la sagesse humaine sera dans ces deux mots : Attendre et Espérer ! —— Edmond Dantès</i>
+  <div>
+    <textarea type="text" id="regExpInput" cols="30" rows="10"></textarea>
+    <button></button>
+    <button></button>
+    <button></button>
+    <svg></svg>
+  </div>
+
+  <script>
+    function regExpRailwayCreat(input) {
+      // 设置通用变量，输入的正则字符串，字符下标，全局分组编号
+      let str = input
+      let i = 0
+      let groupIndex = 1
+
+      // 构建节点
+      return node = {
+        type: '',
+        start: 0,
+        end: input.length,
+        raw: input,
+        branches: parseBranches(),
+      }
+
+      // 路由解析器，调用各个类型的解析器遍历input里的每一个字符（任务分发）
+      function parsePart() {
+        if (str[i] == '(') {
+          return parseGroup()
+          //group解析器
+        }
+        if (str[i] == '[') {
+          return parseClass()
+          //组合解析器
+        }
+        if (str[i] == '{' || str[i] == '?' || str[i] == '+' || str[i] == '*') {
+          return parseQuantifier()
+          //计数解析器
+        }
+        // if (str[i] == '\\') {
+        //   return parseEscape()
+        //转义解析器
+        // }
+        return parseCharacter()
+        //字符解析器
+      }
+
+      // parseGroup() 组别解析函数
+      // 通过一对完整的'()'解析，需要传入'('时的下标
+      function parseGroup() {
+        let node = {
+          type: 'group',
+          start: i,
+          end: null,
+          raw: '',
+          branches: [],
+        }
+        i++ //跳过'('
+        node.branches = parseBranches()
+        i++  //跳过')'
+
+        // 解析完毕，记录此时node相关状态——end下标;解析了原字符串的什么内容(raw)
+        node.end = i
+        node.raw = str.slice(node.start, node.end)
+        return node
+      }//
+
+      function parseBranches() {
+        let branches = []
+        if (str[i] == ')') {
+          return branches
+        }
+        while (true) {
+          let branch = parseBranch()
+          branches.push(branch)
+          if (str[i] == ')') {
+            break
+          } else if (str[i] == '|') {
+            i++
+            continue
+          }
+        }
+        return branches
+      }// 返回一个数组，作为branches属性值
+
+      function parseBranch() {
+        let node = {
+          type: 'Branch',
+          start: i,
+          end: null,
+          raw: '',
+          parts: [],
+        }
+
+        while (!(str[i] == '|' || str[i] == ')' || i >= str.length)) {
+          node.parts.push(parsePart())
+        }
+
+        node.end = i
+        node.raw = str.slice(node.start, node.end)
+        return node
+      }// 返回一个节点，作为branch属性值
+
+      // function parsrePart() {
+
+      // }
+
+
+
+    }
+
+
+
+
+
+
+
+  </script>
+
+</body>
+
+</html>
