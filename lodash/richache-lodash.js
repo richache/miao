@@ -86,7 +86,7 @@ var richache = {
     let func = this.iteratee(predicate)
     let res = []
     for (let key in array) {
-      res.push(func(array[key], key, array))
+      res.push(func(array[key], Number(key), array))
       // iteratee（迭代函数）调用3个参数：(value, index|key, collection).
       // 即使传入的array是一个非数组对象，只要它有key和value（可枚举）,map亦可正常运作
     }
@@ -499,7 +499,7 @@ var richache = {
       func(collection[key], key, collection)
       //此处迭代器调用3个参数：(value, index|key, collection).
     }
-    return func
+    return collection
   },
 
   indexOf: function (array, value, fromIndex = 0) {
