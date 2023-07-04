@@ -69,7 +69,7 @@
   <i>Toute la sagesse humaine sera dans ces deux mots : Attendre et Espérer ! —— Edmond Dantès</i>
   <div>
     <div>
-      <textarea type="text" id="regExpInput" cols="30" rows="10">foo(baa)+[baz]?</textarea>
+      <textarea type="text" id="regExpInput" cols="30" rows="10">foo(baa)+[b-z](?<abc>)</textarea>
     </div>
     <div>
       <button onclick="paint()">生成</button>
@@ -85,16 +85,25 @@
 
   <script>
     function paint() {
-      let node = regExpRailwayCreat(regExpInput.value)
-      console.log(node)
-      // return node
+      let input = regExpInput.value
+      try {
+
+        new RegExp(input)
+        let node = regExpRailwayCreat(input)
+        // paint()
+        console.log(node)
+      } catch (e) {
+        if (e instanceof SyntaxError) {
+          window.alert(e.message)
+        }
+      }
     }
 
     function regExpRailwayCreat(input) {
       // 设置通用变量，输入的正则字符串，字符下标，全局分组编号
       let str = input
       let i = 0
-      let groupIndex = 1
+      var groupIndex = 1
 
       // 构建节点，最外层
       return node = {
@@ -106,7 +115,7 @@
       }// 多叉树根节点
 
 
-      // 多叉树的树干，branch的集线器
+      // 多叉树的树干，branch的集线器，返回一个数组，作为branches属性值（可以理解为链表的next）
       function parseBranches() {
         let branches = []
         if (str[i] == ')') {
@@ -124,9 +133,10 @@
           }
         }
         return branches
-      }// 返回一个数组，作为branches属性值（可以理解为链表的next）
+      }
 
 
+      // 分支解析器，返回一个Branch节点，作为branch属性值
       function parseBranch() {
         let node = {
           type: 'Branch',
@@ -136,20 +146,39 @@
           parts: [],
         }
 
-        // 进入单元解析循环
-        while (!(str[i] == '|' || str[i] == ')' || i >= str.length)) {
-          node.parts.push(parsePart())
+        if (str[i] == '|' || str[i] == ')' || i >= str.length) {
+          node.end = i
+          node.raw = str.slice(node.start, node.end)
+          return node
+        } else {
+          // 未结束，进入单元解析循环
+          while (!(str[i] == '|' || str[i] == ')' || i >= str.length)) {
+            let part = parsePart()
+
+            if (part.type == 'Quantifier') {
+              let repeatTarget = node.parts.pop()
+              if (repeatTarget == undefined) {
+                throw new SyntaxError(`位置${part.start}出错，无重复内容`)
+              }// 量词前没有可重复内容
+              if (repeatTarget.type == 'Quantifier') {
+                throw new SyntaxError('量词后无法紧跟量词')
+              }
+
+              part.repeatTarget = repeatTarget
+              part.start = repeatTarget.start
+              part.raw = str.slice(part.start, part.end)
+            }
+            node.parts.push(part)
+          }
+
+          node.end = i
+          node.raw = str.slice(node.start, node.end)
+          return node
         }
-
-        node.end = i
-        node.raw = str.slice(node.start, node.end)
-        return node
-      }// 返回一个节点，作为branch属性值
+      }
 
 
-      // parseGroup() 组别解析函数
-      // 通过一对完整的'()'解析，需要传入'('时的下标
-      // group解析前后会跳过'()'
+      // group 组别解析函数,更新i，返回一个Group节点
       function parseGroup() {
         let node = {
           type: 'group',
@@ -157,17 +186,73 @@
           end: null,
           raw: '',
           branches: [],
+          // 表征断言的属性
+          assertion: false, // 是否零宽断言
+          positive: true,  // 正向或负向
+          lookahead: true, // 先行或回顾
+          groupIndex: null,  // group[0]是整个正则表达式，分组从1开始
+          groupName: undefined,
         }
         i++ //跳过'('
+        node.groupIndex = groupIndex++
+        // 坑点：分组index撇除非捕获后其余情况都需要+1，反过来思考，先默认+1然后在非捕获的时候index-1就行
+        if (str[i] == '?') {
+          i++
+          if (str[i] == ':') {
+            // (?:) 非捕获分组,groupIndex-1
+            i++
+            node.groupIndex = null
+            groupIndex--
+          } else {
+            if (str[i] == '=') { // 正向先行断言
+              node.assertion = true
+            } else if (str[i] == '!') {  // 负向先行断言
+              node.assertion = true
+              node.positive = false
+            } else if (str[i] == '<') { //(?<)可以是回顾断言，也可以是具名分组
+              i++
+              if (str[i] == '=') { // 正向回顾断言
+                i++
+                node.assertion = true
+                node.lookahead = false
+              } else if (str[i] == '!') { // 负向回顾断言
+                i++
+                node.assertion = true
+                node.lookahead = false
+                node.positive = false
+              } else { // 具名分组获取分组名称
+                let groupName = parseGroupName()
+                if (groupName == '') {
+                  throw new SyntaxError(`具名分组语法错误，位置${i}`)
+                }
+                node.groupName = groupName
+                i++  // 跳过'>'
+              }
+            }
+          }
+        } else {
+
+        }
+
+
         node.branches = parseBranches()
         i++  //跳过')'
-        // 解析完毕，记录此时node相关状态——end下标;解析了原字符串的什么内容(raw)
+
         node.end = i
         node.raw = str.slice(node.start, node.end)
         return node
       }
 
-      // char单个字符解析器
+      // 具名分组解析，更新i，返回一个字符串
+      function parseGroupName() {
+        let start = i
+        while (str[i] != '>') {
+          i++
+        }
+        return str.slice(start, i)
+      }
+
+      // char单个字符解析器,更新i，返回一个Char节点
       function parseCharacter() {
         //初始化节点
         let node = {
@@ -183,7 +268,8 @@
         return node
       }
 
-      //组别,中括号表达式解析器
+
+      // 中括号表达式解析器，更新i，返回一个Class节点
       function parseCharacterClass() {
         let node = {
           type: 'CharacterClass',
@@ -201,16 +287,47 @@
         }// ^ 取反
 
         while (str[i] !== ']') {
-          node.class.push(parseCharacter())
+          var cha = parseCharacter()  //返回时i已更新（不进入下面循环）
+          node.class.push(cha)
+
+          // 判断中括号里面中划线前后的字符范围
+          if (str[i] == '-') {
+            i++
+            if (str[i] == ']') { // 中括号表达式中划线在最后，不表示范围，是普通中划线,跳转单字符解析
+              i--
+              let char = parseCharacter()
+              node.class.push(char)
+              continue
+            }
+
+            // 取出中划线前一个字符，并与中划线后一个字符比较大小(ASCII码)
+            // 坑点：注意这里比较的是两个字符串节点里面的字符串值，所以要先分别拿到两个节点；而不是直接用str[i]对比
+            // pop出来完成操作之后，要把整个range再push进去
+            let preChar = node.class.pop()
+            let afterChar = parseCharacter()
+            if (afterChar.char < preChar.char) {
+              throw new SyntaxError(`位置${i}错误,中括号表达式的范围必须从小到大`)
+            }
+            let range = {
+              type: 'CharacterRange',
+              start: preChar.start,
+              end: afterChar.end,
+              raw: str.slice(preChar.start, afterChar.end),
+              startChar: preChar,
+              endChar: afterChar,
+            }
+            node.class.push(range)
+          }
         }
-        i++
+
+        i++ // 跳过']'
         node.end = i
         node.raw = str.slice(node.start, node.end)
         return node
       }
 
 
-      // 量词解析器(计数)
+      // 量词解析器(计数)，更新i，返回一个Quantifier节点
       function parseQuantifier() {
         var node = {
           type: 'Quantifier',
@@ -229,6 +346,8 @@
           node.max = 1
           i++
         } else if (str[i] == '*') {
+          // node.min = 0
+          // node.max = Infinity
           i++
         }
 
@@ -261,12 +380,17 @@
         return node
       }
 
+
+      // 整数解析器，返回一个数值
       function parseInteger() {
         var start = i
         while (str[i] >= '0' && str[i] <= '9') {
           i++
         }
         return parseInt(str.slice(start, i))
+        // parseInt(string, radix) 解析一个字符串并返回指定基数的十进制整数.
+        // radix 是 2-36 之间的整数，表示被解析字符串的基数。(进制)
+
       }
 
 
@@ -293,7 +417,6 @@
       }
 
     }
-
 
 
     function drawRegularExpression(node) {
@@ -443,7 +566,7 @@
           M ${width} ${height / 2}
           C ${width - graphPadding} ${height / 2} ${width - graphPadding} ${y + boxes[i].height / 2} ${width - (graphPadding + graphPadding)} ${y + boxes[i].height / 2}
           L ${width - x} ${y + boxes[i].height / 2}
-      `,
+        `,
             fill: 'none',
             stroke: 'black',
           })
@@ -477,9 +600,9 @@
           fill: 'none',
           stroke: 'black',
           d: `
-      M 0 ${height / 2} L ${graphPadding} ${height / 2}
-      M ${width} ${height / 2} L ${width - graphPadding} ${height / 2}
-    `
+            M 0 ${height / 2} L ${graphPadding} ${height / 2}
+            M ${width} ${height / 2} L ${width - graphPadding} ${height / 2}
+          `
         })
         g.appendChild(line)
 
@@ -522,14 +645,14 @@
             stroke: 'black',
             // 半长轴       半短轴      不旋转 劣弧  逆时针    目标点
             d: `
-        M 0 ${height / 2} A ${graphPadding} ${graphPadding} 0 0 0 ${graphPadding} ${height / 2 - graphPadding}
-        L ${graphPadding} ${graphPadding}
-        A ${graphPadding} ${graphPadding} 0 0 1 ${graphPadding * 2} 0
-        L ${width - 2 * graphPadding} 0
-        A ${graphPadding} ${graphPadding} 0 0 1 ${width - graphPadding} ${graphPadding}
-        L ${width - graphPadding} ${height / 2 - graphPadding}
-        A ${graphPadding} ${graphPadding} 0 0 0 ${width} ${height / 2}
-      `
+              M 0 ${height / 2} A ${graphPadding} ${graphPadding} 0 0 0 ${graphPadding} ${height / 2 - graphPadding}
+              L ${graphPadding} ${graphPadding}
+              A ${graphPadding} ${graphPadding} 0 0 1 ${graphPadding * 2} 0
+              L ${width - 2 * graphPadding} 0
+              A ${graphPadding} ${graphPadding} 0 0 1 ${width - graphPadding} ${graphPadding}
+              L ${width - graphPadding} ${height / 2 - graphPadding}
+              A ${graphPadding} ${graphPadding} 0 0 0 ${width} ${height / 2}
+            `
           })
           g.appendChild(upLine)
         }
@@ -541,15 +664,15 @@
             fill: 'none',
             stroke: 'black',
             d: `
-        M ${width - 2 * graphPadding} ${height / 2}
-        A ${graphPadding} ${graphPadding} 0 0 1 ${width - graphPadding} ${height / 2 + graphPadding}
-        L ${width - graphPadding} ${height - graphPadding}
-        A ${graphPadding} ${graphPadding} 0 0 1 ${width - graphPadding * 2} ${height}
-        L ${2 * graphPadding} ${height}
-        A ${graphPadding} ${graphPadding} 0 0 1 ${graphPadding} ${height - graphPadding}
-        L ${graphPadding} ${height / 2 + graphPadding}
-        A ${graphPadding} ${graphPadding} 0 0 1 ${2 * graphPadding} ${height / 2}
-      `
+              M ${width - 2 * graphPadding} ${height / 2}
+              A ${graphPadding} ${graphPadding} 0 0 1 ${width - graphPadding} ${height / 2 + graphPadding}
+              L ${width - graphPadding} ${height - graphPadding}
+              A ${graphPadding} ${graphPadding} 0 0 1 ${width - graphPadding * 2} ${height}
+              L ${2 * graphPadding} ${height}
+              A ${graphPadding} ${graphPadding} 0 0 1 ${graphPadding} ${height - graphPadding}
+              L ${graphPadding} ${height / 2 + graphPadding}
+              A ${graphPadding} ${graphPadding} 0 0 1 ${2 * graphPadding} ${height / 2}
+            `
           })
           g.appendChild(downLine)
         }
@@ -558,9 +681,9 @@
           fill: 'none',
           stroke: 'black',
           d: `
-      M 0 ${height / 2} L ${2 * graphPadding} ${height / 2}
-      M ${width} ${height / 2} L ${width - 2 * graphPadding} ${height / 2}
-    `
+            M 0 ${height / 2} L ${2 * graphPadding} ${height / 2}
+            M ${width} ${height / 2} L ${width - 2 * graphPadding} ${height / 2}
+          `
         })
         g.appendChild(line)
 
@@ -591,9 +714,9 @@
           fill: 'none',
           stroke: 'black',
           d: `
-      M ${graphPadding} ${height / 2} L ${2 * graphPadding} ${height / 2}
-      M ${width - graphPadding} ${height / 2} L ${width - 2 * graphPadding} ${height / 2}
-    `
+            M ${graphPadding} ${height / 2} L ${2 * graphPadding} ${height / 2}
+            M ${width - graphPadding} ${height / 2} L ${width - 2 * graphPadding} ${height / 2}
+          `
         })
         g.appendChild(line)
 
