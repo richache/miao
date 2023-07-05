@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conway Life Game</title>
+  <style>
+    body {
+      margin: 0;
+      min-width: 330px;
+    }
+
+    div.game {
+      margin: auto;
+      text-align: center;
+      display: block;
+    }
+
+    table.world-stage {
+      border-collapse: collapse;
+      background-color: lightblue;
+      margin: 20px auto;
+    }
+
+    table.world-stage td {
+      border: 1px solid gray;
+      width: 10px;
+      height: 10px;
+      min-width: 10px;
+    }
+
+    td.alive {
+      background-color: coral;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="game">
+    <h1>Conway Life Game</h1>
+    <section>
+      <button onclick='randomWorld()'>随机世界</button>
+      <button onclick='clearWorld()'>清除世界</button>
+      <button onclick="startWorld()">开始演化</button>
+      <button onclick='autoWorld()'>自动演化</button>
+      <input type="number" value="16" id="range">
+    </section>
+    <main class="stage">
+
+    </main>
+  </div>
+
+
+  <!--
+  对于活的元胞：
+  （1）生存：如果该元胞的邻居中有2个或者3个元胞是活的，那么它将继续生存下去；
+  （2）死亡：如果它的邻居有少于2个或者多于3个元胞是活的，那么它将死去；
+  对于死的元胞：
+  （3）繁殖：如果它的邻居正好有3个元胞是活的，那么它将变成活的元胞。
+-->
+
+
+  <script>
+    class Game {
+      constructor(width = 50, height = 50) {
+        this.worldWidth = width
+        this.worldHeight = height
+        this.world = this._createNewWorld()
+      }
+
+      _createNewWorld() {
+        // 创建数量为世界高度的数组，（先初始放一个0，方便链式调用map）
+        // 链式调用map为每个数组映射到世界宽度长的数组，里面全部填0作为空白世界的初始态
+        return new Array(this.worldHeight).fill(0).map(it => new Array(this.worldWidth).fill(0))
+      }
+
+      next() {
+        // 接收一个状态数组，返回一个迭代后的状态数组
+        let newWorld = this._createNewWorld()
+        for (let row = 0; row < this.worldHeight; row++) {
+          for (let col = 0; col < this.worldWidth; col++) {
+            let current = this.world[row][col]
+            let neighbours = -current
+            // current 当前格子的状态，它的邻居是以它为中心的九宫格
+            // 所有neighbours加起来的状态可以决定下一轮当前格子的生死
+
+            for (let r = row - 1; r <= row + 1; r++) {
+              for (let c = col - 1; c <= col + 1; c++) {
+                neighbours += this.world[r]?.[c] ?? 0
+                // 从九宫格的左上方一直遍历到右下方，9个格子的状态（0或1）加起来减去中间格子，得出判断主体neighbours的值
+                // 由于neighbours初始值已经减去current，所以这里统计9个数之和正合适（否则此处需要减去current的值）
+                // ?.可选链 (存在，即调用) ， ??非空运算符(存在则使用，不存在则置零)
+              }
+            }
+
+            // 当前格子为1时，如果邻居数是2和3，则下一轮的当前格子为1
+            // 当前格子为0时，如果邻居数是3，则下一轮打当前格子为1
+            if (current == 1) {
+              if (neighbours >= 2 && neighbours <= 3) {
+                newWorld[row][col] = 1
+              }
+            } else if (neighbours == 3) {
+              newWorld[row][col] = 1
+            }
+          }
+        }
+        this.world = newWorld
+      }
+
+      randomCreate(r = 0.1) {
+        // 随机世界，遍历数组的同时每一个格子状态都随机填1（如果已经是1，则无影响）
+        for (let row = 0; row < this.worldHeight; row++) {
+          for (let col = 0; col < this.worldWidth; col++) {
+            if (Math.random() < r) {
+              this.world[row][col] = 1
+            }
+          }
+        }
+        return this
+      }// 随机世界状态数组生成
+
+      set(col, row, alive = 1) {
+        this.world[row][col] = alive
+        return this
+      }//点击某一个格子时（选中current时）
+
+      renderToHTMLTable() {
+        return `<table class='world-stage'>
+          ${this.world.map((row, rowIdx) => {
+          return `<tr> ${row.map((cell, colIdx) => {
+            if (cell == 1) {
+              return `<td data-row="${rowIdx}" data-col="${colIdx}" class='alive'></td>`
+            } else {
+              return `<td data-row="${rowIdx}" data-col="${colIdx}" ></td>`
+            }
+          }).join('')} </tr>`
+        }).join('')}
+        </table >`
+      } //通过状态数组画出表格
+
+    }
+
+    var stage = document.querySelector('.stage') // 世界标签
+    var game = new Game() // 世界实例
+    var running = false // 演化进行状态
+    var intervalId  // 设置演化周期
+
+    game.randomCreate()
+
+    stage.innerHTML = game.renderToHTMLTable()
+
+    stage.addEventListener('click', e => {
+      if (e.target.matches('td')) {
+        let td = e.target
+        let row = td.dataset.row
+        let col = td.dataset.col
+        td.classList.toggle('alive')
+
+        game.set(col, row, Number(td.classList.contains('alive')))
+      }
+    })
+
+    function startWorld() {
+      game.next()
+      stage.innerHTML = game.renderToHTMLTable()
+    }//演化函数 （一次）
+
+    function randomWorld() {
+      game.randomCreate()
+      stage.innerHTML = game.renderToHTMLTable()
+    }//调用构造函数的randomCreate方法
+
+    function clearWorld() {
+      game.world = game._createNewWorld()
+      stage.innerHTML = game.renderToHTMLTable()
+    }// 调用构造函数的私有方新建一个空白世界并写入innerHTML
+
+    function autoWorld() {
+      if (!running) {
+        running = true
+        intervalId = setInterval(() => {
+          startWorld()
+        }, range.value)
+        startWorld()
+      } else {
+        running = false
+        clearInterval(intervalId)
+      }
+    } //自动演化，使用全局变量存储自动演化状态，每次调用改变running状态，并通过settimeout周期调用演化函数
+
+    range.addEventListener('input', () => {
+      if (running) {
+        clearInterval(intervalId)
+        intervalId = setInterval(() => {
+          startWorld()
+        }, range.value)
+      }
+    })//事件监听输入，改变settimeout周期
+
+  </script>
+</body>
+
+</html>
