@@ -14,6 +14,7 @@
 
     .stage {
       letter-spacing: 10px;
+      /* min-height: 200px; */
     }
 
   </style>
@@ -21,13 +22,16 @@
 
 <body>
   <pre id="stage"></pre>
+  <button onclick="retry()">重新开始</button>
+  <button onclick="wait()">暂停/继续</button>
+  <input type="number" value="1000">
 
   <script>
     class Snake {
       constructor(width = 20, height = 10) {
         this.width = width
         this.height = height
-        this.world = new Array(height).fill(0).map(it => new Array(width).fill('.'))
+        this.world = this._creatNewGame()
         this.score = 0
 
         //初始坐标位置
@@ -41,6 +45,10 @@
         //放置第一个苹果
         this.placeApple()
       }
+
+      _creatNewGame() {
+        return new Array(this.height).fill(0).map(it => new Array(this.width).fill('.'))
+      }// 游戏世界初始化
 
       placeApple() {
         while (true) {
@@ -70,39 +78,39 @@
 
       next() {
         //存储当前蛇头位置，根据方向更新蛇头位置
-        let [x, y] = this.head
-        let headDirection = this.world[y][x]
+        var [x, y] = this.head
         let [hx, hy] = this.head
+        let headDirection = this.world[hy][hx]
 
         if (headDirection == '^') {
-          [hx, hy] = [x, y - 1]
+          [x, y] = [hx, hy - 1]
         }
         if (headDirection == 'v') {
-          [hx, hy] = [x, y + 1]
+          [x, y] = [hx, hy + 1]
         }
         if (headDirection == '<') {
-          [hx, hy] = [x - 1, y]
+          [x, y] = [hx - 1, hy]
         }
         if (headDirection == '>') {
-          [hx, hy] = [x + 1, y]
+          [x, y] = [hx + 1, hy]
         }
 
-        if (this.judgeGameOver([hx, hy])) {
+        if (this.judgeGameOver([x, y])) {
           return 'GameOver'
         }
 
         // 如果下一个位置是苹果,每次吃掉苹果之后都调用函数随机生成一个苹果
         // 吃完苹果后，长度加1，蛇尾位置不变，直接跳出函数
-        if (this.world[hy][hx] == 'O') {
+        if (this.world[y][x] == 'O') {
           this.score++
-          this.world[hy][hx] = headDirection
-          this.head = [hx, hy]
+          this.world[y][x] = headDirection
+          this.head = [x, y]
           this.placeApple()
           return
-        } else {
-          this.world[hy][hx] = headDirection
-          this.head = [hx, hy]
         }
+
+        this.world[y][x] = headDirection
+        this.head = [x, y]
 
         //存储当前蛇尾位置，根据方向更新蛇尾位置
         let [tx, ty] = this.tail
@@ -128,15 +136,25 @@
         let [x, y] = this.head
         let currentDirection = this.world[y][x]
 
-        //水平时，只能改垂直，反之亦然
+        //蛇头方向为水平时，只响应垂直方向；蛇头方向为垂直时，只响应水平方向
+        // 坑点：只有当按下的方向键与当前方向不相反时，才前进一步（更新蛇头方向，更新蛇头坐标）
         if (currentDirection == '<' || currentDirection == '>') {
           if (direction == '^' || direction == 'v') {
             this.world[y][x] = direction
+            this.next()
+          } else if (currentDirection == direction) {
+            this.world[y][x] = direction
+            this.next()
           }
-        } else if (currentDirection == '^' || currentDirection == 'v')
+        } else if (currentDirection == '^' || currentDirection == 'v') {
           if (direction == '<' || direction == '>') {
             this.world[y][x] = direction
+            this.next()
+          } else if (currentDirection == direction) {
+            this.world[y][x] = direction
+            this.next()
           }
+        }
       }
 
       renderToHTMLTable() {
@@ -156,23 +174,29 @@
     //创建实例，先设置初始蛇头方向，生成苹果
     let game = new Snake()
     let intervalId
+    draw()
     cycle()
 
     // 游玩函数，调用next蛇头移动
     function play() {
-      if (game.next() == 'GameOver') {
+      let status = game.next()
+      draw()
+      if (status == 'GameOver') {
         document.removeEventListener('keydown', pressEvent)
         stop()
         alert('GameOver\n Score:' + game.score)
         return
       }
+    }
 
-      game.next()
+    // 将结果数组通过table标签展现
+    function draw() {
+      stage.innerHTML = game.renderToHTMLTable()
+
       // let gameStatus = game.world.map(row => {
       //   return row.join('')
       // }).join("\n")
       // stage.textContent = gameStatus
-      stage.innerHTML = game.renderToHTMLTable()
     }
 
     // 定时器设置周期
@@ -194,28 +218,47 @@
       if (e.key == 'ArrowUp') {
         game.setSnakeDirection('^')
         stop()
-        play()
+        draw()
         cycle()
       } else if (e.key == 'ArrowDown') {
         game.setSnakeDirection('v')
         stop()
-        play()
+        draw()
         cycle()
       } else if (e.key == 'ArrowLeft') {
         game.setSnakeDirection('<')
         stop()
-        play()
+        draw()
         cycle()
       } else if (e.key == 'ArrowRight') {
         game.setSnakeDirection('>')
         stop()
-        play()
+        draw()
         cycle()
       }
       e.preventDefault()
     }
     document.addEventListener('keydown', pressEvent)
 
+
+    // 暂停游戏 / 继续游戏
+    function wait() {
+      if (intervalId) {
+        stop()
+        document.removeEventListener('keydown', pressEvent)
+      } else {
+        cycle()
+        document.addEventListener('keydown', pressEvent)
+      }
+    }
+
+    // 重开新局，直接new一个实例，画出初始状态，添加按键监听和定时器
+    function retry() {
+      game = new Snake()
+      draw()
+      cycle()
+      document.addEventListener('keydown', pressEvent)
+    }
 
   </script>
 </body>
