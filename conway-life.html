@@ -10,7 +10,7 @@
     body {
       margin: 0;
       min-width: 330px;
-      transition: all 3.2s ease;
+      transition: all 2.4s ease;
     }
 
     div.game {
@@ -24,6 +24,8 @@
       background-color: lightblue;
       opacity: 0.7;
       margin: 20px auto;
+      box-shadow: 0 0 .2em .1em silver,
+        0 0 .6em .3em black;
     }
 
     table.world-stage td {
@@ -48,7 +50,7 @@
       <button onclick='clearWorld()'>清除世界</button>
       <button onclick="startWorld()">开始演化</button>
       <button onclick='autoWorld()'>自动演化</button>
-      <input type="number" value="80" id="range">
+      <input type="number" value="128" id="range">
     </section>
     <main class="stage">
 
@@ -184,9 +186,11 @@
     function autoWorld() {
       let bodyStyle = document.body.style
       if (!running) {
+        let a = Number(range.value)
         running = true
-        intervalId = setInterval(() => { startWorld() }, range.value)
-        colSwitch = setInterval(() => setColor(), 1600)
+        intervalId = setInterval(() => { startWorld() }, a)
+        colSwitch = setInterval(() => setColor(), 1000 + a)
+        // setInterval第二个参数可以使用变量，但必须要保证类型为数字
         startWorld()
       } else {
         running = false
