@@ -14,7 +14,6 @@
 
     .stage {
       letter-spacing: 10px;
-      /* min-height: 200px; */
     }
 
   </style>
@@ -24,7 +23,7 @@
   <pre id="stage"></pre>
   <button onclick="retry()">重新开始</button>
   <button onclick="wait()">暂停/继续</button>
-  <input type="number" value="1000">
+  <input type="number" value="1000" id="speed" step="500" onfocus="wait()" onblur="wait()">
 
   <script>
     class Snake {
@@ -175,7 +174,7 @@
     let game = new Snake()
     let intervalId
     draw()
-    cycle()
+    wait()
 
     // 游玩函数，调用next蛇头移动
     function play() {
@@ -203,7 +202,7 @@
     function cycle() {
       intervalId = setInterval(() => {
         play()
-      }, 1000)
+      }, speed.value)
     }
 
     // 定时器终止
@@ -220,23 +219,26 @@
         stop()
         draw()
         cycle()
+        e.preventDefault()
       } else if (e.key == 'ArrowDown') {
         game.setSnakeDirection('v')
         stop()
         draw()
         cycle()
+        e.preventDefault()
       } else if (e.key == 'ArrowLeft') {
         game.setSnakeDirection('<')
         stop()
         draw()
         cycle()
+        e.preventDefault()
       } else if (e.key == 'ArrowRight') {
         game.setSnakeDirection('>')
         stop()
         draw()
         cycle()
+        e.preventDefault()
       }
-      e.preventDefault()
     }
     document.addEventListener('keydown', pressEvent)
 
@@ -256,7 +258,7 @@
     function retry() {
       game = new Snake()
       draw()
-      cycle()
+      wait()
       document.addEventListener('keydown', pressEvent)
     }
 
