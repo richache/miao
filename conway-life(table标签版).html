@@ -10,6 +10,7 @@
     body {
       margin: 0;
       min-width: 330px;
+      transition: all 2.4s ease;
     }
 
     div.game {
@@ -21,7 +22,10 @@
     table.world-stage {
       border-collapse: collapse;
       background-color: lightblue;
+      opacity: 0.7;
       margin: 20px auto;
+      box-shadow: 0 0 .2em .1em silver,
+        0 0 .6em .3em black;
     }
 
     table.world-stage td {
@@ -38,7 +42,7 @@
   </style>
 </head>
 
-<body>
+<body style='background-color:gray;'>
   <div class="game">
     <h1>Conway Life Game</h1>
     <section>
@@ -46,7 +50,7 @@
       <button onclick='clearWorld()'>清除世界</button>
       <button onclick="startWorld()">开始演化</button>
       <button onclick='autoWorld()'>自动演化</button>
-      <input type="number" value="16" id="range">
+      <input type="number" value="128" id="range">
     </section>
     <main class="stage">
 
@@ -147,6 +151,7 @@
     var game = new Game() // 世界实例
     var running = false // 演化进行状态
     var intervalId  // 设置演化周期
+    var colSwitch
 
     game.randomCreate()
 
@@ -179,17 +184,21 @@
     }// 调用构造函数的私有方新建一个空白世界并写入innerHTML
 
     function autoWorld() {
+      let bodyStyle = document.body.style
       if (!running) {
+        let a = Number(range.value)
         running = true
-        intervalId = setInterval(() => {
-          startWorld()
-        }, range.value)
+        intervalId = setInterval(() => { startWorld() }, a)
+        colSwitch = setInterval(() => setColor(), 1000 + a)
+        // setInterval第二个参数可以使用变量，但必须要保证类型为数字
         startWorld()
       } else {
         running = false
         clearInterval(intervalId)
+        clearInterval(colSwitch)
+        bodyStyle.backgroundColor = 'gray';
       }
-    } //自动演化，使用全局变量存储自动演化状态，每次调用改变running状态，并通过settimeout周期调用演化函数
+    } //自动演化，使用全局变量存储自动演化状态，每次调用改变running状态，并通过setInterval周期调用演化函数
 
     range.addEventListener('input', () => {
       if (running) {
@@ -200,6 +209,18 @@
       }
     })//事件监听输入，改变settimeout周期
 
+    function setColor() {//背景颜色渐变
+      let bodyStyle = document.body.style
+      if (Math.random() > 0.8) {
+        bodyStyle.backgroundColor = 'lightyellow'
+      } else if (Math.random() > 0.6) {
+        bodyStyle.backgroundColor = 'lightpink'
+      } else if (Math.random() > 0.4) {
+        bodyStyle.backgroundColor = 'lightgreen'
+      } else if (Math.random() > 0.2) {
+        bodyStyle.backgroundColor = 'slateblue'
+      }
+    }
   </script>
 </body>
 
